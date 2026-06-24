@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+<title>桥见黔程万里 | 3.2万座桥架起民族地区高质量发展之路</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="CSS/main.css">
+
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+
+</head>
+
+<body>
+
+<div class="particles-container" id="particlesContainer"></div>
+
+<div class="bridge-silhouette-fixed" aria-hidden="true">
+    <svg width="34" height="150" viewBox="0 0 34 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17 142L17 32L5 10M17 32L29 10" stroke="#3a5f7a" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+        <path d="M2 142L17 137L32 142" stroke="#4a8c78" stroke-width="1.4" stroke-linecap="round" opacity="0.4"/>
+        <circle cx="17" cy="65" r="1.6" fill="#3a5f7a" opacity="0.35"/>
+        <circle cx="17" cy="108" r="1.6" fill="#3a5f7a" opacity="0.35"/>
+    </svg>
+</div>
+
+<div class="main-wrapper">
+
+<!-- ========================= -->
+<!-- 封面 -->
+<!-- ========================= -->
+
+<section class="cover-section">
+
+    <figure class="cover-hero-image">
+        <img src="images/hero-cover.png" alt="桥见黔程万里——3.2万座桥架起的民族地区高质量发展之路" decoding="async" fetchpriority="high">
+    </figure>
+    <h1 class="visually-hidden">桥见黔程万里</h1>
+
+    <p class="cover-kicker">序章 · 数读贵州</p>
+
+    <p class="cover-lead">
+        贵州，中国唯一没有平原的省份。92.5%的山地丘陵像褶皱一般铺满大地，17个世居少数民族世代栖居于此。这里曾被称作"地无三尺平"——山高谷深，行路艰难。然而过去十年间，<strong>3.2万座桥梁与2800座隧道</strong>如针线般穿山越谷，将这片破碎的喀斯特地貌缝合成一片"高速平原"。全球前100座高桥中，贵州独占47座，并包揽前三名。一桥飞架，万山不再阻隔。
+    </p>
+
+    <div id="heroWall" class="hero-number-wall" aria-label="数字开篇墙"></div>
+
+    <p class="cover-footer">全球前100座高桥，贵州占近半、包揽前三。<br>一桥飞架，万山不再阻隔。</p>
+
+    <div class="scroll-hint" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(58,95,122,0.38)" stroke-width="1.5">
+            <path d="M6 9l6 6 6-6"/>
+        </svg>
+    </div>
+
+</section>
+
+<div class="section-divider">
+    <div class="divider-core"></div>
+    <div class="divider-dots"><span></span><span></span><span class="silver-dot"></span><span></span><span></span></div>
+    <div class="wave-line"></div>
+</div>
+
+<!-- ========================= -->
+<!-- 序章 -->
+<!-- ========================= -->
+
+<section class="article-section" id="section-prologue">
+
+    <p class="chart-caption">▲ 贵州地形剖面与桥隧密度叠加</p>
+    <div id="terrainProfile" class="chart-large"></div>
+
+</section>
+
+<div class="section-divider">
+    <div class="divider-core" style="border-color:rgba(58,95,122,0.35);"></div>
+    <div class="divider-dots"><span></span><span class="silver-dot"></span><span></span><span></span></div>
+    <div class="wave-line"></div>
+</div>
+
+<!-- ========================= -->
+<!-- 第一幕 -->
+<!-- ========================= -->
+
+<section class="article-section" id="section-traffic">
+
+    <div class="glass-card article-card accent-blue">
+        <span class="article-kicker">第一幕</span>
+        <h2 class="section-title accent-blue">桥见交通 · 末梢变枢纽</h2>
+        <p class="article-body">
+            千百年来，贵州因山而困。层峦叠嶂的喀斯特地貌造就了壮美风光，也让交通成为制约发展的最大瓶颈——山里山外，咫尺天涯。转机始于桥梁与隧道的密集建设。<strong>2015年，贵州成为西部首个"县县通高速"的省份；2025年，"市市通高铁"成为现实。</strong>十年间两次历史性跨越，让54个县实现铁路通达，39个县接入高铁网络。以贵阳为中心的"1-2小时高铁交通圈"已经成型，黔东南、黔南、黔西南三大民族自治州全部融入全国高铁网。贵州从此从"西南地理末梢"蜕变为"西部陆海新通道"的重要节点，过境货运量逐年攀升，成为连接中国西南与世界的"立交桥"。
+        </p>
+        <blockquote class="quote-block">"以前去省城要翻山越岭一整天，现在高铁两小时——黔东南侗族阿妈"</blockquote>
+    </div>
+
+    <div class="glass-card chart-card">
+        <p class="chart-card-caption">▲ 2015-2025各市州高速/高铁里程扩张</p>
+        <div class="chart-container chart-container--polar" id="chartPolar"></div>
+    </div>
+
+    <div class="glass-card chart-card">
+        <p class="chart-card-caption">▲ 贵州桥隧密度分布（民族自治地方描边）</p>
+        <div class="chart-container chart-container--density" id="bridgeDensity"></div>
+    </div>
+
+    <div class="glass-card chart-card chart-card--timeline">
+        <p class="chart-card-caption">▲ 交通发展里程碑</p>
+        <div class="timeline-node"><strong>2015</strong> · 县县通高速，西部首个实现此目标的省份</div>
+        <div class="timeline-node"><strong>2018</strong> · 黔东南州通高铁（凯里南站接入沪昆高铁）</div>
+        <div class="timeline-node"><strong>2020</strong> · 北盘江大桥带动周边2万群众脱贫</div>
+        <div class="timeline-node"><strong>2023</strong> · 黔南州桥隧比超80%，高速公路密度居全国前列</div>
+        <div class="timeline-node"><strong>2025</strong> · 市市通高铁，三大民族自治州全部接入高铁网</div>
+    </div>
+
+</section>
+
+<div class="section-divider">
+    <div class="divider-core" style="border-color:rgba(191,140,96,0.4);"></div>
+    <div class="divider-dots"><span></span><span class="silver-dot"></span><span></span></div>
+    <div class="wave-line"></div>
+</div>
+
+<!-- ========================= -->
+<!-- 第二幕 -->
+<!-- ========================= -->
+
+<section class="article-section" id="section-economy">
+
+    <div class="glass-card article-card accent-gold">
+        <span class="article-kicker">第二幕</span>
+        <h2 class="section-title accent-gold">桥见经济 · 出山入海</h2>
+        <p class="article-body">
+            关岭的牛，贞丰的花椒，六盘水的大豆油——这些深山里的好物，昔日困于"运费比货价高"的窘境。花江峡谷大桥一桥飞跨，将贞丰到关岭的车程从<strong>2小时压缩至2分钟</strong>。货车司机段大荣是最直接的见证者：<strong>一趟运输收入从800元跃升至2000元</strong>。北盘江大桥则助力周边2万人脱贫，1万人吃上"旅游饭"，人均年收入达2.1万元。
+        </p>
+        <blockquote class="quote-block">"运费从占货值30%降到8%，山货终于出得了山——黔南布依族货运司机"</blockquote>
+    </div>
+
+    <div class="glass-card chart-card chart-card--micro">
+        <p class="chart-card-caption">▲ 特色微观经济产业看板</p>
+        <p class="chart-sub-caption">北盘江大桥时空压缩与多维民生脱贫成效对比</p>
+        <p class="chart-note">基于个案账本与宏观社会效益的映射，体现「立交桥」打通后的通道经济红利</p>
+
+        <div class="micro-dashboard">
+            <div class="micro-panel">
+                <p class="micro-panel-title">① 司机段大荣「桥前与桥后」账本</p>
+                <div class="micro-legend" aria-hidden="true">
+                    <span class="micro-legend-item micro-legend-item--before">建桥前</span>
+                    <span class="micro-legend-item micro-legend-item--after">建桥后</span>
+                </div>
+                <div class="micro-chart" id="microPanel1"></div>
+            </div>
+
+            <div class="micro-panel">
+                <p class="micro-panel-title">② 沿线少数民族产业脱贫跨越</p>
+                <div class="micro-kpi-card micro-kpi-card--pine">
+                    <span class="micro-kpi-value">20,000 + 人</span>
+                    <span class="micro-kpi-label">直接带动脱贫人口</span>
+                </div>
+            </div>
+
+            <div class="micro-panel">
+                <p class="micro-panel-title">③ 旅游产业激活与民生福祉</p>
+                <div class="micro-kpi-card micro-kpi-card--bamboo">
+                    <span class="micro-kpi-value">就业 1 万+ · 人均 2.1 万/年</span>
+                    <span class="micro-kpi-label">旅游就业与人均年收入</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-card chart-card">
+        <p class="chart-card-caption">▲ 一个人的账本 · 跨越式哑铃图</p>
+        <div class="chart-container chart-container--dumbbell" id="incomeDumbbell"></div>
+    </div>
+
+    <div class="glass-card chart-card">
+        <p class="chart-card-caption">▲ 桥梁农作物出口路线图</p>
+        <div class="map-svg-container">
+            <svg viewBox="0 0 360 440" xmlns="http://www.w3.org/2000/svg" aria-label="桥梁农作物出口路线图">
+                <defs>
+                    <filter id="exportRouteHanddrawn"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/></filter>
+                    <marker id="exportRouteArrowGold" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 L2,3 Z" fill="#bf8c60"/></marker>
+                    <marker id="exportRouteArrowBlue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 L2,3 Z" fill="#3a5f7a"/></marker>
+                    <marker id="exportRouteArrowGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 L2,3 Z" fill="#4a8c78"/></marker>
+                </defs>
+                <rect width="360" height="440" rx="12" fill="none"/>
+                <path d="M90,85 Q140,50 200,60 Q260,55 280,80 Q310,120 300,170 Q295,220 280,260 Q260,300 220,340 Q180,370 140,360 Q100,340 70,300 Q45,250 50,190 Q48,140 70,105 Z" fill="rgba(74,140,120,0.08)" stroke="#4a8c78" stroke-width="2.5" stroke-dasharray="8 4" stroke-linecap="round" filter="url(#exportRouteHanddrawn)"/>
+                <text x="180" y="200" text-anchor="middle" class="map-label" fill="#4a8c78" font-size="0.65rem" font-weight="700" opacity="0.7">贵州</text>
+                <circle cx="115" cy="195" r="5" fill="#c97d55" stroke="#fff" stroke-width="2"/>
+                <text x="122" y="192" class="map-label-sm" fill="#3d5048" font-weight="700">贞丰·花椒</text>
+                <circle cx="155" cy="175" r="5" fill="#c97d55" stroke="#fff" stroke-width="2"/>
+                <text x="162" y="172" class="map-label-sm" fill="#3d5048" font-weight="700">关岭·肉牛</text>
+                <circle cx="130" cy="135" r="4.5" fill="#bf8c60" stroke="#fff" stroke-width="1.8"/>
+                <text x="137" y="132" class="map-label-sm" fill="#3d5048" font-weight="600">六盘水·大豆油</text>
+                <circle cx="200" cy="155" r="4" fill="#bf8c60" stroke="#fff" stroke-width="1.5"/>
+                <text x="207" y="152" class="map-label-sm" fill="#3d5048" font-weight="600">遵义·茶叶</text>
+                <rect x="148" y="200" width="70" height="14" rx="6" fill="rgba(58,95,122,0.12)" stroke="#3a5f7a" stroke-width="1.2"/>
+                <text x="183" y="210" text-anchor="middle" class="map-label-sm" fill="#3a5f7a" font-weight="700">花江峡谷大桥</text>
+                <line x1="155" y1="188" x2="170" y2="200" stroke="#3a5f7a" stroke-width="1" stroke-dasharray="3 2"/>
+                <rect x="95" y="145" width="60" height="13" rx="6" fill="rgba(58,95,122,0.1)" stroke="#3a5f7a" stroke-width="1"/>
+                <text x="125" y="154" text-anchor="middle" class="map-label-sm" fill="#3a5f7a" font-weight="700">北盘江大桥</text>
+                <line x1="130" y1="140" x2="125" y2="145" stroke="#3a5f7a" stroke-width="0.8" stroke-dasharray="2 2"/>
+                <path d="M170,200 Q220,240 280,280 Q310,300 330,330" stroke="#bf8c60" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="6 3" marker-end="url(#exportRouteArrowGold)"/>
+                <text x="290" y="310" class="map-label-sm" fill="#bf8c60" font-weight="700">粤港澳大湾区</text>
+                <path d="M125,150 Q160,120 220,90 Q260,70 300,50" stroke="#3a5f7a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="6 3" marker-end="url(#exportRouteArrowBlue)"/>
+                <text x="250" y="58" class="map-label-sm" fill="#3a5f7a" font-weight="700">缅甸</text>
+                <path d="M200,160 Q240,160 280,130 Q310,110 335,80" stroke="#4a8c78" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="6 3" marker-end="url(#exportRouteArrowGreen)"/>
+                <text x="290" y="85" class="map-label-sm" fill="#4a8c78" font-weight="700">东南亚</text>
+                <rect x="18" y="360" width="120" height="55" rx="8" fill="none" stroke="rgba(0,0,0,0.08)"/>
+                <circle cx="30" cy="378" r="3.5" fill="#c97d55"/><text x="40" y="381" class="map-label-sm">产地</text>
+                <rect x="30" y="390" width="28" height="8" rx="4" fill="rgba(58,95,122,0.12)" stroke="#3a5f7a" stroke-width="1"/><text x="64" y="398" class="map-label-sm">桥梁节点</text>
+                <line x1="28" y1="408" x2="52" y2="408" stroke="#bf8c60" stroke-width="2" stroke-dasharray="4 2"/><text x="58" y="411" class="map-label-sm">出口路线</text>
+            </svg>
+        </div>
+    </div>
+
+    <div class="glass-card chart-card">
+        <p class="chart-card-caption">▲ 三大桥梁经济流量桑基图</p>
+        <div class="chart-container chart-container--sankey" id="sankeyBridge"></div>
+    </div>
+
+    <div class="glass-card chart-card">
+        <p class="chart-card-caption">▲ 2016—2025年农村居民人均收入增长趋势</p>
+        <div class="chart-container chart-container--income" id="incomeStep"></div>
+    </div>
+
+</section>
+
+<div class="section-divider">
+    <div class="divider-core" style="border-color:rgba(176,104,104,0.4);"></div>
+    <div class="divider-dots"><span></span><span class="silver-dot"></span><span></span></div>
+    <div class="wave-line"></div>
+</div>
+
+<!-- ========================= -->
+<!-- 第三幕 -->
+<!-- ========================= -->
+
+<section class="article-section" id="section-tourism">
+
+    <div class="glass-card article-card accent-red">
+        <span class="article-kicker">第三幕</span>
+        <h2 class="section-title accent-red">桥见旅游 · 过路成风景</h2>
+        <p class="article-body">
+            当一座桥本身成为景区，它便不再只是通行工具。花江峡谷大桥以625米的高度成为世界最高桥，桥上的云端咖啡、水幕灯光秀和高空蹦极让过路之处变成目的地。坝陵河大桥拥有370米<strong>吉尼斯认证世界最高商业蹦极</strong>。平塘特大桥的"天空之桥"服务区成为<strong>国家3A级景区，累计游客突破520万人次</strong>。榕江"村超"足球赛火遍全网——2023年5月至2025年11月，榕江接待游客2506万人次，旅游收入287.36亿元。
+        </p>
+        <blockquote class="quote-block">"以前过桥就走，现在过桥就是风景——黔西南布依族村民"</blockquote>
+    </div>
+
+    <p class="chart-caption">▲ 桥—民族村寨连线图</p>
+    <div id="bridgeVillage" class="chart-large"></div>
+
+    <div class="glass-card chart-card">
+        <p class="chart-card-caption">▲ 村超经济气泡时间轴</p>
+        <div class="chart-container chart-container--bubble" id="villageSuper"></div>
+    </div>
+
+    <p class="chart-caption">▲ 中国景区桥游客量对比</p>
+    <div id="tourismCompare" class="chart-large"></div>
+
+</section>
+
+<div class="section-divider">
+    <div class="divider-core" style="border-color:rgba(74,140,120,0.4);"></div>
+    <div class="divider-dots"><span></span><span></span><span class="silver-dot"></span><span></span></div>
+    <div class="wave-line"></div>
+</div>
+
+<!-- ========================= -->
+<!-- 第四幕 -->
+<!-- ========================= -->
+
+<section class="article-section" id="section-ecology">
+
+    <div class="glass-card article-card accent-green">
+        <span class="article-kicker">第四幕</span>
+        <h2 class="section-title accent-green">桥见生态 · 云端守山</h2>
+        <p class="article-body">
+            贵州森林覆盖率63%，是长江、珠江上游的重要生态屏障。在喀斯特破碎岩层、8级峡谷强风之上建桥，本身就是一场工程与生态的精妙平衡。花江峡谷大桥配备了<strong>智能巡检机器人，抗14级风、24小时不间断监测，病害识别准确率超过95%</strong>。全省126座长大桥梁已纳入结构健康监测系统，部署30余种传感器、1.4万台设备，累计采集3900万条数据。
+        </p>
+    </div>
+
+    <p class="chart-caption">▲ 数字孪生桥梁蓝图</p>
+    <div id="digitalTwin" class="chart-large"></div>
+
+    <p class="chart-caption">▲ 桥梁生命周期碳足迹</p>
+    <div id="carbonLife" class="chart-large"></div>
+
+    <div class="glass-card chart-card chart-card--maintenance">
+        <p class="chart-card-caption">▲ 桥梁养护资金 21.24 亿元投向</p>
+        <div class="maintenance-charts">
+            <p class="chart-sub-caption">养护类型玫瑰图</p>
+            <div class="chart-container chart-container--maintenance-rose" id="maintenanceRose"></div>
+            <p class="chart-sub-caption">市州分布 · 桥型分配</p>
+            <div class="chart-container chart-container--maintenance-tree" id="maintenanceTree"></div>
+        </div>
+    </div>
+
+</section>
+
+<div class="section-divider">
+    <div class="divider-core" style="border-color:rgba(122,139,154,0.4);"></div>
+    <div class="divider-dots"><span class="silver-dot"></span><span></span><span></span></div>
+    <div class="wave-line"></div>
+</div>
+
+<!-- ========================= -->
+<!-- 第五幕 -->
+<!-- ========================= -->
+
+<section class="article-section" id="section-integration">
+
+    <div class="glass-card article-card accent-silver">
+        <span class="article-kicker">第五幕</span>
+        <h2 class="section-title accent-silver">桥见交融 · 共走一桥</h2>
+        <p class="article-body">
+            一座桥跨过的，不只是峡谷，更是不同民族世代居住的山寨。北盘江大桥两端连接着布依族与苗族村寨；花江峡谷大桥连通贞丰与关岭两个布依族自治县。桥通之前，<strong>"送亲翻山一早上"</strong>；桥通之后，<strong>"两分钟跨过峡谷"</strong>——73岁布依族老人刘忠国见证了婚俗的变迁。
+        </p>
+        <blockquote class="quote-block">"以前翻山送亲要半天，现在过桥只要两分钟——黔西南布依族村民刘忠国，73岁"</blockquote>
+    </div>
+
+    <p class="chart-caption">▲ 民族交融关系网络</p>
+    <div id="ethnicChord" class="chart-large"></div>
+
+    <p class="chart-caption">▲ 民族地区高质量发展雷达图</p>
+    <div id="developmentRadar" class="chart-large"></div>
+
+</section>
+
+<div class="section-divider">
+    <div class="divider-core" style="border-color:rgba(191,140,96,0.45);"></div>
+    <div class="divider-dots"><span></span><span class="silver-dot"></span><span></span></div>
+    <div class="wave-line"></div>
+</div>
+
+<!-- ========================= -->
+<!-- 尾声 -->
+<!-- ========================= -->
+
+<section class="article-section article-section-end" id="section-epilogue">
+
+    <div class="glass-card article-card article-card-center">
+        <h2 class="epilogue-title">桥见中国，桥见世界</h2>
+        <p class="article-body">
+            贵州造桥技术已输出至"一带一路"沿线国家，平塘特大桥的设计团队走出国门，在世界各地留下中国工程印记。全球前100座高桥，贵州独占近半——世界通过桥认识了中国，中国通过桥连接了世界。3.2万座桥，是3.2万次跨越：跨越山川的阻隔，跨越贫困的宿命，跨越民族的边界，跨越国界的藩篱。
+        </p>
+        <p class="epilogue-tagline">桥见贵州，世界"桥"见未来</p>
+    </div>
+
+    <p class="chart-caption">▲ 贵州桥梁技术"走出去"</p>
+    <div id="worldBridge" class="chart-large"></div>
+
+    <p class="chart-caption">▲ 3.2万座桥的贵州</p>
+    <div id="bridgePixel" class="chart-large"></div>
+
+</section>
+
+<footer>
+    <p class="footer-title">桥见贵州 · 桥见中国 · 世界桥见未来</p>
+    <p class="footer-note">数据新闻长卷 · 桥见黔程万里</p>
+</footer>
+
+</div>
+
+<!-- JS模块 -->
+
+<script src="JS/layout.js"></script>
+<script src="JS/hero.js"></script>
+<script src="JS/terrain.js"></script>
+
+<script src="JS/polar.js"></script>
+<script src="JS/guizhouMap.js"></script>
+<script src="JS/density.js"></script>
+
+<script src="JS/microEconomy.js"></script>
+<script src="JS/dumbbell.js"></script>
+<script src="JS/sankey.js"></script>
+<script src="JS/incomeStep.js"></script>
+
+<script src="JS/network.js"></script>
+<script src="JS/timeline.js"></script>
+<script src="JS/compare.js"></script>
+
+<script src="JS/digitalTwin.js"></script>
+<script src="JS/carbon.js"></script>
+<script src="JS/maintenanceTree.js"></script>
+
+<script src="JS/chord.js"></script>
+<script src="JS/radar.js"></script>
+
+<script src="JS/world.js"></script>
+<script src="JS/bridgePixel.js"></script>
+
+</body>
+</html>
