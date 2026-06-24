@@ -8,6 +8,7 @@
     if (!dom) return;
 
     const chart = echarts.init(dom);
+    const T = window.BRIDGE_CHART || {};
     const BRIDGE_TOTAL = 32000;
 
     function simplifyRing(ring, maxPoints) {
@@ -108,6 +109,7 @@
             backgroundColor: "transparent",
             tooltip: {
                 trigger: "item",
+                textStyle: { color: "#4A7C65", fontSize: T.tooltipSm || 13 },
                 formatter: (p) => {
                     if (!p.value || p.value.length < 3) return "";
                     return `建成年份：${p.value[2]} 年`;
@@ -192,11 +194,16 @@
     }
 
     function render(geoJson) {
-        echarts.registerMap("guizhou", geoJson);
-        const regions = extractRegions(geoJson);
-        const bridgePixels = generateBridgePixels(regions);
-        chart.setOption(buildOption(bridgePixels), true);
-        chart.resize();
+        try {
+            echarts.registerMap("guizhou", geoJson);
+            const regions = extractRegions(geoJson);
+            const bridgePixels = generateBridgePixels(regions);
+            chart.setOption(buildOption(bridgePixels), true);
+            chart.resize();
+        } catch (err) {
+            console.error("[bridgePixel]", err);
+            showError("地图渲染失败");
+        }
     }
 
     function init() {
