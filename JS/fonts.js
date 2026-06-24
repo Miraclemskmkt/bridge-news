@@ -2,6 +2,11 @@
     var FONT = "Noto Serif SC, Source Han Serif SC, SimSun, serif";
     window.BRIDGE_FONT = FONT;
 
+    window.BRIDGE_LABEL_LAYOUT = {
+        hideOverlap: true,
+        moveOverlap: "shiftY"
+    };
+
     function patchEcharts() {
         if (!window.echarts || window.__bridgeFontPatched) return;
         window.__bridgeFontPatched = true;

@@ -709,8 +709,8 @@ body {
 }
 
 .chart-container--density {
-    height: 300px;
-    min-height: 300px;
+    height: 460px;
+    min-height: 460px;
     background: transparent;
 }
 
@@ -1064,6 +1064,159 @@ footer {
     width: 100%;
 }
 
+/* 结尾页 · 数据来源汇总 */
+
+.data-sources-panel {
+    margin: 20px 4px 8px;
+    padding: 16px 12px 20px;
+    text-align: left;
+    position: relative;
+    z-index: 1;
+}
+
+.data-sources-title {
+    font-family: var(--font-l3);
+    font-size: clamp(1.05rem, 4vw, 1.2rem);
+    color: var(--ink);
+    text-align: center;
+    letter-spacing: 0.1em;
+    line-height: var(--lh-title);
+    margin-bottom: 6px;
+}
+
+.data-sources-lead {
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    color: var(--lightgray);
+    text-align: center;
+    line-height: var(--lh-data);
+    margin-bottom: 14px;
+}
+
+.data-sources-block {
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(74, 124, 101, 0.12);
+}
+
+.data-sources-block:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.data-sources-heading {
+    font-family: var(--font-l4);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: var(--lh-title);
+    margin-bottom: 4px;
+}
+
+.data-sources-sub {
+    font-family: var(--font-caption);
+    font-size: 0.6rem;
+    color: var(--gray);
+    margin-bottom: 6px;
+    line-height: var(--lh-data);
+}
+
+.data-sources-list {
+    margin: 0;
+    padding-left: 1.1em;
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    color: var(--gray);
+    line-height: 1.65;
+}
+
+.data-sources-list--flat {
+    list-style: none;
+    padding-left: 0;
+}
+
+.data-sources-list--flat li {
+    margin-bottom: 8px;
+    padding-left: 0.55em;
+    border-left: 2px solid rgba(140, 191, 170, 0.45);
+}
+
+.data-sources-list li {
+    margin-bottom: 10px;
+}
+
+.data-sources-list li:last-child {
+    margin-bottom: 0;
+}
+
+.data-sources-list strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.65rem;
+    margin-bottom: 2px;
+}
+
+.data-sources-meta {
+    display: block;
+    color: var(--lightgray);
+    font-size: 0.58rem;
+    margin-bottom: 3px;
+}
+
+.data-sources-list a {
+    color: var(--bamboo);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-all;
+}
+
+.data-sources-quote {
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 8px;
+}
+
+.data-sources-quote:last-child {
+    margin-bottom: 0;
+}
+
+.data-sources-label {
+    display: inline-block;
+    min-width: 3.2em;
+    color: var(--ink);
+    font-weight: 600;
+    margin-right: 4px;
+}
+
+.data-sources-block--note p {
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    color: var(--gray);
+    line-height: 1.65;
+    margin-bottom: 8px;
+}
+
+.data-sources-block--note p:last-child {
+    margin-bottom: 0;
+}
+
+.data-sources-block--note strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.data-sources-remark {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(74, 124, 101, 0.18);
+    color: var(--lightgray) !important;
+    font-size: 0.58rem !important;
+}
+
 .footer-title {
     font-family: var(--font-l2);
     font-size: clamp(1rem, 3.8vw, 1.15rem);
@@ -1111,6 +1264,18 @@ footer {
     z-index: 1;
     width: 100% !important;
     height: 100% !important;
+}
+
+#bridgePixel.chart-large {
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
+}
+
+#bridgeVillage.chart-large {
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
 }
 
 #incomeDumbbell,

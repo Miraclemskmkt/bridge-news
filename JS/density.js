@@ -1,5 +1,5 @@
 // =====================================
-// 贵州桥隧密度分布（民族自治地方描边）
+// 贵州 9 市州骨干路网桥隧比 · 条形图 + 分级填色地图
 // =====================================
 
 (function () {
@@ -8,103 +8,210 @@
     if (!dom) return;
 
     const chart = echarts.init(dom);
+    const labelLayout = window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" };
 
-    const cityData = [
-        ["贵阳", 106.7, 26.6, 85],
-        ["遵义", 106.9, 27.7, 72],
-        ["六盘水", 104.8, 26.6, 90],
-        ["安顺", 105.9, 26.2, 78],
-        ["毕节", 105.3, 27.3, 88],
-        ["铜仁", 109.2, 27.7, 65],
-        ["黔东南", 108.0, 26.5, 80],
-        ["黔南", 107.5, 26.3, 82],
-        ["黔西南", 104.9, 25.1, 92]
+    const SOURCE_NOTE =
+        "数据来源：贵州省交通运输厅2024年度交通运输统计公报、省政府盘兴高铁通车新闻发布会、中铁二院铁路线路设计环评文件、贵州省公共资源交易中心高速项目招标公示、贵州日报、天眼新闻官方报道。";
+
+    const TIERS = {
+        extreme: { label: "极高桥隧比区域", color: "#4A7C65", min: 90 },
+        high: { label: "高桥隧比区域", color: "#6D9B8B", min: 70 },
+        medium: { label: "中桥隧比区域", color: "#8CBFAA", min: 50 },
+        low: { label: "低桥隧比区域", color: "#D1E7DD", min: 0 }
+    };
+
+    const regions = [
+        { short: "黔西南州", mapName: "黔西南布依族苗族自治州", value: 90.66, display: "90.66%", tier: "extreme", autonomous: true },
+        { short: "黔南州", mapName: "黔南布依族苗族自治州", value: 90.5, display: "90%+", tier: "extreme", autonomous: true },
+        { short: "黔东南州", mapName: "黔东南苗族侗族自治州", value: 90.5, display: "90%+", tier: "extreme", autonomous: true },
+        { short: "安顺市", mapName: "安顺市", value: 72, display: "72%", tier: "high", autonomous: false },
+        { short: "贵阳市", mapName: "贵阳市", value: 70, display: "70%", tier: "high", autonomous: false },
+        { short: "六盘水市", mapName: "六盘水市", value: 69.46, display: "69.46%", tier: "high", autonomous: false },
+        { short: "遵义市", mapName: "遵义市", value: 58, display: "58%", tier: "medium", autonomous: false },
+        { short: "铜仁市", mapName: "铜仁市", value: 58.6, display: "58.6%", tier: "medium", autonomous: false },
+        { short: "毕节市", mapName: "毕节市", value: 38, display: "<40%", tier: "low", autonomous: false }
     ];
 
+    function tierColor(tier, gradient) {
+        const base = TIERS[tier].color;
+        if (!gradient) return base;
+        return new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+            { offset: 0, color: base + "88" },
+            { offset: 0.55, color: base + "cc" },
+            { offset: 1, color: base }
+        ]);
+    }
+
     function buildOption() {
+        const barOrder = [...regions].sort((a, b) => b.value - a.value);
+
+        const mapData = regions.map((r) => ({
+            name: r.mapName,
+            value: r.value,
+            itemStyle: {
+                areaColor: TIERS[r.tier].color,
+                borderColor: "rgba(74, 124, 101, 0.45)",
+                borderWidth: 0.9
+            }
+        }));
+
         return {
             backgroundColor: "transparent",
             tooltip: {
                 trigger: "item",
-                backgroundColor: "rgba(255,255,255,0.92)",
-                borderColor: "rgba(0,0,0,0.08)",
-                textStyle: { color: "#1c2a24", fontSize: 11 }
-            },
-            geo: {
-                map: "guizhou",
-                roam: false,
-                center: [106.7, 26.8],
-                zoom: 1.35,
-                itemStyle: {
-                    areaColor: "#eaf0ea",
-                    borderColor: "rgba(58,95,122,0.22)",
-                    borderWidth: 1.2
-                },
-                emphasis: {
-                    itemStyle: { areaColor: "#d2ddd4" }
-                },
-                label: { show: false },
-                regions: [
-                    {
-                        name: "黔东南苗族侗族自治州",
-                        itemStyle: {
-                            borderColor: "#b06868",
-                            borderWidth: 2.5,
-                            borderType: "dashed",
-                            shadowBlur: 4,
-                            shadowColor: "rgba(176,104,104,0.25)"
-                        }
-                    },
-                    {
-                        name: "黔南布依族苗族自治州",
-                        itemStyle: {
-                            borderColor: "#3a5f7a",
-                            borderWidth: 2.5,
-                            borderType: "dashed",
-                            shadowBlur: 4,
-                            shadowColor: "rgba(58,95,122,0.25)"
-                        }
-                    },
-                    {
-                        name: "黔西南布依族苗族自治州",
-                        itemStyle: {
-                            borderColor: "#c97d55",
-                            borderWidth: 2.5,
-                            borderType: "dashed",
-                            shadowBlur: 4,
-                            shadowColor: "rgba(201,125,85,0.28)"
-                        }
+                backgroundColor: "rgba(255,255,255,0.94)",
+                borderColor: "rgba(74, 124, 101, 0.25)",
+                textStyle: { color: "#4A7C65", fontSize: 11 },
+                formatter: (p) => {
+                    if (p.seriesType === "bar") {
+                        const row = regions.find((r) => r.short === p.name);
+                        if (!row) return p.name;
+                        return `${row.short}<br/>桥隧比：${row.display}<br/>${TIERS[row.tier].label}`;
                     }
-                ]
+                    if (p.seriesType === "map") {
+                        const row = regions.find((r) => r.mapName === p.name);
+                        if (!row) return p.name;
+                        return `${row.short}<br/>桥隧比：${row.display}`;
+                    }
+                    return p.name;
+                }
+            },
+            legend: {
+                show: true,
+                orient: "horizontal",
+                left: 4,
+                right: "54%",
+                bottom: 36,
+                itemWidth: 10,
+                itemHeight: 7,
+                itemGap: 6,
+                textStyle: { color: "#7A7A7A", fontSize: 8 },
+                data: ["极高", "高", "中", "低"].map((k, i) => {
+                    const keys = ["extreme", "high", "medium", "low"];
+                    return {
+                        name: k,
+                        icon: "roundRect",
+                        itemStyle: { color: TIERS[keys[i]].color }
+                    };
+                }),
+                formatter: (name) => {
+                    const map = { 极高: "极高", 高: "高", 中: "中", 低: "低" };
+                    return map[name] || name;
+                }
+            },
+            grid: {
+                left: 2,
+                right: "54%",
+                top: 6,
+                bottom: 58,
+                containLabel: true
+            },
+            xAxis: {
+                type: "value",
+                max: 100,
+                axisLine: { show: false },
+                axisTick: { show: false },
+                splitLine: { show: false },
+                axisLabel: {
+                    color: "#B8B8B8",
+                    fontSize: 8,
+                    formatter: "{value}%",
+                    margin: 4
+                }
+            },
+            yAxis: {
+                type: "category",
+                inverse: true,
+                data: barOrder.map((r) => r.short),
+                axisLine: { lineStyle: { color: "rgba(184, 184, 184, 0.65)", width: 0.8 } },
+                axisTick: { show: false },
+                axisLabel: {
+                    color: "#7A7A7A",
+                    fontSize: 8,
+                    margin: 4,
+                    width: 52,
+                    overflow: "truncate"
+                }
             },
             series: [
                 {
-                    type: "scatter",
-                    coordinateSystem: "geo",
-                    data: cityData,
-                    symbolSize: (val, params) => {
-                        const raw = params.value || val;
-                        const density = Array.isArray(raw) ? raw[2] : 50;
-                        return Math.max(density * 0.32, 10);
-                    },
-                    itemStyle: {
-                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 0.8, [
-                            { offset: 0, color: "rgba(74,140,120,0.85)" },
-                            { offset: 0.55, color: "rgba(58,95,122,0.45)" },
-                            { offset: 1, color: "rgba(74,140,120,0.08)" }
-                        ]),
-                        shadowBlur: 8,
-                        shadowColor: "rgba(74,140,120,0.35)"
-                    },
+                    name: "桥隧比",
+                    type: "bar",
+                    data: barOrder.map((r) => ({
+                        name: r.short,
+                        value: r.value,
+                        itemStyle: {
+                            color: tierColor(r.tier, true),
+                            borderRadius: [0, 10, 10, 0],
+                            shadowColor: "rgba(74, 124, 101, 0.15)",
+                            shadowBlur: 4,
+                            shadowOffsetX: 1
+                        }
+                    })),
+                    barWidth: 10,
+                    barCategoryGap: "38%",
+                    labelLayout,
                     label: {
                         show: true,
-                        formatter: "{b}",
-                        position: "right",
-                        color: "#3d5048",
-                        fontSize: 10,
-                        fontWeight: "bold"
+                        position: "insideRight",
+                        distance: 4,
+                        formatter: (params) => {
+                            const row = regions.find((r) => r.short === params.name);
+                            if (!row) return "";
+                            const tone = row.tier === "low" ? "d" : "l";
+                            if (row.autonomous) {
+                                return `{${tone}|${row.display}}{b|桥}`;
+                            }
+                            return `{${tone}|${row.display}}`;
+                        },
+                        rich: {
+                            l: { color: "#F5F2E8", fontSize: 8, fontWeight: 600 },
+                            d: { color: "#4A7C65", fontSize: 8, fontWeight: 600 },
+                            b: {
+                                color: "#4A7C65",
+                                fontSize: 11,
+                                fontFamily: "Ma Shan Zheng, STKaiti, KaiTi, serif",
+                                padding: [0, 0, 0, 1]
+                            }
+                        }
                     },
                     z: 2
+                },
+                {
+                    name: "map",
+                    type: "map",
+                    map: "guizhou",
+                    roam: false,
+                    left: "54%",
+                    top: 10,
+                    width: "42%",
+                    height: "58%",
+                    data: mapData,
+                    label: { show: false },
+                    itemStyle: {
+                        areaColor: "#eaf0ea",
+                        borderColor: "rgba(74, 124, 101, 0.3)",
+                        borderWidth: 0.8
+                    },
+                    emphasis: {
+                        disabled: true
+                    },
+                    z: 1
+                }
+            ],
+            graphic: [
+                {
+                    type: "text",
+                    left: 4,
+                    right: "54%",
+                    bottom: 2,
+                    style: {
+                        text: SOURCE_NOTE,
+                        fill: "#B8B8B8",
+                        font: "8px Noto Serif SC, SimSun, serif",
+                        textAlign: "left",
+                        lineHeight: 11
+                    }
                 }
             ]
         };
@@ -117,7 +224,7 @@
                 text: msg,
                 left: "center",
                 top: "middle",
-                textStyle: { color: "#7a8b9a", fontSize: 13, fontWeight: "normal" }
+                textStyle: { color: "#7A7A7A", fontSize: 13, fontWeight: "normal" }
             }
         });
     }
@@ -166,9 +273,7 @@
     if ("IntersectionObserver" in window) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    chart.resize();
-                }
+                if (entry.isIntersecting) chart.resize();
             });
         }, { threshold: 0.1 });
         observer.observe(dom);

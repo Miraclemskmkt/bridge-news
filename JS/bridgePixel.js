@@ -106,20 +106,6 @@
     function buildOption(bridgePixels) {
         return {
             backgroundColor: "transparent",
-            title: [
-                {
-                    text: "3.2万座桥的贵州",
-                    left: "center",
-                    top: 12,
-                    textStyle: { color: "#4A7C65", fontSize: 22, fontWeight: 700 }
-                },
-                {
-                    text: "每一座桥，都是大地上的一个像素",
-                    left: "center",
-                    top: 42,
-                    textStyle: { color: "#7A7A7A", fontSize: 12 }
-                }
-            ],
             tooltip: {
                 trigger: "item",
                 formatter: (p) => {
@@ -131,9 +117,9 @@
                 map: "guizhou",
                 roam: false,
                 center: [106.75, 26.75],
-                zoom: 1.18,
-                layoutCenter: ["50%", "54%"],
-                layoutSize: "88%",
+                zoom: 1.12,
+                layoutCenter: ["46%", "46%"],
+                layoutSize: "72%",
                 itemStyle: {
                     areaColor: "rgba(234, 240, 234, 0.55)",
                     borderColor: "#4A7C65",
@@ -151,13 +137,14 @@
                 min: 2010,
                 max: 2025,
                 dimension: 2,
-                orient: "horizontal",
-                left: "center",
-                bottom: 8,
-                itemWidth: 12,
-                itemHeight: 80,
+                orient: "vertical",
+                right: 6,
+                top: "middle",
+                itemWidth: 10,
+                itemHeight: 88,
                 text: ["新", "旧"],
-                textStyle: { color: "#4A7C65", fontSize: 11 },
+                textGap: 6,
+                textStyle: { color: "#4A7C65", fontSize: 10 },
                 inRange: {
                     color: ["#D1E7DD", "#8CBFAA", "#6D9B8B", "#4A7C65"]
                 }
@@ -168,8 +155,8 @@
                     type: "scatter",
                     coordinateSystem: "geo",
                     data: bridgePixels,
-                    symbolSize: 2.2,
-                    itemStyle: { opacity: 0.82 },
+                    symbolSize: 1.8,
+                    itemStyle: { opacity: 0.78 },
                     z: 3
                 }
             ]

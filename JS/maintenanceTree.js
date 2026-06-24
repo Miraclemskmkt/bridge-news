@@ -123,9 +123,9 @@
                 itemStyle: { color: "#6D9B8B", borderRadius: [0, 4, 4, 0] },
                 label: {
                     show: true,
-                    position: "right",
-                    color: "#4A7C65",
-                    fontSize: 10,
+                    position: "insideRight",
+                    color: "#F5F2E8",
+                    fontSize: 9,
                     formatter: "{c} 亿"
                 }
             }

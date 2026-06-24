@@ -64,15 +64,16 @@
             right: "2%",
             top: 8,
             bottom: 8,
-            nodeWidth: 14,
-            nodeGap: 8,
+            nodeWidth: 12,
+            nodeGap: 10,
             draggable: false,
             emphasis: { focus: "adjacency" },
             label: {
                 color: "#1c2a24",
-                fontSize: 9,
+                fontSize: 8,
                 fontWeight: "bold"
             },
+            labelLayout: window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" },
             lineStyle: {
                 color: "gradient",
                 curveness: 0.5,
