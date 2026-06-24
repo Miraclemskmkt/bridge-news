@@ -74,14 +74,14 @@ body {
     margin: 0 auto;
     position: relative;
     z-index: 2;
-    padding: 0 6px clamp(300px, 58vw, 440px);
-    background-color: #eaf2ed;
+    padding: 0 6px clamp(500px, 132vw, 692px);
+    background-color: #fff;
     background-image:
         url("../images/footer-bg.png"),
         url("../images/news-strip-bg.png");
     background-repeat: no-repeat, repeat-y;
     background-size: 100% auto, 100% auto;
-    background-position: left bottom, left top;
+    background-position: center bottom, left top;
     box-shadow: 0 0 48px rgba(30, 50, 40, 0.06);
 }
 
