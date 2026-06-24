@@ -36,6 +36,18 @@
     --lightgray: #B8B8B8;
     --shadow: rgba(74, 124, 101, 0.08);
 
+    /* 六级字体体系 · 桥见黔程万里排版规范 */
+    --font-l1: "Ma Shan Zheng", "STKaiti", "KaiTi", serif;
+    --font-l2: "Long Cang", "Ma Shan Zheng", "STKaiti", serif;
+    --font-l3: "Ma Shan Zheng", "Long Cang", "STKaiti", serif;
+    --font-l4: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+    --font-body: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+    --font-caption: "Noto Serif SC", "Source Han Serif SC", serif;
+
+    --lh-title: 1.2;
+    --lh-body: 1.75;
+    --lh-data: 1.5;
+
 }
 
 * {
@@ -51,9 +63,9 @@ html {
 }
 
 body {
-    font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: var(--font-body);
     background: #e3ece6;
-    color: var(--text-primary);
+    color: var(--ink);
     overflow-x: hidden;
     min-height: 100vh;
     line-height: 1.72;
@@ -75,7 +87,7 @@ body {
     position: relative;
     z-index: 2;
     padding: 0 6px clamp(500px, 132vw, 692px);
-    background-color: #fff;
+    background-color: var(--paper);
     background-image:
         url("../images/footer-bg.png"),
         url("../images/news-strip-bg.png");
@@ -281,13 +293,15 @@ body {
 }
 
 .cover-kicker {
-    font-size: 0.7rem;
-    letter-spacing: 0.3em;
-    color: var(--warm-gold);
-    margin-bottom: 10px;
+    font-family: var(--font-l3);
+    font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--ink);
+    margin-bottom: 12px;
     padding: 0 8px;
-    font-weight: 600;
-    opacity: 0.82;
+    line-height: var(--lh-title);
+    text-align: center;
 }
 
 .cover-tagline {
@@ -310,14 +324,14 @@ body {
 }
 
 .calligraphy-title {
-    font-family: "Ma Shan Zheng", "STKaiti", "KaiTi", "楷体", "Noto Serif SC", serif;
+    font-family: var(--font-l1);
     font-weight: 400;
     font-size: clamp(2.8rem, 7.5vw, 3.6rem);
-    color: #1a221f;
-    letter-spacing: 0.1em;
+    color: var(--ink);
+    letter-spacing: -0.06em;
     text-align: center;
     white-space: nowrap;
-    line-height: 1.2;
+    line-height: var(--lh-title);
     -webkit-text-stroke: 1.6px rgba(26, 34, 31, 0.35);
     text-shadow: 0 2px 6px rgba(0, 0, 0, 0.1), 0 0 40px rgba(58, 95, 122, 0.08);
     transform: rotate(-0.3deg);
@@ -364,18 +378,23 @@ body {
 }
 
 .cover-lead {
-    font-size: 0.78rem;
-    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--gray);
     max-width: 310px;
-    line-height: 1.75;
+    line-height: var(--lh-body);
     margin-bottom: 20px;
-    opacity: 0.84;
     padding: 0 8px;
+    text-align: left;
 }
 
 .cover-lead strong {
-    color: var(--text-primary);
+    color: var(--ink);
     font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--pine);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
 }
 
 .cover-hero-wall {
@@ -397,12 +416,12 @@ body {
 }
 
 .hero-wall-title {
-    font-family: "Microsoft YaHei", "PingFang SC", "SimHei", sans-serif;
-    font-size: 1.375rem;
-    font-weight: 700;
-    color: #4A7C65;
+    font-family: var(--font-l3);
+    font-size: clamp(1.15rem, 4.5vw, 1.45rem);
+    font-weight: 400;
+    color: var(--ink);
     letter-spacing: 0.1em;
-    line-height: 1.35;
+    line-height: var(--lh-title);
     margin: 0 0 clamp(28px, 7vh, 44px);
     text-align: center;
 }
@@ -421,12 +440,12 @@ body {
 }
 
 .hero-wall-value {
-    font-family: "Microsoft YaHei", "PingFang SC", "SimHei", sans-serif;
+    font-family: var(--font-l1);
     font-size: clamp(2.75rem, 12vw, 3.5rem);
-    font-weight: 700;
-    color: #4A7C65;
-    line-height: 1.05;
-    letter-spacing: 0.02em;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: var(--lh-title);
+    letter-spacing: -0.04em;
     cursor: pointer;
     animation: heroWallIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -462,22 +481,23 @@ body {
 }
 
 .hero-wall-label {
-    font-family: "Microsoft YaHei", "PingFang SC", "SimHei", sans-serif;
-    font-size: 1rem;
+    font-family: var(--font-caption);
+    font-size: 0.8125rem;
     font-weight: 400;
-    color: #7A7A7A;
+    color: var(--gray);
     margin: 0.45em 0 0;
-    letter-spacing: 0.06em;
-    line-height: 1.4;
+    letter-spacing: 0.04em;
+    line-height: var(--lh-data);
 }
 
 .cover-footer {
-    font-size: 0.71rem;
-    color: var(--text-muted);
+    font-family: var(--font-caption);
+    font-size: 0.6875rem;
+    color: var(--lightgray);
     margin-top: 16px;
     max-width: 280px;
-    opacity: 0.78;
-    line-height: 1.6;
+    line-height: var(--lh-data);
+    text-align: center;
 }
 
 .scroll-hint {
@@ -503,11 +523,21 @@ body {
 .article-card {
     padding: 16px 13px;
     margin-bottom: 12px;
+    text-align: center;
+}
+
+.article-card .article-body,
+.article-card .quote-block {
+    text-align: left;
 }
 
 .article-card-center {
     text-align: center;
     padding: 20px 12px;
+}
+
+.article-card-center .article-body {
+    text-align: center;
 }
 
 .article-card.accent-blue { border-left: 3px solid var(--buyi-blue); }
@@ -517,73 +547,92 @@ body {
 .article-card.accent-silver { border-left: 3px solid var(--miao-silver); }
 
 .article-kicker {
-    font-size: 0.66rem;
-    letter-spacing: 0.16em;
-    font-weight: 600;
+    font-family: var(--font-l3);
+    font-size: clamp(0.95rem, 3.6vw, 1.15rem);
+    letter-spacing: 0.1em;
+    font-weight: 400;
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    color: var(--ink);
+    line-height: var(--lh-title);
 }
 
-.accent-blue .article-kicker { color: var(--buyi-blue); }
-.accent-gold .article-kicker { color: var(--warm-gold); }
-.accent-red .article-kicker { color: var(--dong-red); }
-.accent-green .article-kicker { color: var(--eco-green); }
-.accent-silver .article-kicker { color: var(--miao-silver); }
+.accent-blue .article-kicker,
+.accent-gold .article-kicker,
+.accent-red .article-kicker,
+.accent-green .article-kicker,
+.accent-silver .article-kicker {
+    color: var(--ink);
+}
 
 .section-title {
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    display: inline;
-    color: #1c2a24;
-    font-size: clamp(1.05rem, 3.2vw, 1.28rem);
+    font-family: var(--font-l3);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    display: block;
+    color: var(--ink);
+    font-size: clamp(1.1rem, 3.8vw, 1.35rem);
     position: relative;
+    line-height: var(--lh-title);
+    text-align: center;
+    margin-top: 2px;
 }
 
 .section-title::after {
     content: "";
     position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 40%;
-    height: 2.5px;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36%;
+    height: 2px;
     border-radius: 2px;
 }
 
-.section-title.accent-blue::after { background: var(--buyi-blue); }
-.section-title.accent-gold::after { background: var(--warm-gold); }
-.section-title.accent-red::after { background: var(--dong-red); }
-.section-title.accent-green::after { background: var(--eco-green); }
-.section-title.accent-silver::after { background: var(--miao-silver); }
+.section-title.accent-blue::after { background: var(--pine); }
+.section-title.accent-gold::after { background: var(--pine); }
+.section-title.accent-red::after { background: var(--pine); }
+.section-title.accent-green::after { background: var(--pine); }
+.section-title.accent-silver::after { background: var(--pine); }
 
 .article-body {
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-    line-height: 1.75;
-    margin-top: 8px;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--gray);
+    line-height: var(--lh-body);
+    margin-top: 12px;
+    text-align: left;
 }
 
 .article-body strong {
-    color: var(--text-primary);
+    color: var(--ink);
     font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--pine);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1.5px;
 }
 
 .quote-block {
-    font-size: 0.76rem;
-    color: var(--miao-silver);
-    font-style: italic;
-    opacity: 0.8;
-    margin-top: 10px;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--bamboo);
+    font-style: normal;
+    margin-top: 12px;
     padding-left: 10px;
-    border-left: 3px solid rgba(191, 140, 96, 0.45);
-    line-height: 1.55;
+    border-left: 3px solid var(--pine);
+    line-height: var(--lh-body);
 }
 
 .chart-caption {
-    font-size: 0.7rem;
-    color: var(--text-muted);
+    font-family: var(--font-l4);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--ink);
     text-align: center;
     margin: 14px 0 6px;
-    opacity: 0.85;
+    line-height: var(--lh-title);
+    letter-spacing: 0.04em;
 }
 
 /* 第一幕 · 玻璃卡片图表（桥(1) 638-640） */
@@ -598,29 +647,34 @@ body {
 }
 
 .chart-card-caption {
-    font-size: 0.7rem;
-    color: var(--text-muted);
+    font-family: var(--font-l4);
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--ink);
     text-align: center;
-    margin-bottom: 2px;
-    opacity: 0.85;
-}
-
-.chart-sub-caption {
-    font-size: 0.62rem;
-    color: var(--text-muted);
-    text-align: center;
-    margin: 4px 0 2px;
-    opacity: 0.85;
+    margin-bottom: 4px;
+    line-height: var(--lh-title);
     letter-spacing: 0.04em;
 }
 
-.chart-note {
-    font-size: 0.58rem;
-    color: var(--text-muted);
+.chart-sub-caption {
+    font-family: var(--font-l4);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--bamboo);
     text-align: center;
-    line-height: 1.5;
+    margin: 4px 0 2px;
+    letter-spacing: 0.04em;
+    line-height: var(--lh-data);
+}
+
+.chart-note {
+    font-family: var(--font-caption);
+    font-size: 0.6875rem;
+    color: var(--lightgray);
+    text-align: center;
+    line-height: var(--lh-data);
     margin: 0 8px 8px;
-    opacity: 0.7;
 }
 
 .maintenance-charts {
@@ -702,12 +756,13 @@ body {
 }
 
 .micro-panel-title {
-    font-size: 0.68rem;
+    font-family: var(--font-l4);
+    font-size: 0.8125rem;
     font-weight: 700;
-    color: #3d5048;
+    color: var(--ink);
     margin: 0 0 8px;
-    line-height: 1.45;
-    letter-spacing: 0.02em;
+    line-height: var(--lh-title);
+    letter-spacing: 0.03em;
 }
 
 .micro-legend {
@@ -718,8 +773,9 @@ body {
 }
 
 .micro-legend-item {
-    font-size: 0.58rem;
-    color: var(--text-muted);
+    font-family: var(--font-caption);
+    font-size: 0.6875rem;
+    color: var(--lightgray);
     padding-left: 14px;
     position: relative;
 }
@@ -776,19 +832,21 @@ body {
 
 .micro-kpi-value {
     display: block;
-    font-size: 1.05rem;
-    font-weight: 800;
-    color: #1c2a24;
-    line-height: 1.35;
-    letter-spacing: 0.02em;
+    font-family: var(--font-l1);
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+    font-weight: 400;
+    color: var(--pine);
+    line-height: var(--lh-title);
+    letter-spacing: -0.02em;
 }
 
 .micro-kpi-label {
     display: block;
-    font-size: 0.6rem;
-    color: var(--text-muted);
+    font-family: var(--font-caption);
+    font-size: 0.6875rem;
+    color: var(--gray);
     margin-top: 6px;
-    opacity: 0.85;
+    line-height: var(--lh-data);
 }
 
 .chart-container--bubble {
@@ -810,16 +868,18 @@ body {
 }
 
 .map-label {
+    font-family: var(--font-l4);
     font-size: 0.58rem;
-    fill: #3d5048;
-    font-weight: 600;
+    fill: var(--ink);
+    font-weight: 700;
     letter-spacing: 0.03em;
 }
 
 .map-label-sm {
+    font-family: var(--font-caption);
     font-size: 0.5rem;
-    fill: #5c6e65;
-    font-weight: 500;
+    fill: var(--gray);
+    font-weight: 400;
 }
 
 .chart-container .echarts,
@@ -831,19 +891,23 @@ body {
 }
 
 .epilogue-title {
-    font-size: 1.4rem;
-    font-weight: 900;
-    letter-spacing: 0.04em;
-    margin-bottom: 8px;
-    color: #1c2a24;
+    font-family: var(--font-l1);
+    font-size: clamp(1.75rem, 6.5vw, 2.25rem);
+    font-weight: 400;
+    letter-spacing: -0.05em;
+    margin-bottom: 10px;
+    color: var(--ink);
+    line-height: var(--lh-title);
 }
 
 .epilogue-tagline {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--warm-orange);
-    line-height: 1.5;
-    margin-top: 8px;
+    font-family: var(--font-l2);
+    font-size: clamp(1.05rem, 4vw, 1.35rem);
+    font-weight: 400;
+    color: var(--pine);
+    line-height: var(--lh-title);
+    margin-top: 10px;
+    letter-spacing: 0.08em;
 }
 
 .timeline-card {
@@ -852,19 +916,23 @@ body {
 }
 
 .timeline-heading {
-    font-size: 0.7rem;
-    color: var(--text-muted);
+    font-family: var(--font-l4);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--ink);
     text-align: center;
     margin-bottom: 8px;
+    line-height: var(--lh-title);
 }
 
 .timeline-node {
     position: relative;
     padding-left: 20px;
     margin-bottom: 8px;
-    font-size: 0.74rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--gray);
+    line-height: var(--lh-data);
 }
 
 .timeline-node::before {
@@ -997,17 +1065,20 @@ footer {
 }
 
 .footer-title {
-    font-size: 0.95rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: 0.06em;
+    font-family: var(--font-l2);
+    font-size: clamp(1rem, 3.8vw, 1.15rem);
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: 0.08em;
     margin-bottom: 6px;
+    line-height: var(--lh-title);
 }
 
 .footer-note {
-    font-size: 0.66rem;
-    color: var(--text-muted);
-    opacity: 0.75;
+    font-family: var(--font-caption);
+    font-size: 0.6875rem;
+    color: var(--lightgray);
+    line-height: var(--lh-data);
 }
 
 .js-plotly-plot,
@@ -1066,7 +1137,7 @@ footer {
 
 @media (max-width: 360px) {
     .section-title { font-size: 1rem; }
-    .calligraphy-title { font-size: 2.2rem; letter-spacing: 0.06em; }
+    .calligraphy-title { font-size: 2.2rem; letter-spacing: -0.05em; }
     .handdrawn-bridge { width: 26px; height: 40px; }
 }
 

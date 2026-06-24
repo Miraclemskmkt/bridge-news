@@ -1,97 +1,243 @@
 // =====================================
-// 3.2万座桥像素阵列组成贵州轮廓
+// 3.2万座桥像素阵列 · 贵州地图轮廓
 // =====================================
 
-const pixelDom = document.getElementById("bridgePixel");
-const pixelChart = echarts.init(pixelDom);
+(function () {
 
-// 贵州轮廓近似边界点（经纬度）
-const guizhouOutline = [
-    [104.0, 28.8], [104.5, 29.2], [105.2, 29.0], [106.0, 28.5],
-    [107.0, 28.0], [108.0, 27.5], [108.5, 27.0], [109.0, 26.5],
-    [109.2, 26.0], [109.0, 25.5], [108.5, 25.0], [107.5, 24.8],
-    [106.5, 24.5], [105.5, 24.8], [104.5, 25.2], [104.0, 25.8],
-    [103.8, 26.5], [103.9, 27.2], [104.0, 28.0], [104.0, 28.8]
-];
+    const dom = document.getElementById("bridgePixel");
+    if (!dom) return;
 
-function pointInPolygon(x, y, polygon) {
-    let inside = false;
-    for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        const xi = polygon[i][0], yi = polygon[i][1];
-        const xj = polygon[j][0], yj = polygon[j][1];
-        if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) {
-            inside = !inside;
-        }
+    const chart = echarts.init(dom);
+    const BRIDGE_TOTAL = 32000;
+
+    function simplifyRing(ring, maxPoints) {
+        if (ring.length <= maxPoints) return ring;
+        const step = Math.ceil(ring.length / maxPoints);
+        const out = [];
+        for (let i = 0; i < ring.length; i += step) out.push(ring[i]);
+        const last = ring[ring.length - 1];
+        const tail = out[out.length - 1];
+        if (!tail || tail[0] !== last[0] || tail[1] !== last[1]) out.push(last);
+        return out;
     }
-    return inside;
-}
 
-const bridgePixels = [];
-const minLng = 103.5, maxLng = 109.5, minLat = 24.3, maxLat = 29.5;
-
-while (bridgePixels.length < 32000) {
-    const lng = minLng + Math.random() * (maxLng - minLng);
-    const lat = minLat + Math.random() * (maxLat - minLat);
-    if (pointInPolygon(lng, lat, guizhouOutline)) {
-        bridgePixels.push([lng, lat, 2010 + Math.floor(Math.random() * 16)]);
+    function pointInRing(lng, lat, ring) {
+        let inside = false;
+        for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+            const xi = ring[i][0], yi = ring[i][1];
+            const xj = ring[j][0], yj = ring[j][1];
+            if (((yi > lat) !== (yj > lat)) &&
+                (lng < (xj - xi) * (lat - yi) / (yj - yi + 1e-12) + xi)) {
+                inside = !inside;
+            }
+        }
+        return inside;
     }
-}
 
-pixelChart.setOption({
-    backgroundColor: "transparent",
-    title: [
-        {
-            text: "3.2万座桥的贵州",
-            left: "center",
-            top: 20,
-            textStyle: { color: "#4A7C65", fontSize: 28 }
-        },
-        {
-            text: "每一座桥，都是大地上的一个像素",
-            left: "center",
-            top: 58,
-            textStyle: { color: "#7A7A7A", fontSize: 14 }
-        }
-    ],
-    tooltip: {
-        formatter: (p) => `建成年份：${p.value[2]}`
-    },
-    xAxis: {
-        min: minLng, max: maxLng,
-        show: false
-    },
-    yAxis: {
-        min: minLat, max: maxLat,
-        show: false
-    },
-    visualMap: {
-        min: 2010,
-        max: 2025,
-        orient: "horizontal",
-        left: "center",
-        bottom: 20,
-        text: ["新", "旧"],
-        textStyle: { color: "#4A7C65" },
-        inRange: {
-            color: ["#D1E7DD", "#8CBFAA", "#6D9B8B", "#4A7C65"]
-        }
-    },
-    series: [
-        {
-            type: "line",
-            data: guizhouOutline,
-            lineStyle: { color: "#4A7C65", width: 2 },
-            symbol: "none",
-            z: 1
-        },
-        {
-            type: "scatter",
-            data: bridgePixels,
-            symbolSize: 2,
-            itemStyle: { opacity: 0.7 },
-            z: 2
-        }
-    ]
-});
+    function pointInRegion(lng, lat, rings) {
+        return rings.some((ring) => pointInRing(lng, lat, ring));
+    }
 
-window.addEventListener("resize", () => pixelChart.resize());
+    function extractRegions(geoJson) {
+        return geoJson.features.map((feature) => {
+            const geom = feature.geometry;
+            const polys = geom.type === "MultiPolygon"
+                ? geom.coordinates
+                : [geom.coordinates];
+
+            const rings = polys.map((poly) => simplifyRing(poly[0], 90));
+            const lngs = [];
+            const lats = [];
+
+            polys.forEach((poly) => {
+                poly[0].forEach(([lng, lat]) => {
+                    lngs.push(lng);
+                    lats.push(lat);
+                });
+            });
+
+            return {
+                name: feature.properties.name,
+                rings,
+                bbox: {
+                    minLng: Math.min(...lngs),
+                    maxLng: Math.max(...lngs),
+                    minLat: Math.min(...lats),
+                    maxLat: Math.max(...lats)
+                }
+            };
+        });
+    }
+
+    function generateBridgePixels(regions) {
+        const perRegion = Math.ceil(BRIDGE_TOTAL / regions.length);
+        const pixels = [];
+
+        regions.forEach((region) => {
+            const { bbox, rings } = region;
+            let count = 0;
+            let attempts = 0;
+            const maxAttempts = perRegion * 40;
+
+            while (count < perRegion && attempts < maxAttempts) {
+                attempts += 1;
+                const lng = bbox.minLng + Math.random() * (bbox.maxLng - bbox.minLng);
+                const lat = bbox.minLat + Math.random() * (bbox.maxLat - bbox.minLat);
+
+                if (pointInRegion(lng, lat, rings)) {
+                    pixels.push([lng, lat, 2010 + Math.floor(Math.random() * 16)]);
+                    count += 1;
+                }
+            }
+        });
+
+        while (pixels.length < BRIDGE_TOTAL) {
+            const sample = pixels[Math.floor(Math.random() * pixels.length)];
+            pixels.push([
+                sample[0] + (Math.random() - 0.5) * 0.015,
+                sample[1] + (Math.random() - 0.5) * 0.015,
+                2010 + Math.floor(Math.random() * 16)
+            ]);
+        }
+
+        return pixels.slice(0, BRIDGE_TOTAL);
+    }
+
+    function buildOption(bridgePixels) {
+        return {
+            backgroundColor: "transparent",
+            title: [
+                {
+                    text: "3.2万座桥的贵州",
+                    left: "center",
+                    top: 12,
+                    textStyle: { color: "#4A7C65", fontSize: 22, fontWeight: 700 }
+                },
+                {
+                    text: "每一座桥，都是大地上的一个像素",
+                    left: "center",
+                    top: 42,
+                    textStyle: { color: "#7A7A7A", fontSize: 12 }
+                }
+            ],
+            tooltip: {
+                trigger: "item",
+                formatter: (p) => {
+                    if (!p.value || p.value.length < 3) return "";
+                    return `建成年份：${p.value[2]}`;
+                }
+            },
+            geo: {
+                map: "guizhou",
+                roam: false,
+                center: [106.75, 26.75],
+                zoom: 1.18,
+                layoutCenter: ["50%", "54%"],
+                layoutSize: "88%",
+                itemStyle: {
+                    areaColor: "rgba(234, 240, 234, 0.55)",
+                    borderColor: "#4A7C65",
+                    borderWidth: 1.4,
+                    shadowColor: "rgba(74, 124, 101, 0.12)",
+                    shadowBlur: 8
+                },
+                emphasis: {
+                    disabled: true
+                },
+                label: { show: false },
+                silent: true
+            },
+            visualMap: {
+                min: 2010,
+                max: 2025,
+                dimension: 2,
+                orient: "horizontal",
+                left: "center",
+                bottom: 8,
+                itemWidth: 12,
+                itemHeight: 80,
+                text: ["新", "旧"],
+                textStyle: { color: "#4A7C65", fontSize: 11 },
+                inRange: {
+                    color: ["#D1E7DD", "#8CBFAA", "#6D9B8B", "#4A7C65"]
+                }
+            },
+            series: [
+                {
+                    name: "桥梁",
+                    type: "scatter",
+                    coordinateSystem: "geo",
+                    data: bridgePixels,
+                    symbolSize: 2.2,
+                    itemStyle: { opacity: 0.82 },
+                    z: 3
+                }
+            ]
+        };
+    }
+
+    function showError(msg) {
+        chart.setOption({
+            backgroundColor: "transparent",
+            title: {
+                text: msg,
+                left: "center",
+                top: "middle",
+                textStyle: { color: "#7a8b9a", fontSize: 13, fontWeight: "normal" }
+            }
+        });
+    }
+
+    function loadGeoJson() {
+        return new Promise((resolve, reject) => {
+            if (window.GUIZHOU_GEOJSON) {
+                resolve(window.GUIZHOU_GEOJSON);
+                return;
+            }
+            fetch("data/guizhou.json")
+                .then((r) => {
+                    if (!r.ok) throw new Error("fetch failed");
+                    return r.json();
+                })
+                .then(resolve)
+                .catch(reject);
+        });
+    }
+
+    function render(geoJson) {
+        echarts.registerMap("guizhou", geoJson);
+        const regions = extractRegions(geoJson);
+        const bridgePixels = generateBridgePixels(regions);
+        chart.setOption(buildOption(bridgePixels), true);
+        chart.resize();
+    }
+
+    function init() {
+        loadGeoJson()
+            .then(render)
+            .catch(() => showError("地图数据加载失败"));
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+    } else {
+        init();
+    }
+
+    window.addEventListener("resize", () => chart.resize());
+
+    window.addEventListener("load", () => {
+        setTimeout(() => chart.resize(), 100);
+        setTimeout(() => chart.resize(), 500);
+    });
+
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) chart.resize();
+            });
+        }, { threshold: 0.1 });
+        observer.observe(dom);
+    }
+
+})();

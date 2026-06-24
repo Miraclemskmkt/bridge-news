@@ -57,7 +57,7 @@
     ];
 
     const layout = {
-        font: { family: "Microsoft YaHei, PingFang SC, sans-serif" },
+        font: { family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
         barmode: "group",

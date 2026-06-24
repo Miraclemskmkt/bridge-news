@@ -82,7 +82,7 @@
         arrowcolor: C.gray,
         ax: 0,
         ay: i % 2 === 0 ? -55 : 55,
-        font: { color: C.ink, size: 9, family: "Microsoft YaHei, PingFang SC, serif" },
+        font: { color: C.ink, size: 9, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
         bgcolor: C.paper,
         bordercolor: C.line,
         borderwidth: 0.5
@@ -91,7 +91,7 @@
     const layout = {
         title: {
             text: "榕江「村超」里程碑演进与文旅综合收入气泡时间轴图",
-            font: { size: 14, color: C.ink, family: "Microsoft YaHei, PingFang SC, serif" },
+            font: { size: 14, color: C.ink, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
             x: 0.05,
             y: 0.97,
             xanchor: "left"

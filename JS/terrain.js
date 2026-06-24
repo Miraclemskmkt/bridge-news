@@ -126,7 +126,7 @@
                 text: "山的宿命 · 桥的答卷",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 18, color: GREEN_DARK, family: "Microsoft YaHei, PingFang SC, sans-serif" }
+                font: { size: 18, color: GREEN_DARK, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" }
             },
             {
                 x: 2,
@@ -136,7 +136,7 @@
                 text: "92.5% 山地丘陵 · 3.2万座桥 · 2800座隧道",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 11, color: GRAY, family: "Microsoft YaHei, PingFang SC, sans-serif" }
+                font: { size: 11, color: GRAY, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" }
             },
             {
                 x: 78,
@@ -146,7 +146,7 @@
                 text: "32000+ Bridges",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 13, color: GREEN_DARK, family: "Microsoft YaHei, PingFang SC, sans-serif" }
+                font: { size: 13, color: GREEN_DARK, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" }
             },
             {
                 x: 78,
@@ -156,7 +156,7 @@
                 text: "2800 Tunnels",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 13, color: GRAY, family: "Microsoft YaHei, PingFang SC, sans-serif" }
+                font: { size: 13, color: GRAY, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" }
             }
         ]
     };
