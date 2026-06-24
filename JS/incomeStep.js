@@ -8,6 +8,8 @@
     const dom = document.getElementById("incomeStep");
     if (!dom) return;
 
+    const T = window.BRIDGE_CHART || {};
+
     const C = {
         ink: "#4A7C65",
         pine: "#8CBFAA",
@@ -43,29 +45,22 @@
     ];
 
     const layout = {
-        title: {
-            text: "第二幕：桥见经济 · 2016—2025年农村居民人均收入增长趋势<br><span style='font-size:12px;color:#7A7A7A;'>见证路网拓扑重构后，十一大民族自治县同全省平均水平的「齐头并进」与红利收敛</span>",
-            x: 0.03,
-            y: 0.98,
-            xanchor: "left",
-            font: { size: 15, color: C.ink, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" }
-        },
         font: {
-            size: 12,
+            size: T.axis || 11,
             color: C.gray,
             family: "Noto Serif SC, Source Han Serif SC, SimSun, serif"
         },
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
-        height: 520,
-        margin: { l: 55, r: 50, t: 100, b: 50 },
+        height: 400,
+        margin: { l: 52, r: 48, t: 36, b: 44 },
         legend: {
             orientation: "h",
             yanchor: "bottom",
             y: 1.02,
             xanchor: "right",
             x: 1,
-            font: { size: 11 }
+            font: { size: T.legend || 11 }
         },
         xaxis: {
             type: "linear",
@@ -78,7 +73,7 @@
             linewidth: 0.8,
             ticks: "outside",
             tickcolor: C.gray,
-            tickfont: { size: 10 }
+            tickfont: { size: T.axisSm || 10 }
         },
         yaxis: {
             showgrid: true,
@@ -91,7 +86,7 @@
             },
             ticks: "outside",
             tickcolor: C.gray,
-            tickfont: { size: 10 }
+            tickfont: { size: T.axisSm || 10 }
         },
         annotations: [
             {

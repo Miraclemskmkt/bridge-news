@@ -8,6 +8,7 @@
     if (!dom) return;
 
     const chart = echarts.init(dom);
+    const T = window.BRIDGE_CHART || {};
     const labelLayout = window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" };
 
     const SOURCE_NOTE =
@@ -42,8 +43,16 @@
         ]);
     }
 
+    const TIER_SHORT = { extreme: "极高", high: "高", medium: "中", low: "低" };
+
+    function regionTooltip(row, rank) {
+        const auto = row.autonomous ? " · 自治州" : "";
+        return `${row.short}${auto}  ${row.display}  ${TIER_SHORT[row.tier]}  第${rank}位`;
+    }
+
     function buildOption() {
         const barOrder = [...regions].sort((a, b) => b.value - a.value);
+        const rankMap = Object.fromEntries(barOrder.map((r, i) => [r.short, i + 1]));
 
         const mapData = regions.map((r) => ({
             name: r.mapName,
@@ -58,34 +67,38 @@
         return {
             backgroundColor: "transparent",
             tooltip: {
-                trigger: "item",
-                backgroundColor: "rgba(255,255,255,0.94)",
+                trigger: "axis",
+                axisPointer: {
+                    type: "shadow",
+                    shadowStyle: { color: "rgba(74, 124, 101, 0.06)" }
+                },
+                confine: true,
+                backgroundColor: "rgba(255,255,255,0.97)",
                 borderColor: "rgba(74, 124, 101, 0.25)",
-                textStyle: { color: "#4A7C65", fontSize: 11 },
-                formatter: (p) => {
-                    if (p.seriesType === "bar") {
-                        const row = regions.find((r) => r.short === p.name);
-                        if (!row) return p.name;
-                        return `${row.short}<br/>桥隧比：${row.display}<br/>${TIERS[row.tier].label}`;
-                    }
-                    if (p.seriesType === "map") {
-                        const row = regions.find((r) => r.mapName === p.name);
-                        if (!row) return p.name;
-                        return `${row.short}<br/>桥隧比：${row.display}`;
-                    }
-                    return p.name;
+                borderWidth: 0.5,
+                padding: [2, 6],
+                className: "bridge-density-tip",
+                extraCssText: "border-radius:2px;box-shadow:0 1px 4px rgba(74,124,101,0.1);",
+                textStyle: { color: "#4A7C65", fontSize: 10, lineHeight: 14 },
+                formatter: (items) => {
+                    if (!items || !items.length) return null;
+                    const p = items[0];
+                    if (p.seriesType !== "bar") return null;
+                    const row = regions.find((r) => r.short === p.name);
+                    if (!row) return null;
+                    return regionTooltip(row, rankMap[row.short]);
                 }
             },
             legend: {
                 show: true,
                 orient: "horizontal",
                 left: 4,
-                right: "54%",
-                bottom: 36,
-                itemWidth: 10,
-                itemHeight: 7,
-                itemGap: 6,
-                textStyle: { color: "#7A7A7A", fontSize: 8 },
+                right: "50%",
+                bottom: 28,
+                itemWidth: 12,
+                itemHeight: 8,
+                itemGap: 8,
+                textStyle: { color: "#7A7A7A", fontSize: T.legend || 11 },
                 data: ["极高", "高", "中", "低"].map((k, i) => {
                     const keys = ["extreme", "high", "medium", "low"];
                     return {
@@ -101,21 +114,24 @@
             },
             grid: {
                 left: 2,
-                right: "54%",
-                top: 6,
-                bottom: 58,
+                right: "50%",
+                top: 4,
+                bottom: 48,
                 containLabel: true
             },
             xAxis: {
                 type: "value",
                 max: 100,
+                name: "%",
+                nameLocation: "end",
+                nameGap: 6,
+                nameTextStyle: { color: "#B8B8B8", fontSize: T.axisSm || 10 },
                 axisLine: { show: false },
                 axisTick: { show: false },
                 splitLine: { show: false },
                 axisLabel: {
                     color: "#B8B8B8",
-                    fontSize: 8,
-                    formatter: "{value}%",
+                    fontSize: T.axisSm || 10,
                     margin: 4
                 }
             },
@@ -127,9 +143,10 @@
                 axisTick: { show: false },
                 axisLabel: {
                     color: "#7A7A7A",
-                    fontSize: 8,
+                    fontSize: T.axis || 11,
+                    fontWeight: 600,
                     margin: 4,
-                    width: 52,
+                    width: 58,
                     overflow: "truncate"
                 }
             },
@@ -137,6 +154,7 @@
                 {
                     name: "桥隧比",
                     type: "bar",
+                    tooltip: { show: true },
                     data: barOrder.map((r) => ({
                         name: r.short,
                         value: r.value,
@@ -148,8 +166,8 @@
                             shadowOffsetX: 1
                         }
                     })),
-                    barWidth: 10,
-                    barCategoryGap: "38%",
+                    barWidth: 11,
+                    barCategoryGap: "34%",
                     labelLayout,
                     label: {
                         show: true,
@@ -165,8 +183,8 @@
                             return `{${tone}|${row.display}}`;
                         },
                         rich: {
-                            l: { color: "#F5F2E8", fontSize: 8, fontWeight: 600 },
-                            d: { color: "#4A7C65", fontSize: 8, fontWeight: 600 },
+                            l: { color: "#F5F2E8", fontSize: T.dataSm || 11, fontWeight: 600 },
+                            d: { color: "#4A7C65", fontSize: T.dataSm || 11, fontWeight: 600 },
                             b: {
                                 color: "#4A7C65",
                                 fontSize: 11,
@@ -182,10 +200,11 @@
                     type: "map",
                     map: "guizhou",
                     roam: false,
-                    left: "54%",
-                    top: 10,
-                    width: "42%",
-                    height: "58%",
+                    silent: false,
+                    tooltip: { show: false },
+                    layoutCenter: ["75%", "44%"],
+                    layoutSize: "48%",
+                    aspectScale: 0.86,
                     data: mapData,
                     label: { show: false },
                     itemStyle: {
@@ -194,7 +213,23 @@
                         borderWidth: 0.8
                     },
                     emphasis: {
-                        disabled: true
+                        focus: "self",
+                        label: {
+                            show: true,
+                            color: "#4A7C65",
+                            fontSize: T.axisSm || 10,
+                            fontWeight: 700,
+                            formatter: (params) => {
+                                const row = regions.find((r) => r.mapName === params.name);
+                                return row ? `${row.short} ${row.display}` : params.name;
+                            }
+                        },
+                        itemStyle: {
+                            borderColor: "#4A7C65",
+                            borderWidth: 1.6,
+                            shadowBlur: 6,
+                            shadowColor: "rgba(74, 124, 101, 0.25)"
+                        }
                     },
                     z: 1
                 }
@@ -202,8 +237,19 @@
             graphic: [
                 {
                     type: "text",
+                    left: "52%",
+                    top: "6%",
+                    style: {
+                        text: "市州桥隧比分级示意",
+                        fill: "#7A7A7A",
+                        font: `600 ${T.axisSm || 10}px Noto Serif SC, SimSun, serif`,
+                        textAlign: "left"
+                    }
+                },
+                {
+                    type: "text",
                     left: 4,
-                    right: "54%",
+                    right: "50%",
                     bottom: 2,
                     style: {
                         text: SOURCE_NOTE,

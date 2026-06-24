@@ -8,6 +8,7 @@
     if (!dom) return;
 
     const chart = echarts.init(dom);
+    const T = window.BRIDGE_CHART || {};
 
     const guizhou = { name: "贵州", coord: [106.71, 26.57] };
 
@@ -51,7 +52,7 @@
                 trigger: "item",
                 backgroundColor: "rgba(255,255,255,0.94)",
                 borderColor: "rgba(74, 124, 101, 0.25)",
-                textStyle: { color: "#4A7C65", fontSize: 11 },
+                textStyle: { color: "#4A7C65", fontSize: T.tooltip || 13 },
                 formatter: (p) => {
                     if (p.seriesType === "lines") return p.name;
                     if (p.name === guizhou.name) return "贵州 · 桥梁技术输出地";
@@ -130,7 +131,7 @@
                         show: true,
                         formatter: "{b}",
                         color: "#4A7C65",
-                        fontSize: 9,
+                        fontSize: T.axis || 11,
                         fontWeight: 600,
                         distance: 8,
                         backgroundColor: "rgba(245, 242, 232, 0.85)",

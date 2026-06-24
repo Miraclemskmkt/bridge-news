@@ -9,6 +9,7 @@
     if (!dom) return;
 
     const chart = echarts.init(dom);
+    const T = window.BRIDGE_CHART || {};
 
     const nodes = [
         { name: "花江峡谷大桥", itemStyle: { color: "#4a8c78" } },
@@ -55,7 +56,13 @@
             trigger: "item",
             backgroundColor: "rgba(255,255,255,0.92)",
             borderColor: "rgba(0,0,0,0.08)",
-            textStyle: { color: "#1c2a24", fontSize: 11 }
+            textStyle: { color: "#1c2a24", fontSize: T.tooltip || 13 },
+            formatter: (p) => {
+                if (p.dataType === "edge") {
+                    return `${p.data.source} → ${p.data.target}<br/>流量：${p.value} 亿元`;
+                }
+                return p.name;
+            }
         },
         series: [{
             type: "sankey",
@@ -64,14 +71,14 @@
             right: "2%",
             top: 8,
             bottom: 8,
-            nodeWidth: 12,
-            nodeGap: 10,
+            nodeWidth: 14,
+            nodeGap: 12,
             draggable: false,
             emphasis: { focus: "adjacency" },
             label: {
                 color: "#1c2a24",
-                fontSize: 8,
-                fontWeight: "bold"
+                fontSize: T.axisSm || 10,
+                fontWeight: 600
             },
             labelLayout: window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" },
             lineStyle: {

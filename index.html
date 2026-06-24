@@ -74,7 +74,7 @@
 
 <section class="article-section" id="section-prologue">
 
-    <p class="chart-caption">▲ 贵州地形剖面与桥隧密度叠加</p>
+    <p class="chart-caption">▲ 贵州地形剖面 · 桥隧分布密度</p>
     <div id="terrainProfile" class="chart-large"></div>
 
 </section>
@@ -180,45 +180,10 @@
         <div class="chart-container chart-container--dumbbell" id="incomeDumbbell"></div>
     </div>
 
-    <div class="glass-card chart-card">
-        <p class="chart-card-caption">▲ 桥梁农作物出口路线图</p>
-        <div class="map-svg-container">
-            <svg viewBox="0 0 360 440" xmlns="http://www.w3.org/2000/svg" aria-label="桥梁农作物出口路线图">
-                <defs>
-                    <filter id="exportRouteHanddrawn"><feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/></filter>
-                    <marker id="exportRouteArrowGold" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 L2,3 Z" fill="#bf8c60"/></marker>
-                    <marker id="exportRouteArrowBlue" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 L2,3 Z" fill="#3a5f7a"/></marker>
-                    <marker id="exportRouteArrowGreen" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 L2,3 Z" fill="#4a8c78"/></marker>
-                </defs>
-                <rect width="360" height="440" rx="12" fill="none"/>
-                <path d="M90,85 Q140,50 200,60 Q260,55 280,80 Q310,120 300,170 Q295,220 280,260 Q260,300 220,340 Q180,370 140,360 Q100,340 70,300 Q45,250 50,190 Q48,140 70,105 Z" fill="rgba(74,140,120,0.08)" stroke="#4a8c78" stroke-width="2.5" stroke-dasharray="8 4" stroke-linecap="round" filter="url(#exportRouteHanddrawn)"/>
-                <text x="180" y="200" text-anchor="middle" class="map-label" fill="#4a8c78" font-size="0.65rem" font-weight="700" opacity="0.7">贵州</text>
-                <circle cx="115" cy="195" r="5" fill="#c97d55" stroke="#fff" stroke-width="2"/>
-                <text x="122" y="192" class="map-label-sm" fill="#3d5048" font-weight="700">贞丰·花椒</text>
-                <circle cx="155" cy="175" r="5" fill="#c97d55" stroke="#fff" stroke-width="2"/>
-                <text x="162" y="172" class="map-label-sm" fill="#3d5048" font-weight="700">关岭·肉牛</text>
-                <circle cx="130" cy="135" r="4.5" fill="#bf8c60" stroke="#fff" stroke-width="1.8"/>
-                <text x="137" y="132" class="map-label-sm" fill="#3d5048" font-weight="600">六盘水·大豆油</text>
-                <circle cx="200" cy="155" r="4" fill="#bf8c60" stroke="#fff" stroke-width="1.5"/>
-                <text x="207" y="152" class="map-label-sm" fill="#3d5048" font-weight="600">遵义·茶叶</text>
-                <rect x="148" y="200" width="70" height="14" rx="6" fill="rgba(58,95,122,0.12)" stroke="#3a5f7a" stroke-width="1.2"/>
-                <text x="183" y="210" text-anchor="middle" class="map-label-sm" fill="#3a5f7a" font-weight="700">花江峡谷大桥</text>
-                <line x1="155" y1="188" x2="170" y2="200" stroke="#3a5f7a" stroke-width="1" stroke-dasharray="3 2"/>
-                <rect x="95" y="145" width="60" height="13" rx="6" fill="rgba(58,95,122,0.1)" stroke="#3a5f7a" stroke-width="1"/>
-                <text x="125" y="154" text-anchor="middle" class="map-label-sm" fill="#3a5f7a" font-weight="700">北盘江大桥</text>
-                <line x1="130" y1="140" x2="125" y2="145" stroke="#3a5f7a" stroke-width="0.8" stroke-dasharray="2 2"/>
-                <path d="M170,200 Q220,240 280,280 Q310,300 330,330" stroke="#bf8c60" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="6 3" marker-end="url(#exportRouteArrowGold)"/>
-                <text x="290" y="310" class="map-label-sm" fill="#bf8c60" font-weight="700">粤港澳大湾区</text>
-                <path d="M125,150 Q160,120 220,90 Q260,70 300,50" stroke="#3a5f7a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="6 3" marker-end="url(#exportRouteArrowBlue)"/>
-                <text x="250" y="58" class="map-label-sm" fill="#3a5f7a" font-weight="700">缅甸</text>
-                <path d="M200,160 Q240,160 280,130 Q310,110 335,80" stroke="#4a8c78" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-dasharray="6 3" marker-end="url(#exportRouteArrowGreen)"/>
-                <text x="290" y="85" class="map-label-sm" fill="#4a8c78" font-weight="700">东南亚</text>
-                <rect x="18" y="360" width="120" height="55" rx="8" fill="none" stroke="rgba(0,0,0,0.08)"/>
-                <circle cx="30" cy="378" r="3.5" fill="#c97d55"/><text x="40" y="381" class="map-label-sm">产地</text>
-                <rect x="30" y="390" width="28" height="8" rx="4" fill="rgba(58,95,122,0.12)" stroke="#3a5f7a" stroke-width="1"/><text x="64" y="398" class="map-label-sm">桥梁节点</text>
-                <line x1="28" y1="408" x2="52" y2="408" stroke="#bf8c60" stroke-width="2" stroke-dasharray="4 2"/><text x="58" y="411" class="map-label-sm">出口路线</text>
-            </svg>
-        </div>
+    <div class="glass-card chart-card chart-card--flow">
+        <p class="chart-card-caption">▲ 出山入海货物流向图</p>
+        <p class="chart-sub-caption">货源起点 → 省内中转 → 出海终点（线宽 = 货物流量）</p>
+        <div class="chart-container chart-container--flow" id="flowMap"></div>
     </div>
 
     <div class="glass-card chart-card">
@@ -255,6 +220,7 @@
     </div>
 
     <p class="chart-caption">▲ 桥—民族村寨连线图</p>
+    <p class="chart-sub-caption" style="margin:-6px 0 8px;font-size:0.62rem;color:#7A7A7A;line-height:1.5">连线粗细按年客流分级：百万级 / 数十万级 / 十万级（依据省文旅厅景区分级标准）</p>
     <div id="bridgeVillage" class="chart-large"></div>
 
     <div class="glass-card chart-card">
@@ -288,7 +254,79 @@
     </div>
 
     <p class="chart-caption">▲ 数字孪生桥梁蓝图</p>
-    <div id="digitalTwin" class="chart-large"></div>
+    <div id="digitalTwin" class="twin-blueprint">
+        <div class="twin-frame">
+            <span class="twin-corner twin-corner--tl" aria-hidden="true"></span>
+            <span class="twin-corner twin-corner--tr" aria-hidden="true"></span>
+            <span class="twin-corner twin-corner--bl" aria-hidden="true"></span>
+            <span class="twin-corner twin-corner--br" aria-hidden="true"></span>
+
+            <header class="twin-head">
+                <h3 class="twin-title">数字孪生·云端桥梁智能体检系统</h3>
+                <p class="twin-subtitle">全省126座长大桥梁全域数字化监测 | 花江峡谷大桥示范工程</p>
+                <p class="twin-meta">桥面距谷底 <strong>625m</strong> · 主桥跨径 <strong>1420m</strong> · 峡谷极限监测风速 <strong>14 级</strong></p>
+            </header>
+
+            <div class="twin-canvas">
+                <img class="twin-bg-img" src="images/喀斯特桥梁剖面地形图.png" alt="" aria-hidden="true" decoding="async">
+                <div class="twin-grid">
+                    <div class="twin-col twin-col--left">
+                        <div id="twinBridgeMap" class="twin-bridge-map"></div>
+                    </div>
+                    <div class="twin-col twin-col--panels">
+                        <div class="twin-panels-wrap">
+                            <div class="twin-panel-box">
+                                <div class="twin-platform">
+                                    <p class="twin-platform-title">数字孪生云端中台</p>
+                                    <div class="twin-layer twin-layer--sense">
+                                        <strong>全域感知层</strong>
+                                        <span>30 余种传感器、1.4 万台监测设备</span>
+                                        <div class="twin-layer-bar" style="--bar-w: 88%"></div>
+                                    </div>
+                                    <div class="twin-flow-arrow" aria-hidden="true">▼</div>
+                                    <div class="twin-layer twin-layer--trans">
+                                        <strong>数据传输与中台</strong>
+                                        <span>工业光纤 + 无线 Mesh 双链路</span>
+                                        <span class="twin-layer-sub">月采集 16 亿条 · 提炼 3000 万特征</span>
+                                        <div class="twin-layer-bar" style="--bar-w: 72%"></div>
+                                    </div>
+                                    <div class="twin-flow-arrow" aria-hidden="true">▼</div>
+                                    <div class="twin-layer twin-layer--decide">
+                                        <strong>数字孪生分析决策层</strong>
+                                        <span>AI 病害预判 · 有限元仿真 · 寿命推演</span>
+                                        <div class="twin-layer-bar" style="--bar-w: 65%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="twin-panel-box">
+                                <ul class="twin-values">
+                                    <li class="twin-value-card twin-value-card--1">
+                                        <strong>安全预警价值</strong>
+                                        <span>提前 3 小时预判风振风险</span>
+                                    </li>
+                                    <li class="twin-value-card twin-value-card--2">
+                                        <strong>运维降本降碳</strong>
+                                        <span>养护阶段碳足迹降低 78%</span>
+                                    </li>
+                                    <li class="twin-value-card twin-value-card--3">
+                                        <strong>全域覆盖规模</strong>
+                                        <span>全省 126 座长大桥梁接入</span>
+                                    </li>
+                                    <li class="twin-value-card twin-value-card--4">
+                                        <strong>全生命周期增益</strong>
+                                        <span>综合碳排下降 34%</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="twin-seal" aria-hidden="true">桥</div>
+            </div>
+
+            <p class="twin-source">来源：贵州省交通运输厅花江峡谷大桥通车发布会、人民日报客户端</p>
+        </div>
+    </div>
 
     <p class="chart-caption">▲ 山区大跨桥梁 50 年全生命周期碳足迹对比</p>
     <div id="carbonLife" class="chart-large chart-container--carbon"></div>
@@ -304,9 +342,9 @@
     <div class="glass-card chart-card chart-card--maintenance">
         <p class="chart-card-caption">▲ 桥梁养护资金 21.24 亿元投向</p>
         <div class="maintenance-charts">
-            <p class="chart-sub-caption">养护类型玫瑰图</p>
+            <p class="chart-sub-caption">2024 年省级养护 21.24 亿元构成</p>
             <div class="chart-container chart-container--maintenance-rose" id="maintenanceRose"></div>
-            <p class="chart-sub-caption">市州分布 · 桥型分配</p>
+            <p class="chart-sub-caption">配套桥梁养护政策资金</p>
             <div class="chart-container chart-container--maintenance-tree" id="maintenanceTree"></div>
         </div>
     </div>
@@ -336,6 +374,7 @@
 
     <p class="chart-caption">▲ 民族交融关系网络</p>
     <div id="ethnicChord" class="chart-large"></div>
+    <p class="chart-note">九市州人口流动弦图 · 节点按世居民族着色 · 深色连线为族际交融通道</p>
 
     <p class="chart-caption">▲ 民族地区高质量发展雷达图</p>
     <div id="developmentRadar" class="chart-large"></div>
@@ -455,6 +494,7 @@
 
 <script src="JS/microEconomy.js"></script>
 <script src="JS/dumbbell.js"></script>
+<script src="JS/flow.js"></script>
 <script src="JS/sankey.js"></script>
 <script src="JS/incomeStep.js"></script>
 

@@ -2,8 +2,13 @@
 // 市州十年通车里程变化（9宫格小多图）
 // =====================================
 
+(function () {
+
 const smallMultiplesDom = document.getElementById("smallMultiples");
+if (!smallMultiplesDom) return;
+
 const smallMultiplesChart = echarts.init(smallMultiplesDom);
+const T = window.BRIDGE_CHART || {};
 
 const cities = [
     "贵阳", "遵义", "六盘水", "安顺", "毕节",
@@ -15,15 +20,15 @@ const years = ["2015", "2017", "2019", "2021", "2023", "2025"];
 const baseMileage = [420, 380, 210, 260, 340, 290, 310, 300, 280];
 
 const gridPositions = [
-    { left: "4%", top: "14%", width: "28%", height: "22%" },
-    { left: "36%", top: "14%", width: "28%", height: "22%" },
-    { left: "68%", top: "14%", width: "28%", height: "22%" },
-    { left: "4%", top: "40%", width: "28%", height: "22%" },
-    { left: "36%", top: "40%", width: "28%", height: "22%" },
-    { left: "68%", top: "40%", width: "28%", height: "22%" },
-    { left: "4%", top: "66%", width: "28%", height: "22%" },
-    { left: "36%", top: "66%", width: "28%", height: "22%" },
-    { left: "68%", top: "66%", width: "28%", height: "22%" }
+    { left: "4%", top: "8%", width: "28%", height: "24%" },
+    { left: "36%", top: "8%", width: "28%", height: "24%" },
+    { left: "68%", top: "8%", width: "28%", height: "24%" },
+    { left: "4%", top: "36%", width: "28%", height: "24%" },
+    { left: "36%", top: "36%", width: "28%", height: "24%" },
+    { left: "68%", top: "36%", width: "28%", height: "24%" },
+    { left: "4%", top: "64%", width: "28%", height: "24%" },
+    { left: "36%", top: "64%", width: "28%", height: "24%" },
+    { left: "68%", top: "64%", width: "28%", height: "24%" }
 ];
 
 const grids = [];
@@ -46,7 +51,11 @@ cities.forEach((city, i) => {
         type: "category",
         gridIndex: i,
         data: years,
-        axisLabel: { fontSize: 9, color: "#7A7A7A" },
+        axisLabel: {
+            fontSize: 10,
+            color: "#7A7A7A",
+            formatter: (v) => `${v}年`
+        },
         axisLine: { lineStyle: { color: "#B8B8B8" } }
     });
 
@@ -54,9 +63,12 @@ cities.forEach((city, i) => {
         type: "value",
         gridIndex: i,
         name: city,
-        nameTextStyle: { color: "#4A7C65", fontSize: 11, fontWeight: "bold" },
+        nameTextStyle: { color: "#4A7C65", fontSize: 12, fontWeight: "bold" },
         nameLocation: "end",
-        axisLabel: { fontSize: 9, color: "#7A7A7A" },
+        axisLabel: {
+            fontSize: 10,
+            color: "#7A7A7A"
+        },
         splitLine: { lineStyle: { color: "rgba(140,191,170,0.12)" } }
     });
 
@@ -86,21 +98,20 @@ cities.forEach((city, i) => {
 
 smallMultiplesChart.setOption({
     backgroundColor: "transparent",
-    title: [
-        {
-            text: "市州十年通车里程变化",
-            left: "center",
-            top: 20,
-            textStyle: { color: "#4A7C65", fontSize: 28 }
-        },
-        {
-            text: "9市州高速里程小多图（公里）",
-            left: "center",
-            top: 58,
-            textStyle: { color: "#7A7A7A", fontSize: 14 }
+    tooltip: {
+        trigger: "axis",
+        textStyle: { fontSize: T.tooltipSm || 12, color: "#4A7C65" },
+        formatter: (items) => {
+            if (!items || !items.length) return "";
+            const idx = items[0].axisIndex;
+            const city = cities[idx];
+            let html = `<strong>${city}</strong> · ${items[0].axisValue}年<br/>`;
+            items.forEach((it) => {
+                html += `通车里程：${it.value} 公里<br/>`;
+            });
+            return html;
         }
-    ],
-    tooltip: { trigger: "axis" },
+    },
     grid: grids,
     xAxis: xAxes,
     yAxis: yAxes,
@@ -108,3 +119,5 @@ smallMultiplesChart.setOption({
 });
 
 window.addEventListener("resize", () => smallMultiplesChart.resize());
+
+})();

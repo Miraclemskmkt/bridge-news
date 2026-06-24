@@ -157,50 +157,6 @@ const transportOption = {
 
     backgroundColor:"transparent",
 
-    title:[
-
-        {
-
-            text:"贵州交通进化年轮",
-
-            left:"center",
-
-            top:20,
-
-            textStyle:{
-
-                color:"#4A7C65",
-
-                fontSize:30,
-
-                fontWeight:"bold"
-
-            }
-
-        },
-
-        {
-
-            text:"2015 县县通高速 → 2025 市市通高铁",
-
-            left:"center",
-
-            top:60,
-
-            textStyle:{
-
-                color:"#7A7A7A",
-
-                fontSize:15,
-
-                fontWeight:"normal"
-
-            }
-
-        }
-
-    ],
-
     graphic:[
 
         // 中心

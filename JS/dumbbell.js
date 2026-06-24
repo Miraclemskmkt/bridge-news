@@ -8,6 +8,8 @@
     const dom = document.getElementById("incomeDumbbell");
     if (!dom) return;
 
+    const T = window.BRIDGE_CHART || {};
+
     const C = {
         pine: "#8CBFAA",
         ink: "#4A7C65",
@@ -44,7 +46,7 @@
             text: [`${main}<br>${sub}`],
             textposition: textPos,
             textfont: {
-                size: isAfter ? 12 : 11,
+                size: isAfter ? (T.dataSm || 12) : (T.axis || 11),
                 color: isAfter ? C.ink : C.gray,
                 family: "Noto Serif SC, Source Han Serif SC, SimSun, serif"
             },
@@ -73,7 +75,7 @@
         showgrid: true,
         gridcolor: C.grid,
         linecolor: C.line,
-        tickfont: { color: C.gray, size: 10 },
+        tickfont: { color: C.gray, size: T.axisSm || 10 },
         zeroline: false
     };
 
@@ -86,17 +88,10 @@
     };
 
     const layout = {
-        title: {
-            text: "第二幕：桥见经济 · 「一个人的账本」跨越式变迁<br><span style='font-size:12px;color:#7A7A7A;'>从微观账本透视世界级高桥带来的个体财富增收与时空压缩效益</span>",
-            x: 0.03,
-            y: 0.98,
-            xanchor: "left",
-            font: { size: 15, color: C.ink, family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" }
-        },
         paper_bgcolor: "rgba(0,0,0,0)",
         plot_bgcolor: "rgba(0,0,0,0)",
         height: 680,
-        margin: { t: 110, b: 40, l: 40, r: 20 },
+        margin: { t: 72, b: 40, l: 40, r: 20 },
         font: { family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
         grid: {
             rows: 3,
@@ -105,11 +100,23 @@
             roworder: "top to bottom",
             ygap: 0.14
         },
-        xaxis: { ...axisStyle, range: [300, 2500] },
+        xaxis: {
+            ...axisStyle,
+            range: [300, 2500],
+            title: { text: "元", font: { size: 10, color: C.gray }, standoff: 8 }
+        },
         yaxis: { ...yAxisStyle, anchor: "x" },
-        xaxis2: { ...axisStyle, range: [10000, 17000] },
+        xaxis2: {
+            ...axisStyle,
+            range: [10000, 17000],
+            title: { text: "元", font: { size: 10, color: C.gray }, standoff: 8 }
+        },
         yaxis2: { ...yAxisStyle, anchor: "x2" },
-        xaxis3: { ...axisStyle, range: [-25, 155] },
+        xaxis3: {
+            ...axisStyle,
+            range: [-25, 155],
+            title: { text: "分钟", font: { size: 10, color: C.gray }, standoff: 8 }
+        },
         yaxis3: { ...yAxisStyle, anchor: "x3" },
         annotations: [
             {
@@ -117,6 +124,7 @@
                 xref: "x domain", yref: "y domain",
                 x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
                 showarrow: false,
+                cliponaxis: false,
                 font: { size: 12, color: C.ink }
             },
             {
@@ -131,6 +139,7 @@
                 xref: "x2 domain", yref: "y2 domain",
                 x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
                 showarrow: false,
+                cliponaxis: false,
                 font: { size: 12, color: C.ink }
             },
             {
@@ -145,6 +154,7 @@
                 xref: "x3 domain", yref: "y3 domain",
                 x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
                 showarrow: false,
+                cliponaxis: false,
                 font: { size: 12, color: C.ink }
             },
             {

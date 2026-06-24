@@ -110,7 +110,7 @@
                 trigger: "item",
                 formatter: (p) => {
                     if (!p.value || p.value.length < 3) return "";
-                    return `建成年份：${p.value[2]}`;
+                    return `建成年份：${p.value[2]} 年`;
                 }
             },
             geo: {
@@ -142,7 +142,7 @@
                 top: "middle",
                 itemWidth: 10,
                 itemHeight: 88,
-                text: ["新", "旧"],
+                text: ["2025年", "2010年"],
                 textGap: 6,
                 textStyle: { color: "#4A7C65", fontSize: 10 },
                 inRange: {

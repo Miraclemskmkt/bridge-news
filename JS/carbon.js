@@ -8,6 +8,7 @@
     if (!dom) return;
 
     const chart = echarts.init(dom);
+    const T = window.BRIDGE_CHART || {};
     const labelLayout = window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" };
 
     const bridges = [
@@ -18,10 +19,17 @@
 
     const phases = [
         { name: "建材生产", color: "#4A7C65", values: [2304, 1958, 1958] },
-        { name: "现场施工", color: "#6D9B8B", values: [416, 372, 372] },
-        { name: "运营养护", color: "#8CBFAA", values: [384, 326, 116] },
-        { name: "拆除回收", color: "#B8D4C8", values: [96, 64, 54] }
+        { name: "现场施工", color: "#5E8A78", values: [416, 372, 372] },
+        { name: "运营养护", color: "#7AA892", values: [384, 326, 116] },
+        { name: "拆除回收", color: "#A3C4B5", values: [96, 64, 54] }
     ];
+
+    function phaseBarColor(color) {
+        return new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: color },
+            { offset: 1, color: color + "d9" }
+        ]);
+    }
 
     chart.setOption({
         backgroundColor: "transparent",
@@ -30,7 +38,7 @@
             axisPointer: { type: "shadow" },
             backgroundColor: "rgba(255,255,255,0.94)",
             borderColor: "rgba(74, 124, 101, 0.25)",
-            textStyle: { color: "#4A7C65", fontSize: 11 },
+            textStyle: { color: "#4A7C65", fontSize: T.tooltip || 13 },
             formatter: (items) => {
                 if (!items || !items.length) return "";
                 const idx = items[0].dataIndex;
@@ -47,11 +55,15 @@
         },
         legend: {
             bottom: 4,
-            itemWidth: 10,
-            itemHeight: 8,
-            itemGap: 8,
-            textStyle: { color: "#7A7A7A", fontSize: 9 },
-            data: phases.map((p) => p.name)
+            itemWidth: 12,
+            itemHeight: 10,
+            itemGap: 10,
+            textStyle: { color: "#7A7A7A", fontSize: T.legend || 11 },
+            data: phases.map((p) => ({
+                name: p.name,
+                icon: "roundRect",
+                itemStyle: { color: p.color, borderColor: p.color }
+            }))
         },
         grid: {
             left: 8,
@@ -67,8 +79,9 @@
             axisTick: { show: false },
             axisLabel: {
                 color: "#4A7C65",
-                fontSize: 8,
-                lineHeight: 13,
+                fontSize: T.axis || 11,
+                fontWeight: 600,
+                lineHeight: 15,
                 interval: 0,
                 margin: 8
             }
@@ -76,7 +89,7 @@
         yAxis: {
             type: "value",
             name: "千吨 CO₂e",
-            nameTextStyle: { color: "#7A7A7A", fontSize: 9, padding: [0, 0, 0, 4] },
+            nameTextStyle: { color: "#7A7A7A", fontSize: T.axis || 11, padding: [0, 0, 0, 4] },
             axisLine: { show: false },
             axisTick: { show: false },
             splitLine: {
@@ -84,21 +97,21 @@
             },
             axisLabel: {
                 color: "#B8B8B8",
-                fontSize: 8
+                fontSize: T.axisSm || 10
             }
         },
         series: phases.map((phase) => ({
             name: phase.name,
             type: "bar",
-            barMaxWidth: 14,
+            color: phase.color,
+            barMaxWidth: 16,
             barGap: "18%",
             data: phase.values.map((v) => ({
                 value: v,
                 itemStyle: {
-                    color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                        { offset: 0, color: phase.color },
-                        { offset: 1, color: phase.color + "aa" }
-                    ]),
+                    color: phaseBarColor(phase.color),
+                    borderColor: phase.color,
+                    borderWidth: 0.5,
                     borderRadius: [4, 4, 0, 0]
                 }
             })),
@@ -106,9 +119,9 @@
             label: {
                 show: true,
                 position: "top",
-                fontSize: 7,
+                fontSize: T.dataSm || 11,
                 color: "#4A7C65",
-                formatter: (p) => (p.value >= 200 ? p.value : "")
+                formatter: (p) => (p.value >= 200 ? `${p.value} 千吨` : ""),
             },
             emphasis: { focus: "series" }
         })),
@@ -117,9 +130,9 @@
             left: `${20 + i * 30}%`,
             top: 10,
             style: {
-                text: `合计 ${b.total}`,
+                text: `合计 ${b.total} 千吨`,
                 fill: "#4A7C65",
-                font: "bold 9px Noto Serif SC, SimSun, serif",
+                font: `bold ${T.dataSm || 11}px Noto Serif SC, SimSun, serif`,
                 textAlign: "center"
             }
         }))

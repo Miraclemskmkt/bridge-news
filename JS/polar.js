@@ -9,6 +9,7 @@ const polarDom = document.getElementById("chartPolar");
 if (!polarDom) return;
 
 const polarChart = echarts.init(polarDom);
+const T = window.BRIDGE_CHART || {};
 
 const cities = [
     "贵阳", "遵义", "六盘水", "安顺", "毕节",
@@ -24,12 +25,22 @@ polarChart.setOption({
         trigger: "axis",
         backgroundColor: "rgba(255,255,255,0.9)",
         borderColor: "rgba(0,0,0,0.07)",
-        textStyle: { color: "#1c2a24", fontSize: 9 }
+        textStyle: { color: "#1c2a24", fontSize: T.tooltipSm || 12 },
+        formatter: (items) => {
+            if (!items || !items.length) return "";
+            const p = items[0];
+            const city = cities[p.dataIndex] || p.name;
+            let html = `${city}<br/>`;
+            items.forEach((it) => {
+                html += `${it.marker}${it.seriesName}：${it.value} 公里<br/>`;
+            });
+            return html;
+        }
     },
     legend: {
         bottom: 0,
-        textStyle: { color: "#3d5048", fontSize: 8 },
-        data: ["2025", "2015"],
+        textStyle: { color: "#3d5048", fontSize: T.dense || 9 },
+        data: ["2025年", "2015年"],
         itemGap: 10
     },
     polar: {
@@ -39,17 +50,19 @@ polarChart.setOption({
     angleAxis: {
         type: "category",
         data: cities,
-        axisLabel: { color: "#3d5048", fontSize: 7.5 },
+        axisLabel: { color: "#3d5048", fontSize: T.dense || 9 },
         axisLine: { lineStyle: { color: "rgba(0,0,0,0.16)" } },
         splitLine: { lineStyle: { color: "rgba(0,0,0,0.04)" } }
     },
     radiusAxis: {
-        axisLabel: { color: "rgba(0,0,0,0.38)", fontSize: 6.5 },
+        name: "公里",
+        nameTextStyle: { color: "rgba(0,0,0,0.38)", fontSize: 8, padding: [0, 0, 0, 2] },
+        axisLabel: { color: "rgba(0,0,0,0.38)", fontSize: 8, formatter: (v) => `${v}` },
         splitLine: { lineStyle: { color: "rgba(0,0,0,0.03)" } }
     },
     series: [
         {
-            name: "2025",
+            name: "2025年",
             type: "bar",
             data: data2025,
             coordinateSystem: "polar",
@@ -64,7 +77,7 @@ polarChart.setOption({
             }
         },
         {
-            name: "2015",
+            name: "2015年",
             type: "bar",
             data: data2015,
             coordinateSystem: "polar",

@@ -1,68 +1,161 @@
 // =====================================
-// 养护资金流向：玫瑰图 + 市州饼图 + 桥型柱状图
-// 合并 桥(1).html chartRose 与 养护资金投向
+// 桥梁养护资金 21.24 亿元投向
+// 数据：《2024 年贵州省交通运输行业发展统计公报》等
 // =====================================
 
 (function () {
 
+    const T = window.BRIDGE_CHART || {};
+    const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
+
     const tooltipStyle = {
-        backgroundColor: "rgba(255,255,255,0.92)",
-        borderColor: "rgba(0,0,0,0.08)",
-        textStyle: { color: "#1c2a24", fontSize: 11 }
+        backgroundColor: "rgba(255,255,255,0.96)",
+        borderColor: "rgba(74, 124, 101, 0.25)",
+        textStyle: { color: "#4A7C65", fontSize: T.tooltip || 13, fontFamily: FONT, lineHeight: 20 }
     };
 
+    const TOTAL = 21.24;
+
+    const mainSplit = [
+        {
+            name: "干线公路养护工程",
+            value: 12.13,
+            pct: "57.1%",
+            desc: "干线公路养护工程投入"
+        },
+        {
+            name: "农村公路配套养护",
+            value: 8.41,
+            pct: "39.6%",
+            desc: "农村公路配套养护工程"
+        },
+        {
+            name: "桥梁专项修复",
+            value: 0.7,
+            pct: "3.3%",
+            desc: "农村公路桥梁、干线桥梁修复"
+        }
+    ];
+
+    const policyFunds = [
+        {
+            name: "十四五农村公路日常养护累计",
+            value: 33.5,
+            note: "含大量村道小桥管护"
+        },
+        {
+            name: "2021—2024 车购税危桥补助",
+            value: 21.03,
+            note: "安防危桥补助资金"
+        },
+        {
+            name: "省级每年农村公路固定预算",
+            value: 5,
+            note: "年度固定安排"
+        },
+        {
+            name: "2024 公路桥梁专项修复",
+            value: 0.7,
+            note: "年度桥梁修复专项"
+        }
+    ].sort((a, b) => b.value - a.value);
+
+    const splitColors = ["#4A7C65", "#6D9B8B", "#8CBFAA"];
+
+    function splitTooltip(params) {
+        const row = mainSplit[params.dataIndex];
+        return [
+            `<strong>${row.name}</strong>`,
+            `金额：${row.value} 亿元（${row.pct}）`,
+            row.desc,
+            `<span style="color:#B8B8B8;font-size:11px">2024 省级交通养护 · 公路养护+桥梁修复专项合计 ${TOTAL} 亿元</span>`
+        ].join("<br/>");
+    }
+
+    function policyTooltip(params) {
+        const row = policyFunds[params.dataIndex];
+        return [
+            `<strong>${row.name}</strong>`,
+            `金额：${row.value} 亿元`,
+            row.note
+        ].join("<br/>");
+    }
+
     // -------------------------------------
-    // 玫瑰图（养护类型分布）
+    // 21.24 亿元三分结构（环形图）
     // -------------------------------------
 
     const roseDom = document.getElementById("maintenanceRose");
     if (roseDom) {
         const roseChart = echarts.init(roseDom);
 
-        const roseData = [
-            { name: "悬索桥养护", value: 5.8 },
-            { name: "斜拉桥养护", value: 4.2 },
-            { name: "拱桥养护", value: 3.5 },
-            { name: "梁桥养护", value: 2.8 },
-            { name: "智能监测", value: 2.1 },
-            { name: "数字孪生", value: 1.6 },
-            { name: "巡检机器人", value: 0.9 },
-            { name: "其他", value: 0.54 }
-        ];
-
-        const roseColors = [
-            "#3a5f7a", "#4a8c78", "#bf8c60", "#c97d55",
-            "#b06868", "#7c6eaa", "#5a8ab5", "#7a8b9a"
-        ];
-
         roseChart.setOption({
             backgroundColor: "transparent",
-            tooltip: { trigger: "item", ...tooltipStyle },
+            tooltip: {
+                trigger: "item",
+                ...tooltipStyle,
+                formatter: splitTooltip
+            },
             legend: {
-                bottom: 0,
-                textStyle: { color: "#3d5048", fontSize: 9 },
-                itemWidth: 8,
-                itemHeight: 8
+                bottom: 4,
+                itemWidth: 12,
+                itemHeight: 10,
+                itemGap: 10,
+                textStyle: { color: "#4A7C65", fontSize: T.legend || 11, fontFamily: FONT }
             },
             series: [{
                 type: "pie",
-                roseType: "area",
-                radius: ["12%", "68%"],
-                center: ["50%", "42%"],
+                radius: ["42%", "68%"],
+                center: ["50%", "46%"],
+                avoidLabelOverlap: true,
                 itemStyle: {
-                    borderRadius: 4,
-                    borderColor: "rgba(255,255,255,0.55)",
+                    borderRadius: 6,
+                    borderColor: "rgba(255,255,255,0.65)",
                     borderWidth: 1.5
                 },
                 label: {
-                    color: "#1c2a24",
-                    fontSize: 9,
-                    formatter: "{b}"
+                    show: true,
+                    color: "#4A7C65",
+                    fontSize: T.dataSm || 11,
+                    fontWeight: 600,
+                    fontFamily: FONT,
+                    formatter: (p) => `${p.name}\n${p.value} 亿元`
                 },
-                data: roseData.map((d, i) => ({
-                    ...d,
-                    itemStyle: { color: roseColors[i] }
+                labelLine: {
+                    length: 12,
+                    length2: 10,
+                    lineStyle: { color: "rgba(109,155,139,0.55)" }
+                },
+                emphasis: {
+                    scale: true,
+                    scaleSize: 6
+                },
+                data: mainSplit.map((d, i) => ({
+                    name: d.name,
+                    value: d.value,
+                    itemStyle: { color: splitColors[i] }
                 }))
+            }],
+            graphic: [{
+                type: "text",
+                left: "center",
+                top: "40%",
+                style: {
+                    text: `${TOTAL} 亿元`,
+                    fill: "#4A7C65",
+                    font: `bold ${T.data || 13}px ${FONT}`,
+                    textAlign: "center"
+                }
+            }, {
+                type: "text",
+                left: "center",
+                top: "48%",
+                style: {
+                    text: "2024 省级养护",
+                    fill: "#7A7A7A",
+                    font: `${T.axisSm || 10}px ${FONT}`,
+                    textAlign: "center"
+                }
             }]
         });
 
@@ -70,7 +163,7 @@
     }
 
     // -------------------------------------
-    // 市州饼图 + 桥型柱状图
+    // 配套桥梁养护政策资金（横向条形图）
     // -------------------------------------
 
     const treeDom = document.getElementById("maintenanceTree");
@@ -78,90 +171,102 @@
 
     const treeChart = echarts.init(treeDom);
 
-    const regions = ["贵阳", "遵义", "六盘水", "安顺", "毕节", "铜仁", "黔东南", "黔南", "黔西南"];
-    const regionFunds = [12, 15, 8, 7, 13, 9, 14, 12, 10];
-
-    const bridgeTypes = ["悬索桥", "斜拉桥", "拱桥", "梁桥"];
-    const typeFunds = [8.5, 6.2, 3.8, 2.74];
-
-    const regionPalette = [
-        "#4A7C65", "#6D9B8B", "#8CBFAA", "#5C8A78",
-        "#7A9E8E", "#A8C9B8", "#3D6B55", "#9BB5A5", "#B8D4C8"
-    ];
+    const maxVal = Math.max.apply(null, policyFunds.map((d) => d.value));
 
     treeChart.setOption({
         backgroundColor: "transparent",
-        tooltip: { trigger: "item", ...tooltipStyle },
-        legend: {
-            orient: "vertical",
-            left: "4%",
-            top: "32%",
-            textStyle: { color: "#4A7C65", fontSize: 9 },
-            itemWidth: 8,
-            itemHeight: 8
-        },
-        series: [
-            {
-                name: "市州分布",
-                type: "pie",
-                radius: ["24%", "42%"],
-                center: ["26%", "52%"],
-                label: { color: "#4A7C65", fontSize: 9 },
-                data: regions.map((name, i) => ({
-                    name,
-                    value: regionFunds[i],
-                    itemStyle: { color: regionPalette[i] }
-                }))
-            },
-            {
-                name: "桥型分配",
-                type: "bar",
-                xAxisIndex: 0,
-                yAxisIndex: 0,
-                data: typeFunds,
-                barWidth: 18,
-                itemStyle: { color: "#6D9B8B", borderRadius: [0, 4, 4, 0] },
-                label: {
-                    show: true,
-                    position: "insideRight",
-                    color: "#F5F2E8",
-                    fontSize: 9,
-                    formatter: "{c} 亿"
-                }
+        tooltip: {
+            trigger: "axis",
+            axisPointer: { type: "shadow" },
+            ...tooltipStyle,
+            formatter: (items) => {
+                if (!items || !items.length) return "";
+                return policyTooltip(items[0]);
             }
-        ],
+        },
         grid: {
-            left: "54%",
-            right: "6%",
-            top: "28%",
-            bottom: "14%"
+            left: 8,
+            right: 48,
+            top: 12,
+            bottom: 8,
+            containLabel: true
         },
         xAxis: {
             type: "value",
-            gridIndex: 0,
-            axisLabel: { color: "#7A7A7A", fontSize: 9 },
-            splitLine: { lineStyle: { color: "rgba(140,191,170,0.12)" } }
+            max: Math.ceil(maxVal / 5) * 5,
+            name: "亿元",
+            nameLocation: "end",
+            nameGap: 6,
+            nameTextStyle: { color: "#7A7A7A", fontSize: T.axisSm || 10, fontFamily: FONT },
+            axisLine: { show: false },
+            axisTick: { show: false },
+            splitLine: { lineStyle: { color: "rgba(140,191,170,0.15)", type: "dashed" } },
+            axisLabel: {
+                color: "#B8B8B8",
+                fontSize: T.axisSm || 10,
+                fontFamily: FONT
+            }
         },
         yAxis: {
             type: "category",
-            gridIndex: 0,
-            data: bridgeTypes,
-            axisLabel: { color: "#4A7C65", fontSize: 10 },
-            axisTick: { show: false }
-        },
-        graphic: [{
-            type: "text",
-            left: "54%",
-            top: "18%",
-            style: {
-                text: "各桥型养护资金（亿元）",
-                fill: "#4A7C65",
-                fontSize: 11,
-                fontWeight: "bold"
+            inverse: true,
+            data: policyFunds.map((d) => d.name),
+            axisLine: { show: false },
+            axisTick: { show: false },
+            axisLabel: {
+                color: "#4A7C65",
+                fontSize: T.axisSm || 10,
+                fontWeight: 600,
+                fontFamily: FONT,
+                width: 108,
+                overflow: "break",
+                lineHeight: 14
             }
+        },
+        series: [{
+            type: "bar",
+            data: policyFunds.map((d, i) => ({
+                value: d.value,
+                itemStyle: {
+                    color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                        { offset: 0, color: i === 0 ? "#6D9B8B" : "#8CBFAA" },
+                        { offset: 1, color: i === 0 ? "#4A7C65" : "#6D9B8B" }
+                    ]),
+                    borderRadius: [0, 8, 8, 0],
+                    shadowColor: "rgba(74,124,101,0.15)",
+                    shadowBlur: 4,
+                    shadowOffsetX: 1
+                }
+            })),
+            barWidth: 16,
+            barCategoryGap: "36%",
+            label: {
+                show: true,
+                position: "right",
+                distance: 6,
+                formatter: "{c} 亿元",
+                color: "#4A7C65",
+                fontSize: T.dataSm || 11,
+                fontWeight: 700,
+                fontFamily: FONT
+            },
+            emphasis: { focus: "series" }
         }]
     });
 
     window.addEventListener("resize", () => treeChart.resize());
+
+    if ("IntersectionObserver" in window) {
+        [roseDom, treeDom].forEach((el) => {
+            if (!el) return;
+            new IntersectionObserver((entries) => {
+                entries.forEach((e) => {
+                    if (e.isIntersecting) {
+                        echarts.getInstanceByDom(el)?.resize();
+                    }
+                });
+            }, { threshold: 0.1 }).observe(el);
+        });
+    }
 
 })();
