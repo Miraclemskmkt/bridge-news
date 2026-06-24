@@ -786,7 +786,7 @@ body {
 .cunchao-timeline__side-year {
     display: block;
     font-family: var(--font-caption);
-    font-size: 0.5625rem;
+    font-size: 0.6875rem;
     font-weight: 700;
     color: var(--ink);
     margin-bottom: 3px;
@@ -795,7 +795,7 @@ body {
 
 .cunchao-timeline__side-item p {
     font-family: var(--font-caption);
-    font-size: 0.5625rem;
+    font-size: 0.6875rem;
     color: var(--gray);
     line-height: 1.45;
     margin: 0;
@@ -830,7 +830,7 @@ body {
 .cunchao-timeline__tooltip strong {
     display: block;
     font-family: var(--font-caption);
-    font-size: 0.625rem;
+    font-size: 0.75rem;
     color: var(--ink);
     margin-bottom: 4px;
     line-height: 1.35;
@@ -844,7 +844,7 @@ body {
 
 .cunchao-timeline__tooltip li {
     font-family: var(--font-caption);
-    font-size: 0.5625rem;
+    font-size: 0.6875rem;
     color: var(--gray);
     line-height: 1.45;
     padding: 2px 0;
@@ -858,7 +858,7 @@ body {
 
 .cunchao-timeline__axis-title {
     font-family: var(--font-caption);
-    font-size: 0.5625rem;
+    font-size: 0.6875rem;
     color: var(--gray);
     text-align: center;
     margin: 0 0 2px;
@@ -874,25 +874,25 @@ body {
 .cunchao-timeline__tick,
 .cunchao-timeline__year {
     font-family: var(--font-caption);
-    font-size: 8px;
+    font-size: 10px;
     fill: var(--gray);
 }
 
 .cunchao-timeline__ylabel {
     font-family: var(--font-caption);
-    font-size: 7px;
+    font-size: 9px;
     fill: var(--lightgray);
 }
 
 .cunchao-timeline__tag {
     font-family: var(--font-caption);
-    font-size: 7px;
+    font-size: 9px;
     fill: var(--ink);
 }
 
 .cunchao-timeline__xlabel {
     font-family: var(--font-caption);
-    font-size: 7px;
+    font-size: 9px;
     fill: var(--lightgray);
 }
 
@@ -914,7 +914,7 @@ body {
 
 .cunchao-timeline__panel-title {
     font-family: var(--font-caption);
-    font-size: 0.5625rem;
+    font-size: 0.6875rem;
     font-weight: 700;
     color: var(--ink);
     margin: 0 0 4px;
@@ -930,7 +930,7 @@ body {
 
 .cunchao-timeline__panel-list li {
     font-family: var(--font-caption);
-    font-size: 0.5625rem;
+    font-size: 0.6875rem;
     color: var(--gray);
     line-height: 1.38;
     padding: 2px 0;
@@ -956,7 +956,7 @@ body {
 
 .cunchao-timeline__footer-row {
     font-family: var(--font-caption);
-    font-size: 0.5625rem;
+    font-size: 0.6875rem;
     color: var(--gray);
     line-height: 1.42;
     margin: 0;
@@ -1819,14 +1819,14 @@ footer {
 
 .twin-subtitle {
     font-family: var(--font-body);
-    font-size: 0.55rem;
+    font-size: 0.65rem;
     color: var(--gray);
     line-height: 1.35;
     margin-bottom: 2px;
 }
 
 .twin-meta {
-    font-size: 0.52rem;
+    font-size: 0.62rem;
     color: var(--gray);
     line-height: 1.35;
 }
@@ -1839,7 +1839,7 @@ footer {
 
 .twin-source {
     text-align: center;
-    font-size: 0.48rem;
+    font-size: 0.58rem;
     color: var(--lightgray);
     margin-top: 4px;
     padding: 0 4px;

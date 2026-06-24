@@ -144,7 +144,7 @@
                 itemHeight: 88,
                 text: ["2025年", "2010年"],
                 textGap: 6,
-                textStyle: { color: "#4A7C65", fontSize: 10 },
+                textStyle: { color: "#4A7C65", fontSize: T.axisSm || 11 },
                 inRange: {
                     color: ["#D1E7DD", "#8CBFAA", "#6D9B8B", "#4A7C65"]
                 }

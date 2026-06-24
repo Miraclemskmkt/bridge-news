@@ -52,7 +52,7 @@ cities.forEach((city, i) => {
         gridIndex: i,
         data: years,
         axisLabel: {
-            fontSize: 10,
+            fontSize: T.axisSm || 11,
             color: "#7A7A7A",
             formatter: (v) => `${v}年`
         },
@@ -63,10 +63,10 @@ cities.forEach((city, i) => {
         type: "value",
         gridIndex: i,
         name: city,
-        nameTextStyle: { color: "#4A7C65", fontSize: 12, fontWeight: "bold" },
+        nameTextStyle: { color: "#4A7C65", fontSize: T.dataSm || 12, fontWeight: "bold" },
         nameLocation: "end",
         axisLabel: {
-            fontSize: 10,
+            fontSize: T.axisSm || 11,
             color: "#7A7A7A"
         },
         splitLine: { lineStyle: { color: "rgba(140,191,170,0.12)" } }

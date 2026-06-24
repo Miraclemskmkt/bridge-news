@@ -43,7 +43,7 @@
                 if (!items || !items.length) return "";
                 const idx = items[0].dataIndex;
                 const bridge = bridges[idx];
-                let html = `${bridge.key}<br/><span style="color:#7A7A7A;font-size:10px">${bridge.tag}</span><br/>`;
+                let html = `${bridge.key}<br/><span style="color:#7A7A7A;font-size:11px">${bridge.tag}</span><br/>`;
                 let sum = 0;
                 items.forEach((p) => {
                     sum += p.value;

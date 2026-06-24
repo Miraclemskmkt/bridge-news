@@ -7,18 +7,18 @@
         moveOverlap: "shiftY"
     };
 
-    /** 全页图表字号规范：主图清晰，密集图克制 */
+    /** 全页图表字号规范：主图清晰，密集图可读 */
     window.BRIDGE_CHART = {
         font: FONT,
-        axis: 11,
-        axisSm: 10,
-        data: 13,
-        dataSm: 11,
-        legend: 11,
-        tooltip: 13,
-        tooltipSm: 12,
-        subtitle: 13,
-        dense: 9,
+        axis: 12,
+        axisSm: 11,
+        data: 14,
+        dataSm: 12,
+        legend: 12,
+        tooltip: 14,
+        tooltipSm: 13,
+        subtitle: 14,
+        dense: 10,
         ink: "#4A7C65",
         gray: "#7A7A7A",
         light: "#B8B8B8"

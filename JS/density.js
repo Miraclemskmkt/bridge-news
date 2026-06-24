@@ -79,7 +79,7 @@
                 padding: [2, 6],
                 className: "bridge-density-tip",
                 extraCssText: "border-radius:2px;box-shadow:0 1px 4px rgba(74,124,101,0.1);",
-                textStyle: { color: "#4A7C65", fontSize: 10, lineHeight: 14 },
+                textStyle: { color: "#4A7C65", fontSize: T.axisSm || 11, lineHeight: 15 },
                 formatter: (items) => {
                     if (!items || !items.length) return null;
                     const p = items[0];

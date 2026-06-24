@@ -103,19 +103,19 @@
         xaxis: {
             ...axisStyle,
             range: [300, 2500],
-            title: { text: "元", font: { size: 10, color: C.gray }, standoff: 8 }
+            title: { text: "元", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
         },
         yaxis: { ...yAxisStyle, anchor: "x" },
         xaxis2: {
             ...axisStyle,
             range: [10000, 17000],
-            title: { text: "元", font: { size: 10, color: C.gray }, standoff: 8 }
+            title: { text: "元", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
         },
         yaxis2: { ...yAxisStyle, anchor: "x2" },
         xaxis3: {
             ...axisStyle,
             range: [-25, 155],
-            title: { text: "分钟", font: { size: 10, color: C.gray }, standoff: 8 }
+            title: { text: "分钟", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
         },
         yaxis3: { ...yAxisStyle, anchor: "x3" },
         annotations: [
@@ -125,14 +125,14 @@
                 x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
                 showarrow: false,
                 cliponaxis: false,
-                font: { size: 12, color: C.ink }
+                font: { size: T.subtitle || 14, color: C.ink }
             },
             {
                 text: "<b>单趟收益跃升 +150.0%</b>",
                 xref: "x", yref: "y",
                 x: 1400, y: -0.22,
                 showarrow: false,
-                font: { size: 11, color: C.ink }
+                font: { size: T.axis || 12, color: C.ink }
             },
             {
                 text: "<b>② 核心产区椒农人均年收入 (产业增收账本)</b>",
@@ -140,14 +140,14 @@
                 x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
                 showarrow: false,
                 cliponaxis: false,
-                font: { size: 12, color: C.ink }
+                font: { size: T.subtitle || 14, color: C.ink }
             },
             {
                 text: "<b>年收入增长 +24.8%</b>",
                 xref: "x2", yref: "y2",
                 x: 13485, y: -0.22,
                 showarrow: false,
-                font: { size: 11, color: C.ink }
+                font: { size: T.axis || 12, color: C.ink }
             },
             {
                 text: "<b>③ 关岭至贞丰跨峡谷货运耗时 (时空压缩时效)</b>",
@@ -155,14 +155,14 @@
                 x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
                 showarrow: false,
                 cliponaxis: false,
-                font: { size: 12, color: C.ink }
+                font: { size: T.subtitle || 14, color: C.ink }
             },
             {
                 text: "<b>跨峡时效提升 60 倍 (耗时缩短 -98.3%)</b>",
                 xref: "x3", yref: "y3",
                 x: 61, y: -0.22,
                 showarrow: false,
-                font: { size: 11, color: C.ink }
+                font: { size: T.axis || 12, color: C.ink }
             }
         ]
     };

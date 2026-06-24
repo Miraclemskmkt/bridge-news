@@ -185,15 +185,15 @@
     function nodeTooltip(name) {
         const n = nodeMap[name];
         if (!n) return name;
-        const ethnic = n.ethnic ? `<br/><span style="color:#7A7A7A;font-size:10px">${n.ethnic}</span>` : "";
-        const lines = (n.tip || []).map((t) => `<div style="font-size:10px;color:#555;margin-top:2px">· ${t}</div>`).join("");
+        const ethnic = n.ethnic ? `<br/><span style="color:#7A7A7A;font-size:11px">${n.ethnic}</span>` : "";
+        const lines = (n.tip || []).map((t) => `<div style="font-size:11px;color:#555;margin-top:2px">· ${t}</div>`).join("");
         return `<strong>${name}</strong>${ethnic}${lines}`;
     }
 
     function linkTooltip(source, target) {
         const link = links.find((l) => l.source === source && l.target === target);
         if (!link) return `${source} → ${target}`;
-        return `<strong>${source} → ${target}</strong><br/><span style="color:#4A7C65;font-size:11px">${TIER_LABEL[link.tier]}</span><br/><span style="color:#7A7A7A;font-size:10px">${link.note}</span>`;
+        return `<strong>${source} → ${target}</strong><br/><span style="color:#4A7C65;font-size:12px">${TIER_LABEL[link.tier]}</span><br/><span style="color:#7A7A7A;font-size:11px">${link.note}</span>`;
     }
 
     chart.setOption({
@@ -205,7 +205,7 @@
             borderWidth: 0.5,
             backgroundColor: "rgba(255,255,255,0.97)",
             borderColor: "rgba(74, 124, 101, 0.28)",
-            textStyle: { color: "#4A7C65", fontSize: 11, lineHeight: 16 },
+            textStyle: { color: "#4A7C65", fontSize: T.tooltipSm || 13, lineHeight: 18 },
             className: "bridge-village-tip",
             formatter: (p) => {
                 if (p.dataType === "edge") {

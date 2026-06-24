@@ -193,7 +193,7 @@ const transportOption = {
 
                 fill:"#ffffff",
 
-                fontSize:13,
+                fontSize:14,
 
                 fontWeight:"bold"
 
@@ -259,7 +259,7 @@ ethnicStates.forEach(state=>{
 
                     fill:"#4A7C65",
 
-                    fontSize:14
+                    fontSize:15
 
                 },
 

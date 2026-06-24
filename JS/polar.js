@@ -25,7 +25,7 @@ polarChart.setOption({
         trigger: "axis",
         backgroundColor: "rgba(255,255,255,0.9)",
         borderColor: "rgba(0,0,0,0.07)",
-        textStyle: { color: "#1c2a24", fontSize: T.tooltipSm || 12 },
+        textStyle: { color: "#1c2a24", fontSize: T.tooltipSm || 13 },
         formatter: (items) => {
             if (!items || !items.length) return "";
             const p = items[0];
@@ -39,9 +39,9 @@ polarChart.setOption({
     },
     legend: {
         bottom: 0,
-        textStyle: { color: "#3d5048", fontSize: T.dense || 9 },
+        textStyle: { color: "#3d5048", fontSize: T.legend || 12 },
         data: ["2025年", "2015年"],
-        itemGap: 10
+        itemGap: 12
     },
     polar: {
         center: ["50%", "44%"],
@@ -50,14 +50,14 @@ polarChart.setOption({
     angleAxis: {
         type: "category",
         data: cities,
-        axisLabel: { color: "#3d5048", fontSize: T.dense || 9 },
+        axisLabel: { color: "#3d5048", fontSize: T.axisSm || 11 },
         axisLine: { lineStyle: { color: "rgba(0,0,0,0.16)" } },
         splitLine: { lineStyle: { color: "rgba(0,0,0,0.04)" } }
     },
     radiusAxis: {
         name: "公里",
-        nameTextStyle: { color: "rgba(0,0,0,0.38)", fontSize: 8, padding: [0, 0, 0, 2] },
-        axisLabel: { color: "rgba(0,0,0,0.38)", fontSize: 8, formatter: (v) => `${v}` },
+        nameTextStyle: { color: "rgba(0,0,0,0.38)", fontSize: T.axisSm || 11, padding: [0, 0, 0, 2] },
+        axisLabel: { color: "rgba(0,0,0,0.38)", fontSize: T.axisSm || 11, formatter: (v) => `${v}` },
         splitLine: { lineStyle: { color: "rgba(0,0,0,0.03)" } }
     },
     series: [

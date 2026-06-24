@@ -15,6 +15,7 @@
         light: "#B8B8B8",
         line: "#B8B8B8"
     };
+    const T = window.BRIDGE_CHART || {};
 
     const metrics = ["通行时间", "单趟收入"];
     const beforeBridge = [8.5, 8.0];
@@ -36,7 +37,7 @@
             text: beforeText,
             textposition: "inside",
             insidetextanchor: "middle",
-            textfont: { color: "#fff", size: 11 },
+            textfont: { color: "#fff", size: T.dataSm || 12 },
             marker: { color: C.light, line: { color: C.gray, width: 0.5 } },
             hovertemplate: "建桥前 · %{x}<br><b>%{text}</b><extra></extra>",
             width: 0.36
@@ -49,7 +50,7 @@
             text: afterText,
             textposition: "inside",
             insidetextanchor: "middle",
-            textfont: { color: "#fff", size: 11 },
+            textfont: { color: "#fff", size: T.dataSm || 12 },
             marker: { color: C.ink, line: { color: C.bamboo, width: 0.5 } },
             hovertemplate: "建桥后 · %{x}<br><b>%{text}</b><extra></extra>",
             width: 0.36
@@ -67,7 +68,7 @@
         margin: { l: 4, r: 4, t: 4, b: 28 },
         showlegend: false,
         xaxis: {
-            tickfont: { size: 10, color: C.ink },
+            tickfont: { size: T.axisSm || 11, color: C.ink },
             tickangle: 0,
             showgrid: false,
             linecolor: C.line,

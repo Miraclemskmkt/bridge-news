@@ -23,15 +23,22 @@
     const VB = { w: 560, h: 540 };
     const MARGIN = { top: 48, right: 36, bottom: 46, left: 36 };
     const NODE_SCALE = 1.18;
-    /** 以贵州省界为核心视野，出境节点贴边示意 */
-    const GEO = { minLng: 102.85, maxLng: 109.85, minLat: 23.85, maxLat: 29.45 };
+    const LEGEND = { w: 188, h: 158, inset: 6, bottom: 10 };
+    /** 不对称视野：西侧/南侧/北侧留出境箭头空间，贵州整体偏右上 */
+    const GEO = { minLng: 101.7, maxLng: 109.55, minLat: 23.1, maxLat: 29.55 };
 
-    /** 示意节点：压缩距离，方位不变（西=缅，南=越，西北=欧） */
+    /** 示意节点贴外缘，避开左下角图例区 */
     const SCHEMATIC_GEO = {
-        tengchong: [103.05, 26.15],
-        vietnam: [106.85, 24.05],
-        germany: [103.15, 29.28],
-        belarus: [104.35, 28.65]
+        tengchong: [101.88, 26.75],
+        vietnam: [105.6, 23.22],
+        germany: [102.05, 29.42],
+        belarus: [103.2, 28.78]
+    };
+
+    /** 节点标签微调（避免相邻节点字重叠） */
+    const NODE_LABEL = {
+        xingyi: { anchor: "end", dx: -10, dy: -6 },
+        qxn: { anchor: "start", dx: 10, dy: 8 }
     };
 
     /** 流线弯曲度（符号保证箭头终段指向目标方位） */
@@ -86,11 +93,11 @@
             ]
         },
         guanling: { type: "hub", geo: [105.55, 25.88], size: 16, name: "关岭肉牛交易市场", notes: ["投资 2822.4 万元", "日交易 3000 头"] },
-        xingyi: { type: "hub", geo: [104.88, 25.08], size: 12, name: "兴义中转", notes: ["民族县域集散"] },
+        xingyi: { type: "hub", geo: [104.88, 25.08], display: [104.58, 25.32], size: 12, name: "兴义中转", label: { position: "top" }, notes: ["民族县域集散"] },
         libo: { type: "hub", geo: [107.88, 25.38], size: 11, name: "荔波中转", notes: ["民族县域集散"] },
         qdn: { type: "domestic", geo: [108.52, 26.58], r: 8, name: "黔东南\n消费市场" },
         qnan: { type: "domestic", geo: [107.52, 26.08], r: 8, name: "黔南\n消费市场" },
-        qxn: { type: "domestic", geo: [104.90, 25.09], r: 8, name: "黔西南\n消费市场" },
+        qxn: { type: "domestic", geo: [104.90, 25.09], display: [105.22, 24.72], r: 8, name: "黔西南\n消费市场", label: { position: "bottom" } },
         tengchong: { type: "port", geo: [98.32, 25.28], size: 10, name: "腾冲猴桥", sub: "缅甸口岸" },
         vietnam: { type: "port", geo: [106.2, 21.6], size: 9, name: "越南口岸", sub: "人造草坪等" },
         germany: { type: "port", geo: [109.35, 28.2], size: 8, name: "德国", sub: "五金出口" },
@@ -124,14 +131,14 @@
 
     const SOURCE = "数据来源：贵州省交通运输厅、贵阳国际陆港运营统计、六盘水市政府、关岭县统计局、《桥见黔程万里》专题调研资料。";
 
-    /** 国境示意：西侧缅甸、南侧东南亚 */
+    /** 国境示意：西缅、南越，贵州偏右上 */
     const BORDER_LINE = [
-        [103.0, 29.4], [103.05, 27.8], [103.2, 26.2], [104.2, 25.0],
-        [106.2, 24.0], [108.6, 23.92], [109.85, 24.4], [109.9, 26.8], [109.85, 29.3], [103.0, 29.4]
+        [101.85, 29.5], [101.9, 28.0], [102.05, 26.8], [103.2, 25.4],
+        [105.2, 23.7], [107.8, 23.35], [109.5, 23.7], [109.55, 26.6], [109.5, 29.4], [101.85, 29.5]
     ];
 
     const SEA_OUTLINE = [
-        [105.6, 23.92], [107.6, 23.78], [108.6, 24.15], [106.9, 24.3], [105.6, 23.92]
+        [104.6, 23.28], [106.6, 23.1], [107.8, 23.5], [106.0, 23.68], [104.6, 23.28]
     ];
 
     function esc(s) {
@@ -154,7 +161,15 @@
     }
 
     function nodeCoords(id, node) {
-        return SCHEMATIC_GEO[id] || node.geo;
+        if (SCHEMATIC_GEO[id]) return SCHEMATIC_GEO[id];
+        if (node.display) return node.display;
+        return node.geo;
+    }
+
+    function legendBox() {
+        const left = MARGIN.left + LEGEND.inset;
+        const top = VB.h - MARGIN.bottom - LEGEND.h - LEGEND.bottom;
+        return { left, top, right: left + LEGEND.w, bottom: top + LEGEND.h };
     }
 
     function layoutNodes() {
@@ -171,16 +186,16 @@
     function layoutFlowLabels() {
         const tc = nodes.tengchong;
         const de = nodes.germany;
-        const legendClear = MARGIN.left + 200;
+        const leg = legendBox();
         return [
             {
-                x: Math.max(legendClear, tc.x + 36),
+                x: Math.max(leg.right + 10, tc.x + 28),
                 y: VB.h - 38,
                 lines: ["西部陆海新通道累计班列 659 列", "货值 16.8 亿元"]
             },
             {
-                x: Math.max(MARGIN.left + 8, de.x - 6),
-                y: Math.min(de.y + 58, VB.h - MARGIN.bottom - 52),
+                x: Math.max(MARGIN.left + 8, Math.min(de.x - 6, leg.left - 4)),
+                y: Math.max(MARGIN.top + 18, de.y + 46),
                 lines: ["中欧班列 74 列", "货值 17.36 亿元"]
             }
         ];
@@ -316,10 +331,10 @@
                 <path d="${border}" fill="none" stroke="${C.light}" stroke-width="0.55" stroke-dasharray="4 3" opacity="0.48"/>
                 ${provinceFill}
                 ${cityLines}
-                <text x="${project(106.8, 27.0).x}" y="${project(106.8, 27.0).y}" text-anchor="middle" class="flow-map__geo-region">贵州省</text>
-                <text x="${project(103.35, 26.4).x}" y="${project(103.35, 26.4).y}" text-anchor="middle" class="flow-map__geo-region">缅甸方向</text>
-                <text x="${project(107.0, 24.15).x}" y="${project(107.0, 24.15).y + 12}" text-anchor="middle" class="flow-map__geo-region">东南亚（示意）</text>
-                <text x="${project(103.6, 29.1).x}" y="${project(103.6, 29.1).y - 6}" text-anchor="middle" class="flow-map__geo-region">欧洲（示意）</text>
+                <text x="${project(107.2, 26.8).x}" y="${project(107.2, 26.8).y}" text-anchor="middle" class="flow-map__geo-region">贵州省</text>
+                <text x="${project(102.15, 26.9).x}" y="${project(102.15, 26.9).y}" text-anchor="middle" class="flow-map__geo-region">缅甸方向</text>
+                <text x="${project(105.8, 23.45).x}" y="${project(105.8, 23.45).y + 12}" text-anchor="middle" class="flow-map__geo-region">东南亚（示意）</text>
+                <text x="${project(102.35, 29.25).x}" y="${project(102.35, 29.25).y - 6}" text-anchor="middle" class="flow-map__geo-region">欧洲（示意）</text>
             </g>
         `;
     }
@@ -421,6 +436,30 @@
         });
     }
 
+    function nodeLabelPos(id, n, labelY, size, r) {
+        const lay = NODE_LABEL[id] || {};
+        const pos = n.label?.position;
+        let x = n.x;
+        let y = labelY;
+        let anchor = lay.anchor || "middle";
+
+        if (pos === "top") {
+            y = n.y - (n.type === "hub" ? size / 2 : r) - 10;
+        } else if (pos === "left") {
+            x = n.x - (n.type === "hub" ? size / 2 : r) - 8;
+            anchor = "end";
+        } else if (pos === "right") {
+            x = n.x + (n.type === "hub" ? size / 2 : r) + 8;
+            anchor = "start";
+        }
+
+        return {
+            x: x + (lay.dx || 0),
+            y: y + (lay.dy || 0),
+            anchor: lay.anchor || anchor
+        };
+    }
+
     function drawNode(id) {
         const n = nodes[id];
         const isAnchor = ANCHOR_IDS.includes(id);
@@ -449,7 +488,8 @@
         let nameBlock = "";
         if (!isAnchor) {
             const lines = n.name.split("\n");
-            nameBlock = `<text x="${n.x}" y="${labelY}" text-anchor="middle" class="flow-map__node-name">${lines.map((line, i) => `<tspan x="${n.x}" dy="${i === 0 ? 0 : 12}">${esc(line)}</tspan>`).join("")}</text>`;
+            const lp = nodeLabelPos(id, n, labelY, size, r);
+            nameBlock = `<text x="${lp.x}" y="${lp.y}" text-anchor="${lp.anchor}" class="flow-map__node-name">${lines.map((line, i) => `<tspan x="${lp.x}" dy="${i === 0 ? 0 : 12}">${esc(line)}</tspan>`).join("")}</text>`;
         }
 
         const hit = nodeHasTooltip(id) ? nodeHitArea(id) : "";
@@ -477,13 +517,10 @@
     }
 
     function drawLegend() {
-        const lw = 188;
-        const lh = 158;
-        const lx = MARGIN.left + 6;
-        const ly = VB.h - MARGIN.bottom - lh - 10;
+        const leg = legendBox();
         return `
-            <g class="flow-map__legend-box" transform="translate(${lx}, ${ly})">
-                <rect class="flow-map__legend-bg" x="0" y="0" width="${lw}" height="${lh}" rx="6"/>
+            <g class="flow-map__legend-box" transform="translate(${leg.left}, ${leg.top})">
+                <rect class="flow-map__legend-bg" x="0" y="0" width="${LEGEND.w}" height="${LEGEND.h}" rx="6"/>
                 <text x="10" y="22" class="flow-map__legend-title">图例</text>
                 <circle cx="22" cy="40" r="8" fill="url(#origin-fill)" stroke="${C.gold}" stroke-width="1"/>
                 <text x="38" y="44" class="flow-map__legend-item">圆形 · 产地</text>
@@ -527,7 +564,6 @@
                 ${nodeIds.map(drawNode).join("")}
                 ${drawFlowLabels()}
                 ${drawLegend()}
-                <text x="${VB.w / 2}" y="${VB.h - 8}" text-anchor="middle" class="flow-map__layer-tag">货源起点 → 省内中转 → 出海终点</text>
             </svg>
         `;
     }

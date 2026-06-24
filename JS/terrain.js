@@ -157,7 +157,7 @@
                 text: "山的宿命 · 桥的答卷",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 16, color: GREEN_DARK, family: FONT }
+                font: { size: 17, color: GREEN_DARK, family: FONT }
             },
             {
                 x: 2,
@@ -167,7 +167,7 @@
                 text: "92.5% 山地丘陵 · 3.2 万座桥 · 2800 座隧道",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 11, color: GRAY, family: FONT }
+                font: { size: 12, color: GRAY, family: FONT }
             },
             {
                 x: 72,
@@ -177,7 +177,7 @@
                 text: "▬ 桥梁密度带",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 10, color: GREEN_DARK, family: FONT }
+                font: { size: 11, color: GREEN_DARK, family: FONT }
             },
             {
                 x: 72,
@@ -187,7 +187,7 @@
                 text: "● 隧道分布",
                 showarrow: false,
                 xanchor: "left",
-                font: { size: 10, color: GRAY, family: FONT }
+                font: { size: 11, color: GRAY, family: FONT }
             }
         ]
     };

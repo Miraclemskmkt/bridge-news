@@ -171,7 +171,7 @@
                             cross
                                 ? "<span style='color:#4A7C65'>族际交融通道</span>"
                                 : "同类型区域流动",
-                            `<span style="color:#7A7A7A;font-size:9px">综合七普流动·通婚·高铁文旅测算</span>`
+                            `<span style="color:#7A7A7A;font-size:10px">综合七普流动·通婚·高铁文旅测算</span>`
                         ].join("<br/>");
                     }
                     return "";

@@ -14,6 +14,7 @@
     };
 
     const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
+    const T = window.BRIDGE_CHART || {};
 
     function initBridgeMap() {
         const dom = document.getElementById("twinBridgeMap");
@@ -102,8 +103,8 @@
                         distance: 2,
                         formatter: (p) => sensors[p.dataIndex].label,
                         color: "#345a4a",
-                        fontSize: 8,
-                        lineHeight: 12,
+                        fontSize: T.axisSm || 11,
+                        lineHeight: 14,
                         fontFamily: FONT,
                         fontWeight: 500,
                         backgroundColor: "rgba(245,242,232,0.94)",
