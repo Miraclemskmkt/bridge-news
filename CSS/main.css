@@ -266,14 +266,35 @@ body {
 }
 
 .cover-hero-image {
+    position: relative;
     width: calc(100% + 12px);
     max-width: none;
     margin: 0 -6px 18px;
-    padding: 0;
+    padding: clamp(64px, 20vw, 96px) 8px 0;
     line-height: 0;
 }
 
-.cover-hero-image img {
+.cover-title-image {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(96%, 420px);
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    z-index: 2;
+}
+
+.cover-title-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.cover-hero-art,
+.cover-hero-image > img:not(.cover-title-image img) {
     width: 100%;
     height: auto;
     display: block;
