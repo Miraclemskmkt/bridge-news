@@ -73,19 +73,22 @@
     const footerRow2 = "年度民族文化展演超 100 场；多民族混合参赛队伍 137 支";
 
     const maxTourists = Math.max.apply(null, years.map((y) => y.tourists));
-    const maxR = 22;
+    const CHART_SCALE = 0.92;
 
-    function bubbleR(tourists) {
+    function bubbleR(tourists, maxR) {
         return maxR * Math.sqrt(tourists / maxTourists);
     }
 
     function buildSvg() {
-        const W = 292;
-        const H = 252;
-        const padL = 34;
-        const padR = 6;
-        const padT = 38;
-        const padB = 22;
+        const W = Math.round(292 * CHART_SCALE);
+        const H = Math.round(252 * CHART_SCALE);
+        const padL = Math.round(34 * CHART_SCALE);
+        const padR = Math.round(6 * CHART_SCALE);
+        const padT = Math.round(38 * CHART_SCALE);
+        const padB = Math.round(22 * CHART_SCALE);
+        const maxR = Math.round(22 * CHART_SCALE);
+        const tagH = Math.round(16 * CHART_SCALE);
+        const tagPad = Math.round(6 * CHART_SCALE);
         const plotW = W - padL - padR;
         const plotH = H - padT - padB;
         const yMax = 140;
@@ -110,13 +113,13 @@
         years.forEach((item, i) => {
             const cx = xSlots[i];
             const cy = yScale(item.income);
-            const r = bubbleR(item.tourists);
-            const tagW = item.keyword.length * 7 + 12;
+            const r = bubbleR(item.tourists, maxR);
+            const tagW = item.keyword.length * Math.round(7.5 * CHART_SCALE) + Math.round(12 * CHART_SCALE);
             const tagX = cx - tagW / 2;
 
-            svg += `<line x1="${cx}" y1="${padT - 6}" x2="${cx}" y2="${padT + plotH}" stroke="${GRID}" stroke-width="0.6" stroke-dasharray="3 3"/>`;
-            svg += `<rect x="${tagX}" y="6" width="${tagW}" height="14" rx="1" fill="none" stroke="${LINE}" stroke-width="0.8"/>`;
-            svg += `<text x="${cx}" y="16" text-anchor="middle" class="cunchao-timeline__tag">${item.keyword}</text>`;
+            svg += `<line x1="${cx}" y1="${padT - tagPad}" x2="${cx}" y2="${padT + plotH}" stroke="${GRID}" stroke-width="0.6" stroke-dasharray="3 3"/>`;
+            svg += `<rect x="${tagX}" y="${tagPad}" width="${tagW}" height="${tagH}" rx="1" fill="none" stroke="${LINE}" stroke-width="0.8"/>`;
+            svg += `<text x="${cx}" y="${tagPad + tagH - 3}" text-anchor="middle" class="cunchao-timeline__tag">${item.keyword}</text>`;
 
             svg += `<g class="cunchao-bubble-hit" data-index="${i}">`;
             svg += `<circle class="cunchao-bubble" cx="${cx}" cy="${cy}" r="${r}" fill="#F5F2E8" stroke="${INK}" stroke-width="1"/>`;
@@ -195,22 +198,23 @@
     dom.innerHTML = `
         <header class="cunchao-timeline__header" aria-label="图表标题区"></header>
         <div class="cunchao-timeline__body">
-            <aside class="cunchao-timeline__left" aria-label="年度细分信息">${leftHtml}</aside>
-            <div class="cunchao-timeline__center">
-                <p class="cunchao-timeline__axis-title">年度旅游综合收入</p>
-                ${buildSvg()}
+            <div class="cunchao-timeline__chart-row">
+                <aside class="cunchao-timeline__left" aria-label="年度细分信息">${leftHtml}</aside>
+                <div class="cunchao-timeline__center">
+                    <p class="cunchao-timeline__axis-title">年度旅游综合收入</p>
+                    ${buildSvg()}
+                </div>
             </div>
-            <aside class="cunchao-timeline__right" aria-label="三年累计总览">
+            <div class="cunchao-timeline__summary" aria-label="三年累计总览">
                 <div class="cunchao-timeline__panel">
                     <h4 class="cunchao-timeline__panel-title">三年累计经济总数据</h4>
                     <ul class="cunchao-timeline__panel-list">${summaryMainHtml}</ul>
                 </div>
-                <div class="cunchao-timeline__panel-divider"></div>
-                <div class="cunchao-timeline__panel cunchao-timeline__panel--sub">
+                <div class="cunchao-timeline__panel">
                     <h4 class="cunchao-timeline__panel-title">跨区域客流数据</h4>
                     <ul class="cunchao-timeline__panel-list">${summaryFlowHtml}</ul>
                 </div>
-            </aside>
+            </div>
         </div>
         <footer class="cunchao-timeline__footer">
             <p class="cunchao-timeline__footer-row">${footerRow1}</p>
