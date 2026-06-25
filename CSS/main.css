@@ -272,6 +272,9 @@ body {
     margin: 0 -6px 18px;
     padding: 0;
     line-height: 0;
+    aspect-ratio: 1024 / 794;
+    container-type: size;
+    container-name: cover-hero;
 }
 
 .cover-hero-art {
@@ -284,13 +287,12 @@ body {
 .cover-hero-caption {
     position: absolute;
     top: 38%;
-    left: 5%;
+    right: 5%;
+    left: auto;
     width: auto;
     max-width: 92%;
-    transform: scale(min(1, calc((min(100vw, 520px) - 12px) / 750)));
-    transform-origin: top left;
     z-index: 2;
-    text-align: left;
+    text-align: right;
     pointer-events: none;
     line-height: var(--lh-title);
 }
@@ -323,21 +325,21 @@ body {
 
 .cover-title-sizer--head {
     font-family: var(--font-l1);
-    font-size: 48pt;
+    font-size: min(16cqh, 12.5cqw, 4rem);
     letter-spacing: 0.1em;
     line-height: 1.05;
 }
 
 .cover-title-sizer--main {
     font-family: var(--font-l1);
-    font-size: 48pt;
+    font-size: min(16cqh, 12.5cqw, 4rem);
     letter-spacing: 0.12em;
     line-height: 1.05;
 }
 
 .cover-title-sizer--sub {
     font-family: var(--font-body);
-    font-size: 14.4pt;
+    font-size: min(4.5cqh, 3.5cqw, 0.95rem);
     font-weight: 600;
     letter-spacing: 0.12em;
     line-height: 1.45;
@@ -379,7 +381,7 @@ body {
     grid-column: 1;
     grid-row: 1;
     font-family: var(--font-l1);
-    font-size: 48pt;
+    font-size: min(16cqh, 12.5cqw, 4rem);
     font-weight: 400;
     line-height: 1.02;
     letter-spacing: 0.1em;
@@ -419,7 +421,7 @@ body {
 
 .cover-title-bridge {
     display: inline-block;
-    font-size: 2em;
+    font-size: 1.62em;
     line-height: 0.88;
     color: #8f3f3f;
     transform: rotate(-4deg) translateY(0.02em);
@@ -443,7 +445,7 @@ body {
     grid-column: 1;
     grid-row: 2;
     font-family: var(--font-body);
-    font-size: 14.4pt;
+    font-size: min(4.5cqh, 3.5cqw, 0.95rem);
     font-weight: 600;
     line-height: 1.5;
     letter-spacing: 0.12em;
@@ -453,7 +455,7 @@ body {
     min-width: 0;
     box-sizing: border-box;
     white-space: nowrap;
-    text-align: left;
+    text-align: right;
     padding: 0.14em 0.18em 0.16em;
     background: rgba(252, 248, 240, 0.42);
     border-radius: 1px;
@@ -589,50 +591,71 @@ body {
     }
 }
 
-/* 封面标题 · 小屏：与桌面相同叠放位置，下方预留溢出区 */
-@media (max-width: 520px) {
-    .cover-hero-image {
-        display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: auto auto;
-        margin-bottom: 18px;
-    }
-
-    .cover-hero-art {
-        grid-row: 1;
-        grid-column: 1;
-    }
-
+/* 封面标题 · 容器查询：随背景图尺寸缩放，标题始终留在插画区域内 */
+@container cover-hero (max-height: 340px) {
     .cover-hero-caption {
-        grid-row: 1;
-        grid-column: 1;
-        top: 38%;
-        left: 5%;
-        width: auto;
-        max-width: 92%;
-        transform: scale(min(1, calc((min(100vw, 520px) - 12px) / 750)));
-        transform-origin: top left;
-        padding: 0;
-        background: transparent;
+        top: 34%;
     }
 
-    .cover-hero-image::after {
-        content: "";
-        grid-row: 2;
-        grid-column: 1;
-        height: clamp(2.75rem, 18vw, 5rem);
-        pointer-events: none;
+    .cover-main-title,
+    .cover-title-sizer--head,
+    .cover-title-sizer--main {
+        font-size: min(14cqh, 11.5cqw, 4rem);
+    }
+
+    .cover-subtitle,
+    .cover-title-sizer--sub {
+        font-size: min(4cqh, 3.2cqw, 0.9rem);
+        letter-spacing: 0.06em;
+        line-height: 1.4;
+        white-space: nowrap;
+    }
+
+    .cover-title-bridge {
+        font-size: 1.55em;
     }
 
     .cover-title-scroll {
-        width: auto;
-        max-width: 100%;
+        padding: 0.28em 0 0.34em;
+    }
+}
+
+@container cover-hero (max-height: 280px) {
+    .cover-hero-caption {
+        top: 32%;
     }
 
-    .cover-subtitle {
-        white-space: normal;
-        letter-spacing: 0.08em;
-        line-height: 1.45;
+    .cover-main-title,
+    .cover-title-sizer--head,
+    .cover-title-sizer--main {
+        font-size: min(12.5cqh, 10.5cqw, 3.2rem);
+    }
+
+    .cover-subtitle,
+    .cover-title-sizer--sub {
+        font-size: min(3.6cqh, 2.9cqw, 0.82rem);
+    }
+
+    .cover-title-bridge {
+        font-size: 1.48em;
+    }
+}
+
+@supports not (container-type: size) {
+    .cover-main-title,
+    .cover-title-sizer--head,
+    .cover-title-sizer--main {
+        font-size: clamp(1.45rem, 12.5vw, 4rem);
+    }
+
+    .cover-subtitle,
+    .cover-title-sizer--sub {
+        font-size: clamp(0.68rem, 3.2vw, 0.95rem);
+    }
+
+    .cover-hero-caption {
+        transform: scale(min(1, calc((min(100vw, 520px) - 12px) / 750)));
+        transform-origin: top right;
     }
 }
 
