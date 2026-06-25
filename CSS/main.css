@@ -283,7 +283,7 @@ body {
 
 .cover-hero-caption {
     position: absolute;
-    top: 38%;
+    top: clamp(30%, 36vw, 38%);
     left: 5%;
     width: auto;
     max-width: 92%;
@@ -323,21 +323,21 @@ body {
 
 .cover-title-sizer--head {
     font-family: var(--font-l1);
-    font-size: 48pt;
+    font-size: clamp(2rem, 10.5vw, 48pt);
     letter-spacing: 0.1em;
     line-height: 1.05;
 }
 
 .cover-title-sizer--main {
     font-family: var(--font-l1);
-    font-size: 48pt;
+    font-size: clamp(2rem, 10.5vw, 48pt);
     letter-spacing: 0.12em;
     line-height: 1.05;
 }
 
 .cover-title-sizer--sub {
     font-family: var(--font-body);
-    font-size: 14.4pt;
+    font-size: clamp(0.72rem, 3.2vw, 14.4pt);
     font-weight: 600;
     letter-spacing: 0.12em;
     line-height: 1.45;
@@ -379,7 +379,7 @@ body {
     grid-column: 1;
     grid-row: 1;
     font-family: var(--font-l1);
-    font-size: 48pt;
+    font-size: clamp(2rem, 10.5vw, 48pt);
     font-weight: 400;
     line-height: 1.02;
     letter-spacing: 0.1em;
@@ -443,7 +443,7 @@ body {
     grid-column: 1;
     grid-row: 2;
     font-family: var(--font-body);
-    font-size: 14.4pt;
+    font-size: clamp(0.72rem, 3.2vw, 14.4pt);
     font-weight: 600;
     line-height: 1.5;
     letter-spacing: 0.12em;
@@ -589,9 +589,58 @@ body {
     }
 }
 
-@media (max-width: 400px) {
+/* 封面标题 · 小屏：底部锚定 + 预留高度，避免与序章正文重叠 */
+@media (max-width: 520px) {
+    .cover-hero-image {
+        padding-bottom: clamp(8.25rem, 42vw, 11rem);
+        margin-bottom: 14px;
+    }
+
+    .cover-hero-caption {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: none;
+        transform: none;
+        padding: 0.45rem 0.65rem 0.7rem;
+        box-sizing: border-box;
+        background: linear-gradient(
+            180deg,
+            rgba(245, 242, 232, 0) 0%,
+            rgba(245, 242, 232, 0.52) 32%,
+            rgba(245, 242, 232, 0.9) 100%
+        );
+    }
+
+    .cover-title-scroll {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .cover-main-title,
+    .cover-title-sizer--head,
+    .cover-title-sizer--main {
+        font-size: clamp(1.95rem, 10.8vw, 2.65rem);
+    }
+
+    .cover-title-sizer--sub,
+    .cover-subtitle {
+        font-size: clamp(0.68rem, 3.15vw, 0.84rem);
+    }
+
     .cover-subtitle {
         white-space: normal;
+        letter-spacing: 0.07em;
+        line-height: 1.45;
+    }
+}
+
+@media (min-width: 521px) {
+    .cover-hero-caption {
+        top: 38%;
+        transform: scale(min(1, calc((min(100vw, 520px) - 12px) / 750)));
     }
 }
 
