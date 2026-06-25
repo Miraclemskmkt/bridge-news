@@ -8,6 +8,10 @@
     const dom = document.getElementById("incomeDumbbell");
     if (!dom) return;
 
+    const chartHeight = window.BRIDGE_CHART_HEIGHT || function (el, fb) {
+        return el?.clientHeight > 24 ? el.clientHeight : (fb || 680);
+    };
+
     const T = window.BRIDGE_CHART || {};
 
     const C = {
@@ -87,93 +91,129 @@
         fixedrange: true
     };
 
-    const layout = {
-        paper_bgcolor: "rgba(0,0,0,0)",
-        plot_bgcolor: "rgba(0,0,0,0)",
-        height: 680,
-        margin: { t: 72, b: 40, l: 40, r: 20 },
-        font: { family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
-        grid: {
-            rows: 3,
-            columns: 1,
-            pattern: "independent",
-            roworder: "top to bottom",
-            ygap: 0.14
-        },
-        xaxis: {
-            ...axisStyle,
-            range: [300, 2500],
-            title: { text: "元", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
-        },
-        yaxis: { ...yAxisStyle, anchor: "x" },
-        xaxis2: {
-            ...axisStyle,
-            range: [10000, 17000],
-            title: { text: "元", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
-        },
-        yaxis2: { ...yAxisStyle, anchor: "x2" },
-        xaxis3: {
-            ...axisStyle,
-            range: [-25, 155],
-            title: { text: "分钟", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
-        },
-        yaxis3: { ...yAxisStyle, anchor: "x3" },
-        annotations: [
-            {
-                text: "<b>① 货车司机单趟收入变迁 (微观个体账本)</b>",
-                xref: "x domain", yref: "y domain",
-                x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
-                showarrow: false,
-                cliponaxis: false,
-                font: { size: T.subtitle || 14, color: C.ink }
-            },
-            {
-                text: "<b>单趟收益跃升 +150.0%</b>",
-                xref: "x", yref: "y",
-                x: 1400, y: -0.22,
-                showarrow: false,
-                font: { size: T.axis || 12, color: C.ink }
-            },
-            {
-                text: "<b>② 核心产区椒农人均年收入 (产业增收账本)</b>",
-                xref: "x2 domain", yref: "y2 domain",
-                x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
-                showarrow: false,
-                cliponaxis: false,
-                font: { size: T.subtitle || 14, color: C.ink }
-            },
-            {
-                text: "<b>年收入增长 +24.8%</b>",
-                xref: "x2", yref: "y2",
-                x: 13485, y: -0.22,
-                showarrow: false,
-                font: { size: T.axis || 12, color: C.ink }
-            },
-            {
-                text: "<b>③ 关岭至贞丰跨峡谷货运耗时 (时空压缩时效)</b>",
-                xref: "x3 domain", yref: "y3 domain",
-                x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
-                showarrow: false,
-                cliponaxis: false,
-                font: { size: T.subtitle || 14, color: C.ink }
-            },
-            {
-                text: "<b>跨峡时效提升 60 倍 (耗时缩短 -98.3%)</b>",
-                xref: "x3", yref: "y3",
-                x: 61, y: -0.22,
-                showarrow: false,
-                font: { size: T.axis || 12, color: C.ink }
-            }
-        ]
-    };
+    function buildLayout(height) {
+        const compact = height < 520;
 
-    Plotly.newPlot(dom, traces, layout, {
+        return {
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            height,
+            margin: {
+                t: compact ? 52 : 72,
+                b: compact ? 28 : 40,
+                l: compact ? 24 : 40,
+                r: compact ? 10 : 20
+            },
+            font: { family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
+            grid: {
+                rows: 3,
+                columns: 1,
+                pattern: "independent",
+                roworder: "top to bottom",
+                ygap: compact ? 0.1 : 0.14
+            },
+            xaxis: {
+                ...axisStyle,
+                range: [300, 2500],
+                title: { text: "元", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
+            },
+            yaxis: { ...yAxisStyle, anchor: "x" },
+            xaxis2: {
+                ...axisStyle,
+                range: [10000, 17000],
+                title: { text: "元", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
+            },
+            yaxis2: { ...yAxisStyle, anchor: "x2" },
+            xaxis3: {
+                ...axisStyle,
+                range: [-25, 155],
+                title: { text: "分钟", font: { size: T.axisSm || 11, color: C.gray }, standoff: 8 }
+            },
+            yaxis3: { ...yAxisStyle, anchor: "x3" },
+            annotations: [
+                {
+                    text: "<b>① 货车司机单趟收入变迁 (微观个体账本)</b>",
+                    xref: "x domain", yref: "y domain",
+                    x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
+                    showarrow: false,
+                    cliponaxis: false,
+                    font: { size: compact ? (T.axis || 12) : (T.subtitle || 14), color: C.ink }
+                },
+                {
+                    text: "<b>单趟收益跃升 +150.0%</b>",
+                    xref: "x", yref: "y",
+                    x: 1400, y: -0.22,
+                    showarrow: false,
+                    font: { size: T.axis || 12, color: C.ink }
+                },
+                {
+                    text: "<b>② 核心产区椒农人均年收入 (产业增收账本)</b>",
+                    xref: "x2 domain", yref: "y2 domain",
+                    x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
+                    showarrow: false,
+                    cliponaxis: false,
+                    font: { size: compact ? (T.axis || 12) : (T.subtitle || 14), color: C.ink }
+                },
+                {
+                    text: "<b>年收入增长 +24.8%</b>",
+                    xref: "x2", yref: "y2",
+                    x: 13485, y: -0.22,
+                    showarrow: false,
+                    font: { size: T.axis || 12, color: C.ink }
+                },
+                {
+                    text: "<b>③ 关岭至贞丰跨峡谷货运耗时 (时空压缩时效)</b>",
+                    xref: "x3 domain", yref: "y3 domain",
+                    x: 0, y: 1.25, xanchor: "left", yanchor: "bottom",
+                    showarrow: false,
+                    cliponaxis: false,
+                    font: { size: compact ? (T.axis || 12) : (T.subtitle || 14), color: C.ink }
+                },
+                {
+                    text: "<b>跨峡时效提升 60 倍 (耗时缩短 -98.3%)</b>",
+                    xref: "x3", yref: "y3",
+                    x: 61, y: -0.22,
+                    showarrow: false,
+                    font: { size: T.axis || 12, color: C.ink }
+                }
+            ]
+        };
+    }
+
+    const config = {
         responsive: true,
         displayModeBar: false
+    };
+
+    function syncLayout() {
+        const height = chartHeight(dom, 680);
+        Plotly.relayout(dom, buildLayout(height));
+    }
+
+    function render() {
+        const height = chartHeight(dom, 680);
+        Plotly.newPlot(dom, traces, buildLayout(height), config);
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", render);
+    } else {
+        render();
+    }
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(syncLayout, 120);
     });
 
-    window.addEventListener("resize", () => {
-        Plotly.Plots.resize(dom);
-    });
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) syncLayout();
+            });
+        }, { threshold: 0.08 });
+        observer.observe(dom);
+    }
 
 })();

@@ -24,6 +24,48 @@
         light: "#B8B8B8"
     };
 
+    /** 读取图表容器实际高度，供 Plotly layout 与 CSS clamp 配合 */
+    window.BRIDGE_CHART_HEIGHT = function (el, fallback) {
+        if (!el) return fallback || 320;
+        var h = el.clientHeight;
+        return h > 24 ? h : (fallback || 320);
+    };
+
+    function applyResponsiveChartTokens() {
+        var w = window.innerWidth;
+        var base = {
+            font: FONT,
+            axis: 12,
+            axisSm: 11,
+            data: 14,
+            dataSm: 12,
+            legend: 12,
+            tooltip: 14,
+            tooltipSm: 13,
+            subtitle: 14,
+            dense: 10,
+            ink: "#4A7C65",
+            gray: "#7A7A7A",
+            light: "#B8B8B8"
+        };
+        if (w <= 360) {
+            window.BRIDGE_CHART = Object.assign({}, base, {
+                axis: 10, axisSm: 9, data: 12, dataSm: 10,
+                legend: 10, subtitle: 12, dense: 9, tooltip: 12
+            });
+        } else if (w <= 420) {
+            window.BRIDGE_CHART = Object.assign({}, base, {
+                axis: 11, axisSm: 10, data: 13, dataSm: 11,
+                legend: 11, subtitle: 13, dense: 9
+            });
+        } else {
+            window.BRIDGE_CHART = base;
+        }
+    }
+
+    applyResponsiveChartTokens();
+    window.addEventListener("resize", applyResponsiveChartTokens);
+
     /** 图表数值单位格式化 */
     window.BRIDGE_FMT = {
         wanRenCi: (n) => `${n} 万人次`,

@@ -57,40 +57,44 @@
         }
     ];
 
-    const layout = {
-        font: { family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
-        paper_bgcolor: "rgba(0,0,0,0)",
-        plot_bgcolor: "rgba(0,0,0,0)",
-        barmode: "group",
-        bargap: 0.32,
-        bargroupgap: 0.14,
-        height: 196,
-        margin: { l: 4, r: 4, t: 4, b: 28 },
-        showlegend: false,
-        xaxis: {
-            tickfont: { size: T.axisSm || 11, color: C.ink },
-            tickangle: 0,
-            showgrid: false,
-            linecolor: C.line,
-            fixedrange: true
-        },
-        yaxis: {
-            range: [0, 22],
-            showticklabels: false,
-            showgrid: false,
-            zeroline: false,
-            showline: false,
-            fixedrange: true
-        }
-    };
+    function buildLayout() {
+        return {
+            font: { family: "Noto Serif SC, Source Han Serif SC, SimSun, serif" },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            barmode: "group",
+            bargap: 0.32,
+            bargroupgap: 0.14,
+            height: (window.BRIDGE_CHART_HEIGHT || function (el, fb) {
+                return el?.clientHeight > 24 ? el.clientHeight : (fb || 196);
+            })(dom, 196),
+            margin: { l: 4, r: 4, t: 4, b: 28 },
+            showlegend: false,
+            xaxis: {
+                tickfont: { size: T.axisSm || 11, color: C.ink },
+                tickangle: 0,
+                showgrid: false,
+                linecolor: C.line,
+                fixedrange: true
+            },
+            yaxis: {
+                range: [0, 22],
+                showticklabels: false,
+                showgrid: false,
+                zeroline: false,
+                showline: false,
+                fixedrange: true
+            }
+        };
+    }
 
-    Plotly.newPlot(dom, traces, layout, {
+    Plotly.newPlot(dom, traces, buildLayout(), {
         responsive: true,
         displayModeBar: false
     });
 
     window.addEventListener("resize", () => {
-        Plotly.Plots.resize(dom);
+        Plotly.relayout(dom, { height: buildLayout().height });
     });
 
 })();

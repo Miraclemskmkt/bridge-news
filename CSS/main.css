@@ -57,6 +57,12 @@
     -webkit-tap-highlight-color: transparent;
 }
 
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
+
 html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -86,7 +92,7 @@ body {
     margin: 0 auto;
     position: relative;
     z-index: 2;
-    padding: 0 6px clamp(500px, 132vw, 692px);
+    padding: 0 6px clamp(320px, 88vw, 692px);
     background-color: var(--paper);
     background-image:
         url("../images/footer-bg.png"),
@@ -286,8 +292,9 @@ body {
 
 .cover-hero-caption {
     position: absolute;
-    top: 38%;
-    right: 5%;
+    top: 44%;
+    right: 8%;
+    right: 9cqw;
     left: auto;
     width: auto;
     max-width: 92%;
@@ -302,11 +309,11 @@ body {
     display: inline-grid;
     grid-template-columns: minmax(0, max-content);
     max-width: 100%;
-    padding: 0.38em 0 0.48em;
+    padding: 0.1em 0 0.48em;
     background: transparent;
     border-radius: 0;
     box-shadow: none;
-    animation: coverScrollDrift 9s ease-in-out 1.45s infinite;
+    animation: coverScrollDrift 11s ease-in-out 1.45s infinite;
 }
 
 .cover-title-sizers {
@@ -345,12 +352,12 @@ body {
     line-height: 1.45;
 }
 
-.cover-title-scroll::before,
 .cover-title-scroll::after {
     content: "";
     position: absolute;
     left: 0;
     right: 0;
+    bottom: 0;
     height: 1px;
     background: linear-gradient(
         90deg,
@@ -364,17 +371,9 @@ body {
     transform: scaleX(0);
     transform-origin: right center;
     opacity: 0;
-    animation: coverScrollLine 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.cover-title-scroll::before {
-    top: 0;
-    animation-delay: 0.06s;
-}
-
-.cover-title-scroll::after {
-    bottom: 0;
-    animation-delay: 0.22s;
+    animation:
+        coverScrollLine 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.22s forwards,
+        coverScrollLineBreathe 6s ease-in-out 1.35s infinite;
 }
 
 .cover-main-title {
@@ -400,6 +399,7 @@ body {
         0 0 6px rgba(245, 242, 232, 0.72),
         0 1px 0 rgba(255, 252, 244, 0.65),
         1px 2px 4px rgba(24, 22, 20, 0.14);
+    animation: coverInkGlow 10s ease-in-out 1.5s infinite;
 }
 
 .cover-title-row {
@@ -460,7 +460,9 @@ body {
     background: rgba(252, 248, 240, 0.42);
     border-radius: 1px;
     box-shadow: none;
-    animation: coverSubtitleIn 0.82s cubic-bezier(0.22, 1, 0.36, 1) 0.78s both;
+    animation:
+        coverSubtitleIn 0.82s cubic-bezier(0.22, 1, 0.36, 1) 0.78s both,
+        coverSubtitleMist 9s ease-in-out 1.65s infinite;
 }
 
 .cover-subtitle::before {
@@ -481,13 +483,18 @@ body {
     margin: 0.28em 0 0;
     background: linear-gradient(
         90deg,
-        rgba(74, 124, 101, 0.28),
-        rgba(74, 124, 101, 0.5) 55%,
+        rgba(74, 124, 101, 0.18),
+        rgba(74, 124, 101, 0.5) 35%,
+        rgba(191, 140, 96, 0.32) 55%,
+        rgba(74, 124, 101, 0.5) 75%,
         rgba(74, 124, 101, 0.18)
     );
+    background-size: 200% 100%;
     transform: scaleX(0);
     transform-origin: right center;
-    animation: coverTitleLine 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+    animation:
+        coverTitleLine 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards,
+        coverRiverShimmer 8s ease-in-out 2.1s infinite;
 }
 
 @keyframes coverScrollLine {
@@ -543,10 +550,64 @@ body {
 
 @keyframes coverScrollDrift {
     0%, 100% {
-        transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate3d(-0.6px, -1.5px, 0) rotate(-0.14deg);
     }
     50% {
-        transform: translate3d(0, -2px, 0);
+        transform: translate3d(0.5px, -2px, 0) rotate(0.1deg);
+    }
+    75% {
+        transform: translate3d(-0.3px, -1px, 0) rotate(-0.08deg);
+    }
+}
+
+@keyframes coverScrollLineBreathe {
+    0%, 100% {
+        opacity: 0.68;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes coverInkGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 18px rgba(245, 242, 232, 0.92),
+            0 0 6px rgba(245, 242, 232, 0.72),
+            0 1px 0 rgba(255, 252, 244, 0.65),
+            1px 2px 4px rgba(24, 22, 20, 0.14);
+    }
+    50% {
+        text-shadow:
+            0 0 22px rgba(245, 242, 232, 0.98),
+            0 0 10px rgba(209, 231, 221, 0.42),
+            0 1px 0 rgba(255, 252, 244, 0.75),
+            1px 2px 5px rgba(24, 22, 20, 0.11);
+    }
+}
+
+@keyframes coverSubtitleMist {
+    0%, 100% {
+        background-color: rgba(252, 248, 240, 0.38);
+        box-shadow: 0 0 0 rgba(74, 124, 101, 0);
+    }
+    50% {
+        background-color: rgba(252, 248, 240, 0.52);
+        box-shadow: 0 0 14px rgba(209, 231, 221, 0.2);
+    }
+}
+
+@keyframes coverRiverShimmer {
+    0%, 100% {
+        background-position: 100% 0;
+        opacity: 0.82;
+    }
+    50% {
+        background-position: 0% 0;
+        opacity: 1;
     }
 }
 
@@ -569,17 +630,17 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
     .cover-title-scroll,
-    .cover-title-scroll::before,
     .cover-title-scroll::after,
+    .cover-main-title,
     .cover-title-row--bottom,
     .cover-title-bridge,
     .cover-title-rest,
     .cover-subtitle,
-    .cover-subtitle::before {
+    .cover-subtitle::before,
+    .cover-subtitle::after {
         animation: none;
     }
 
-    .cover-title-scroll::before,
     .cover-title-scroll::after {
         transform: scaleX(1);
         opacity: 1;
@@ -594,7 +655,7 @@ body {
 /* 封面标题 · 容器查询：随背景图尺寸缩放，标题始终留在插画区域内 */
 @container cover-hero (max-height: 340px) {
     .cover-hero-caption {
-        top: 34%;
+        top: 40%;
     }
 
     .cover-main-title,
@@ -616,13 +677,13 @@ body {
     }
 
     .cover-title-scroll {
-        padding: 0.28em 0 0.34em;
+        padding: 0.08em 0 0.34em;
     }
 }
 
 @container cover-hero (max-height: 280px) {
     .cover-hero-caption {
-        top: 32%;
+        top: 38%;
     }
 
     .cover-main-title,
@@ -957,22 +1018,21 @@ body {
     margin-top: 2px;
 }
 
-.section-title::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 36%;
-    height: 2px;
-    border-radius: 2px;
+.section-title-prefix {
+    display: inline-block;
+    border-bottom: 2px solid var(--pine);
+    padding-bottom: 2px;
 }
 
-.section-title.accent-blue::after { background: var(--pine); }
-.section-title.accent-gold::after { background: var(--pine); }
-.section-title.accent-red::after { background: var(--pine); }
-.section-title.accent-green::after { background: var(--pine); }
-.section-title.accent-silver::after { background: var(--pine); }
+.section-title::after {
+    content: none;
+}
+
+.accent-blue .section-title-prefix { border-color: var(--pine); }
+.accent-gold .section-title-prefix { border-color: var(--pine); }
+.accent-red .section-title-prefix { border-color: var(--pine); }
+.accent-green .section-title-prefix { border-color: var(--pine); }
+.accent-silver .section-title-prefix { border-color: var(--pine); }
 
 .article-body {
     font-family: var(--font-body);
@@ -981,6 +1041,8 @@ body {
     line-height: var(--lh-body);
     margin-top: 12px;
     text-align: left;
+    overflow-wrap: break-word;
+    word-break: break-word;
 }
 
 .article-body strong {
@@ -1012,6 +1074,13 @@ body {
     margin: 14px 0 6px;
     line-height: var(--lh-title);
     letter-spacing: 0.04em;
+}
+
+#section-prologue .chart-caption {
+    font-family: var(--font-l3);
+    font-size: 0.95rem;
+    letter-spacing: 0.1em;
+    color: var(--eco-green-deep);
 }
 
 /* 第一幕 · 玻璃卡片图表（桥(1) 638-640） */
@@ -1063,13 +1132,13 @@ body {
 }
 
 .chart-container--maintenance-rose {
-    height: 340px;
-    min-height: 340px;
+    height: clamp(260px, 72vw, 340px);
+    min-height: 240px;
 }
 
 .chart-container--maintenance-tree {
-    height: 300px;
-    min-height: 300px;
+    height: clamp(230px, 66vw, 300px);
+    min-height: 220px;
 }
 
 .chart-card--timeline .chart-card-caption {
@@ -1084,12 +1153,13 @@ body {
 }
 
 .chart-container--polar {
-    height: 360px;
+    height: clamp(280px, 78vw, 360px);
+    min-height: 260px;
 }
 
 .chart-container--density {
-    height: 400px;
-    min-height: 400px;
+    height: clamp(300px, 86vw, 400px);
+    min-height: 280px;
     background: transparent;
 }
 
@@ -1109,19 +1179,19 @@ body {
 }
 
 .chart-container--dumbbell {
-    height: 680px;
-    min-height: 680px;
+    height: clamp(440px, 138vw, 680px);
+    min-height: 420px;
     overflow: visible;
 }
 
 .chart-container--sankey {
-    height: 380px;
-    min-height: 380px;
+    height: clamp(300px, 82vw, 380px);
+    min-height: 280px;
 }
 
 .chart-container--income {
-    height: 400px;
-    min-height: 400px;
+    height: clamp(300px, 86vw, 400px);
+    min-height: 280px;
 }
 
 .chart-container--bubble {
@@ -1432,8 +1502,8 @@ body {
 }
 
 .micro-chart {
-    height: 196px;
-    min-height: 196px;
+    height: clamp(168px, 48vw, 196px);
+    min-height: 160px;
 }
 
 .micro-chart .js-plotly-plot,
@@ -1903,8 +1973,8 @@ body {
     position: relative;
 }
 
-.chart { height: 320px; }
-.chart-large { height: 380px; }
+.chart { height: clamp(260px, 72vw, 320px); min-height: 240px; }
+.chart-large { height: clamp(300px, 84vw, 380px); min-height: 280px; }
 
 .chart-hero {
     background: transparent;
@@ -2109,17 +2179,59 @@ footer {
 
 #terrainProfile {
     position: relative;
-    min-height: 420px;
+    min-height: clamp(340px, 92vw, 460px);
+    height: clamp(340px, 92vw, 460px);
     background:
-        linear-gradient(180deg, rgba(209, 231, 221, 0.22) 0%, rgba(245, 242, 232, 0) 42%),
-        linear-gradient(0deg, rgba(74, 124, 101, 0.04) 0%, transparent 28%);
-    border-radius: 6px;
+        radial-gradient(ellipse 80% 50% at 78% 14%, rgba(232, 244, 239, 0.28) 0%, transparent 70%),
+        radial-gradient(ellipse 65% 42% at 20% 90%, rgba(197, 221, 212, 0.14) 0%, transparent 65%),
+        linear-gradient(180deg, rgba(232, 244, 239, 0.32) 0%, rgba(245, 242, 232, 0.06) 50%, rgba(197, 221, 212, 0.1) 100%);
+    border-radius: 8px;
     overflow: hidden;
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+        opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+        inset 0 0 0 1px rgba(74, 124, 101, 0.06),
+        inset 0 24px 48px rgba(255, 248, 240, 0.35),
+        inset 0 -18px 36px rgba(74, 124, 101, 0.04);
+}
+
+#terrainProfile.terrain-profile--ready {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#terrainProfile.terrain-profile--visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#terrainProfile::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: 8px;
+    background:
+        linear-gradient(180deg, rgba(245, 242, 232, 0.12) 0%, transparent 18%),
+        linear-gradient(0deg, rgba(45, 90, 74, 0.06) 0%, transparent 22%),
+        radial-gradient(ellipse at center, transparent 55%, rgba(30, 50, 40, 0.07) 100%);
+    z-index: 2;
 }
 
 #terrainProfile .js-plotly-plot,
 #terrainProfile .plot-container {
-    border-radius: 6px;
+    border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #terrainProfile {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
 
 #transportRing,
@@ -2140,8 +2252,8 @@ footer {
 
 .chart-container--carbon,
 #carbonLife.chart-large {
-    height: 440px;
-    min-height: 440px;
+    height: clamp(320px, 90vw, 440px);
+    min-height: 300px;
 }
 
 .carbon-chart-note {
@@ -2509,7 +2621,7 @@ footer {
     pointer-events: none;
 }
 
-@media (max-width: 420px) {
+@media (max-width: 520px) {
     .twin-canvas {
         display: block;
     }
@@ -2529,7 +2641,7 @@ footer {
     }
 
     .twin-col--left {
-        height: 160px;
+        height: clamp(140px, 38vw, 160px);
         align-self: auto;
     }
 
@@ -2564,18 +2676,81 @@ footer {
         left: 6px;
         margin: 0;
     }
+
+    .cunchao-timeline__chart-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .cunchao-timeline__left {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 8px 0 4px;
+        gap: 8px 12px;
+    }
+
+    .cover-subtitle,
+    .cover-title-sizer--sub {
+        white-space: normal;
+        line-height: 1.45;
+        letter-spacing: 0.05em;
+    }
+
+    .cover-lead,
+    .subtitle-line,
+    .article-body {
+        max-width: 100%;
+    }
+
+    .compare-item {
+        min-width: min(110px, 46%);
+        flex: 1 1 46%;
+    }
+
+    .bridge-silhouette-fixed {
+        opacity: 0.025;
+        width: 26px;
+        height: 110px;
+        top: 22%;
+    }
+
+    .glass-card {
+        padding-left: 2px;
+        padding-right: 2px;
+    }
+
+    .chart-card-caption,
+    .chart-caption {
+        font-size: clamp(0.78rem, 3.4vw, 0.875rem);
+        padding: 0 4px;
+    }
+
+    .map-label {
+        font-size: clamp(0.52rem, 2.4vw, 0.58rem);
+    }
+
+    .map-label-sm {
+        font-size: clamp(0.46rem, 2.1vw, 0.5rem);
+    }
+}
+
+@media (max-width: 420px) {
+    .chart-container--dumbbell {
+        min-height: 400px;
+    }
 }
 
 #bridgePixel.chart-large {
-    height: 400px;
-    min-height: 400px;
-    max-height: 400px;
+    height: clamp(300px, 84vw, 400px);
+    min-height: 280px;
+    max-height: none;
 }
 
 #bridgeVillage.chart-large {
-    height: 480px;
-    min-height: 480px;
-    max-height: 480px;
+    height: clamp(360px, 98vw, 480px);
+    min-height: 340px;
+    max-height: none;
 }
 
 .bridge-village-tip {
@@ -2590,15 +2765,15 @@ footer {
 }
 
 #tourismCompare.chart-large {
-    height: 520px;
-    min-height: 520px;
-    max-height: 520px;
+    height: clamp(380px, 108vw, 520px);
+    min-height: 360px;
+    max-height: none;
 }
 
 #ethnicChord.chart-large {
-    height: 455px;
-    min-height: 455px;
-    max-height: 455px;
+    height: clamp(340px, 94vw, 455px);
+    min-height: 320px;
+    max-height: none;
     cursor: default;
 }
 
@@ -2632,15 +2807,21 @@ footer {
     .section-title { font-size: 1rem; }
     .calligraphy-title { font-size: 2.2rem; letter-spacing: -0.05em; }
     .handdrawn-bridge { width: 26px; height: 40px; }
+    .main-wrapper { padding-left: 4px; padding-right: 4px; }
+    .hero-number-wall { gap: clamp(24px, 8vh, 40px); }
 }
 
 @media (min-width: 521px) {
-    .main-wrapper { padding: 0 12px 48px; }
-    .chart { height: 360px; }
-    .chart-large { height: 420px; }
+    .main-wrapper { padding: 0 12px clamp(48px, 10vw, 120px); }
+    .chart { height: clamp(320px, 56vw, 360px); }
+    .chart-large { height: clamp(380px, 62vw, 420px); }
 }
 
 @media (min-width: 768px) {
     .main-wrapper { max-width: 560px; }
-    .chart-large { height: 460px; }
+    .chart-large { height: clamp(420px, 58vw, 460px); }
+    #terrainProfile {
+        height: clamp(420px, 58vw, 480px);
+        min-height: clamp(420px, 58vw, 480px);
+    }
 }

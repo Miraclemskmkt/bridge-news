@@ -8,6 +8,10 @@
     const dom = document.getElementById("incomeStep");
     if (!dom) return;
 
+    const chartHeight = window.BRIDGE_CHART_HEIGHT || function (el, fb) {
+        return el?.clientHeight > 24 ? el.clientHeight : (fb || 400);
+    };
+
     const T = window.BRIDGE_CHART || {};
 
     const C = {
@@ -44,89 +48,114 @@
         }
     ];
 
-    const layout = {
-        font: {
-            size: T.axis || 11,
-            color: C.gray,
-            family: "Noto Serif SC, Source Han Serif SC, SimSun, serif"
-        },
-        paper_bgcolor: "rgba(0,0,0,0)",
-        plot_bgcolor: "rgba(0,0,0,0)",
-        height: 400,
-        margin: { l: 52, r: 48, t: 36, b: 44 },
-        legend: {
-            orientation: "h",
-            yanchor: "bottom",
-            y: 1.02,
-            xanchor: "right",
-            x: 1,
-            font: { size: T.legend || 11 }
-        },
-        xaxis: {
-            type: "linear",
-            tickmode: "array",
-            tickvals: years,
-            ticktext: years.map((y) => `${y}年`),
-            showgrid: true,
-            gridcolor: C.grid,
-            linecolor: C.gray,
-            linewidth: 0.8,
-            ticks: "outside",
-            tickcolor: C.gray,
-            tickfont: { size: T.axisSm || 10 }
-        },
-        yaxis: {
-            showgrid: true,
-            gridcolor: C.grid,
-            linecolor: C.gray,
-            linewidth: 0.8,
-            title: {
-                text: "人均支配收入 (元)",
-                font: { size: 11, color: C.gray }
-            },
-            ticks: "outside",
-            tickcolor: C.gray,
-            tickfont: { size: T.axisSm || 10 }
-        },
-        annotations: [
-            {
-                x: 2016, y: provinceIncome[0],
-                text: ` ${provinceIncome[0]}元`,
-                xanchor: "right", yanchor: "bottom",
-                showarrow: false,
-                font: { color: C.ink, size: 10 }
-            },
-            {
-                x: 2016, y: minorityIncome[0],
-                text: ` ${minorityIncome[0]}元`,
-                xanchor: "right", yanchor: "top",
-                showarrow: false,
-                font: { color: C.pine, size: 10 }
-            },
-            {
-                x: 2025, y: provinceIncome[9],
-                text: ` ${provinceIncome[9]}元 `,
-                xanchor: "left", yanchor: "bottom",
-                showarrow: false,
-                font: { color: C.ink, size: 11 }
-            },
-            {
-                x: 2025, y: minorityIncome[9],
-                text: ` ${minorityIncome[9]}元 `,
-                xanchor: "left", yanchor: "top",
-                showarrow: false,
-                font: { color: C.pine, size: 11 }
-            }
-        ]
-    };
+    function buildLayout(height) {
+        const compact = height < 340 || window.innerWidth <= 420;
 
-    Plotly.newPlot(dom, traces, layout, {
+        return {
+            font: {
+                size: T.axis || 11,
+                color: C.gray,
+                family: "Noto Serif SC, Source Han Serif SC, SimSun, serif"
+            },
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            height,
+            margin: {
+                l: compact ? 40 : 52,
+                r: compact ? 16 : 48,
+                t: compact ? 48 : 36,
+                b: compact ? 36 : 44
+            },
+            legend: {
+                orientation: "h",
+                yanchor: "bottom",
+                y: 1.02,
+                xanchor: "right",
+                x: 1,
+                font: { size: compact ? (T.axisSm || 10) : (T.legend || 11) }
+            },
+            xaxis: {
+                type: "linear",
+                tickmode: "array",
+                tickvals: years,
+                ticktext: years.map((y) => `${y}年`),
+                showgrid: true,
+                gridcolor: C.grid,
+                linecolor: C.gray,
+                linewidth: 0.8,
+                ticks: "outside",
+                tickcolor: C.gray,
+                tickfont: { size: T.axisSm || 10 }
+            },
+            yaxis: {
+                showgrid: true,
+                gridcolor: C.grid,
+                linecolor: C.gray,
+                linewidth: 0.8,
+                title: {
+                    text: "人均支配收入 (元)",
+                    font: { size: compact ? 10 : 11, color: C.gray }
+                },
+                ticks: "outside",
+                tickcolor: C.gray,
+                tickfont: { size: T.axisSm || 10 }
+            },
+            annotations: [
+                {
+                    x: 2016, y: provinceIncome[0],
+                    text: ` ${provinceIncome[0]}元`,
+                    xanchor: "right", yanchor: "bottom",
+                    showarrow: false,
+                    font: { color: C.ink, size: compact ? 9 : 10 }
+                },
+                {
+                    x: 2016, y: minorityIncome[0],
+                    text: ` ${minorityIncome[0]}元`,
+                    xanchor: "right", yanchor: "top",
+                    showarrow: false,
+                    font: { color: C.pine, size: compact ? 9 : 10 }
+                },
+                {
+                    x: 2025, y: provinceIncome[9],
+                    text: ` ${provinceIncome[9]}元 `,
+                    xanchor: "left", yanchor: "bottom",
+                    showarrow: false,
+                    font: { color: C.ink, size: compact ? 10 : 11 }
+                },
+                {
+                    x: 2025, y: minorityIncome[9],
+                    text: ` ${minorityIncome[9]}元 `,
+                    xanchor: "left", yanchor: "top",
+                    showarrow: false,
+                    font: { color: C.pine, size: compact ? 10 : 11 }
+                }
+            ]
+        };
+    }
+
+    const config = {
         responsive: true,
         displayModeBar: false
-    });
+    };
 
+    function syncLayout() {
+        Plotly.relayout(dom, buildLayout(chartHeight(dom, 400)));
+    }
+
+    function render() {
+        Plotly.newPlot(dom, traces, buildLayout(chartHeight(dom, 400)), config);
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", render);
+    } else {
+        render();
+    }
+
+    let resizeTimer;
     window.addEventListener("resize", () => {
-        Plotly.Plots.resize(dom);
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(syncLayout, 120);
     });
 
 })();
