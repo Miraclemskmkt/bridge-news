@@ -43,16 +43,8 @@
         ]);
     }
 
-    const TIER_SHORT = { extreme: "极高", high: "高", medium: "中", low: "低" };
-
-    function regionTooltip(row, rank) {
-        const auto = row.autonomous ? " · 自治州" : "";
-        return `${row.short}${auto}  ${row.display}  ${TIER_SHORT[row.tier]}  第${rank}位`;
-    }
-
     function buildOption() {
         const barOrder = [...regions].sort((a, b) => b.value - a.value);
-        const rankMap = Object.fromEntries(barOrder.map((r, i) => [r.short, i + 1]));
 
         const mapData = regions.map((r) => ({
             name: r.mapName,
@@ -66,29 +58,7 @@
 
         return {
             backgroundColor: "transparent",
-            tooltip: {
-                trigger: "axis",
-                axisPointer: {
-                    type: "shadow",
-                    shadowStyle: { color: "rgba(74, 124, 101, 0.06)" }
-                },
-                confine: true,
-                backgroundColor: "rgba(255,255,255,0.97)",
-                borderColor: "rgba(74, 124, 101, 0.25)",
-                borderWidth: 0.5,
-                padding: [2, 6],
-                className: "bridge-density-tip",
-                extraCssText: "border-radius:2px;box-shadow:0 1px 4px rgba(74,124,101,0.1);",
-                textStyle: { color: "#4A7C65", fontSize: T.axisSm || 11, lineHeight: 15 },
-                formatter: (items) => {
-                    if (!items || !items.length) return null;
-                    const p = items[0];
-                    if (p.seriesType !== "bar") return null;
-                    const row = regions.find((r) => r.short === p.name);
-                    if (!row) return null;
-                    return regionTooltip(row, rankMap[row.short]);
-                }
-            },
+            tooltip: { show: false },
             legend: {
                 show: true,
                 orient: "horizontal",
@@ -154,7 +124,6 @@
                 {
                     name: "桥隧比",
                     type: "bar",
-                    tooltip: { show: true },
                     data: barOrder.map((r) => ({
                         name: r.short,
                         value: r.value,

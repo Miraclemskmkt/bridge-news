@@ -270,35 +270,329 @@ body {
     width: calc(100% + 12px);
     max-width: none;
     margin: 0 -6px 18px;
-    padding: clamp(64px, 20vw, 96px) 8px 0;
-    line-height: 0;
-}
-
-.cover-title-image {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(96%, 420px);
-    margin: 0;
     padding: 0;
     line-height: 0;
+}
+
+.cover-hero-art {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
+.cover-hero-caption {
+    position: absolute;
+    top: 38%;
+    left: 5%;
+    width: auto;
+    max-width: 92%;
+    transform: scale(min(1, calc((min(100vw, 520px) - 12px) / 750)));
+    transform-origin: top left;
     z-index: 2;
+    text-align: left;
+    pointer-events: none;
+    line-height: var(--lh-title);
 }
 
-.cover-title-image img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
+.cover-title-scroll {
+    position: relative;
+    display: inline-grid;
+    grid-template-columns: minmax(0, max-content);
+    max-width: 100%;
+    padding: 0.38em 0 0.48em;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    animation: coverScrollDrift 9s ease-in-out 1.45s infinite;
 }
 
-.cover-hero-art,
-.cover-hero-image > img:not(.cover-title-image img) {
-    width: 100%;
-    height: auto;
+.cover-title-sizers {
+    grid-column: 1;
+    grid-row: 1;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.cover-title-sizer {
     display: block;
-    object-fit: contain;
+    white-space: nowrap;
+}
+
+.cover-title-sizer--head {
+    font-family: var(--font-l1);
+    font-size: 48pt;
+    letter-spacing: 0.1em;
+    line-height: 1.05;
+}
+
+.cover-title-sizer--main {
+    font-family: var(--font-l1);
+    font-size: 48pt;
+    letter-spacing: 0.12em;
+    line-height: 1.05;
+}
+
+.cover-title-sizer--sub {
+    font-family: var(--font-body);
+    font-size: 14.4pt;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    line-height: 1.45;
+}
+
+.cover-title-scroll::before,
+.cover-title-scroll::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(74, 124, 101, 0.08) 6%,
+        rgba(74, 124, 101, 0.38) 42%,
+        rgba(191, 140, 96, 0.28) 72%,
+        rgba(74, 124, 101, 0.22) 88%,
+        transparent
+    );
+    transform: scaleX(0);
+    transform-origin: right center;
+    opacity: 0;
+    animation: coverScrollLine 1.15s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.cover-title-scroll::before {
+    top: 0;
+    animation-delay: 0.06s;
+}
+
+.cover-title-scroll::after {
+    bottom: 0;
+    animation-delay: 0.22s;
+}
+
+.cover-main-title {
+    grid-column: 1;
+    grid-row: 1;
+    font-family: var(--font-l1);
+    font-size: 48pt;
+    font-weight: 400;
+    line-height: 1.02;
+    letter-spacing: 0.1em;
+    color: #181614;
+    margin: 0;
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.06em;
+    box-sizing: border-box;
+    -webkit-text-stroke: 0.5px rgba(24, 22, 20, 0.18);
+    text-shadow:
+        0 0 18px rgba(245, 242, 232, 0.92),
+        0 0 6px rgba(245, 242, 232, 0.72),
+        0 1px 0 rgba(255, 252, 244, 0.65),
+        1px 2px 4px rgba(24, 22, 20, 0.14);
+}
+
+.cover-title-row {
+    display: block;
+    white-space: nowrap;
+    line-height: 1.05;
+    width: 100%;
+}
+
+.cover-title-row--top {
+    text-align: right;
+}
+
+.cover-title-row--bottom {
+    letter-spacing: 0.12em;
+    text-align: right;
+    animation: coverInkInRight 0.82s cubic-bezier(0.22, 1, 0.36, 1) 0.48s both;
+}
+
+.cover-title-bridge {
+    display: inline-block;
+    font-size: 2em;
+    line-height: 0.88;
+    color: #8f3f3f;
+    transform: rotate(-4deg) translateY(0.02em);
+    margin-right: -0.02em;
+    vertical-align: baseline;
+    text-shadow:
+        0 0 16px rgba(245, 242, 232, 0.95),
+        0 1px 0 rgba(255, 252, 244, 0.55),
+        0 0 14px rgba(143, 63, 63, 0.18);
+    animation: coverBridgeIn 0.88s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+}
+
+.cover-title-rest {
+    display: inline-block;
+    font-size: 1em;
+    vertical-align: baseline;
+    animation: coverInkInRight 0.72s cubic-bezier(0.22, 1, 0.36, 1) 0.46s both;
+}
+
+.cover-subtitle {
+    grid-column: 1;
+    grid-row: 2;
+    font-family: var(--font-body);
+    font-size: 14.4pt;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: 0.12em;
+    color: #243530;
+    margin: 0.32em 0 0;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    white-space: nowrap;
+    text-align: left;
+    padding: 0.14em 0.18em 0.16em;
+    background: rgba(252, 248, 240, 0.42);
+    border-radius: 1px;
+    box-shadow: none;
+    animation: coverSubtitleIn 0.82s cubic-bezier(0.22, 1, 0.36, 1) 0.78s both;
+}
+
+.cover-subtitle::before {
+    content: "——";
+    margin-right: 0.1em;
+    color: #4A7C65;
+    letter-spacing: 0;
+    font-weight: 600;
+    display: inline-block;
+    animation: coverDashIn 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.68s both;
+}
+
+.cover-subtitle::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 0.28em 0 0;
+    background: linear-gradient(
+        90deg,
+        rgba(74, 124, 101, 0.28),
+        rgba(74, 124, 101, 0.5) 55%,
+        rgba(74, 124, 101, 0.18)
+    );
+    transform: scaleX(0);
+    transform-origin: right center;
+    animation: coverTitleLine 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1s forwards;
+}
+
+@keyframes coverScrollLine {
+    to {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+@keyframes coverInkIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 10px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes coverInkInRight {
+    from {
+        opacity: 0;
+        transform: translate3d(10px, 6px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes coverBridgeIn {
+    from {
+        opacity: 0;
+        transform: rotate(-7deg) translate3d(8px, 10px, 0) scale(0.94);
+    }
+    to {
+        opacity: 1;
+        transform: rotate(-4deg) translateY(0.02em) scale(1);
+    }
+}
+
+@keyframes coverDashIn {
+    from {
+        opacity: 0;
+        transform: translate3d(-6px, 0, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes coverScrollDrift {
+    0%, 100% {
+        transform: translate3d(0, 0, 0);
+    }
+    50% {
+        transform: translate3d(0, -2px, 0);
+    }
+}
+
+@keyframes coverSubtitleIn {
+    from {
+        opacity: 0;
+        transform: translate3d(0, 8px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+@keyframes coverTitleLine {
+    to {
+        transform: scaleX(1);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cover-title-scroll,
+    .cover-title-scroll::before,
+    .cover-title-scroll::after,
+    .cover-title-row--bottom,
+    .cover-title-bridge,
+    .cover-title-rest,
+    .cover-subtitle,
+    .cover-subtitle::before {
+        animation: none;
+    }
+
+    .cover-title-scroll::before,
+    .cover-title-scroll::after {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+
+    .cover-subtitle::after {
+        transform: scaleX(1);
+        animation: none;
+    }
+}
+
+@media (max-width: 400px) {
+    .cover-subtitle {
+        white-space: normal;
+    }
 }
 
 .visually-hidden {
@@ -1734,7 +2028,21 @@ footer {
     height: 100% !important;
 }
 
-#terrainProfile,
+#terrainProfile {
+    position: relative;
+    min-height: 420px;
+    background:
+        linear-gradient(180deg, rgba(209, 231, 221, 0.22) 0%, rgba(245, 242, 232, 0) 42%),
+        linear-gradient(0deg, rgba(74, 124, 101, 0.04) 0%, transparent 28%);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+#terrainProfile .js-plotly-plot,
+#terrainProfile .plot-container {
+    border-radius: 6px;
+}
+
 #transportRing,
 #bridgeDensity {
     position: relative;

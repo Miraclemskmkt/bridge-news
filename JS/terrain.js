@@ -7,12 +7,19 @@
     const terrainDiv = document.getElementById("terrainProfile");
     if (!terrainDiv || typeof Plotly === "undefined") return;
 
-    const GREEN_DARK = "#4A7C65";
-    const GREEN_MAIN = "#8CBFAA";
-    const GREEN_LIGHT = "#D1E7DD";
-    const GRAY = "#7A7A7A";
-    const GRAY_LIGHT = "#B8B8B8";
+    const C = {
+        ink: "#4A7C65",
+        pine: "#8CBFAA",
+        mist: "#D1E7DD",
+        deep: "#3a7262",
+        gray: "#7A7A7A",
+        grayLight: "#B8B8B8",
+        gold: "#bf8c60",
+        paper: "#F5F2E8",
+        buyi: "#3a5f7a"
+    };
     const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
+    const T = window.BRIDGE_CHART || {};
 
     function mulberry32(seed) {
         return function () {
@@ -53,21 +60,7 @@
         });
     }
 
-    const POINTS = 240;
-    const x = [];
-    const mountainFar = [];
-    const mountainMid = [];
-    const mountainFront = [];
-
-    for (let i = 0; i < POINTS; i++) {
-        const xv = (i / (POINTS - 1)) * 100;
-        x.push(xv);
-        mountainFar.push(18 + 4 * Math.sin(xv / 6) + 2.5 * Math.sin(xv / 2.5));
-        mountainMid.push(26 + 6 * Math.sin(xv / 7 + 0.3) + 3 * Math.sin(xv / 2));
-        mountainFront.push(32 + 7 * Math.sin(xv / 8 + 0.5) + 3.5 * Math.sin(xv / 1.8));
-    }
-
-    function mountainTrace(yValues, fillColor) {
+    function mountainFill(yValues, fillColor) {
         return {
             x,
             y: yValues,
@@ -80,7 +73,39 @@
         };
     }
 
-    const BINS = 48;
+    function mountainRidge(yValues, color, width) {
+        return {
+            x,
+            y: yValues,
+            type: "scatter",
+            mode: "lines",
+            line: { width, color, shape: "spline", smoothing: 1.15 },
+            hoverinfo: "skip"
+        };
+    }
+
+    const POINTS = 280;
+    const x = [];
+    const mountainSky = [];
+    const mountainFar = [];
+    const mountainMid = [];
+    const mountainFront = [];
+
+    for (let i = 0; i < POINTS; i++) {
+        const xv = (i / (POINTS - 1)) * 100;
+        x.push(xv);
+        mountainSky.push(14 + 3 * Math.sin(xv / 8) + 1.8 * Math.sin(xv / 3.2));
+        mountainFar.push(20 + 5 * Math.sin(xv / 6.5) + 2.8 * Math.sin(xv / 2.8) + 1.2 * Math.sin(xv / 1.1));
+        mountainMid.push(28 + 7 * Math.sin(xv / 7.2 + 0.35) + 3.6 * Math.sin(xv / 2.1) + 1.8 * Math.sin(xv / 0.95));
+        mountainFront.push(
+            36 + 9 * Math.sin(xv / 7.8 + 0.55) +
+            4.5 * Math.sin(xv / 1.75) +
+            2.2 * Math.sin(xv / 0.82) +
+            1.4 * Math.sin(xv / 0.45)
+        );
+    }
+
+    const BINS = 52;
     const bridgeDensity = new Array(BINS).fill(0);
     const tunnelDensity = new Array(BINS).fill(0);
     const rng = mulberry32(42);
@@ -112,7 +137,7 @@
         binXs.push(cx);
         const base = interp(cx, x, mountainFront);
         densityBase.push(base);
-        densityTop.push(base + (bridgeSmooth[i] / maxBridge) * 16);
+        densityTop.push(base + (bridgeSmooth[i] / maxBridge) * 18);
     }
 
     const densityFillX = binXs.concat(binXs.slice().reverse());
@@ -121,123 +146,240 @@
     const tunnelXs = [];
     const tunnelYs = [];
     const tunnelSizes = [];
+    const tunnelStemsX = [];
+    const tunnelStemsY = [];
 
     for (let i = 0; i < BINS; i++) {
-        if (tunnelSmooth[i] < maxTunnel * 0.08) continue;
+        if (tunnelSmooth[i] < maxTunnel * 0.07) continue;
         const cx = (i + 0.5) * binStep;
+        const peakY = interp(cx, x, mountainMid);
         tunnelXs.push(cx);
-        tunnelYs.push(interp(cx, x, mountainMid) - 2.5);
-        tunnelSizes.push(4 + (tunnelSmooth[i] / maxTunnel) * 7);
+        tunnelYs.push(peakY - 3);
+        tunnelSizes.push(5 + (tunnelSmooth[i] / maxTunnel) * 8);
+        tunnelStemsX.push(cx, cx, null);
+        tunnelStemsY.push(peakY - 3, Math.max(2, peakY - 14), null);
     }
 
-    const chartHeight = Math.max(terrainDiv.clientHeight || 0, 380);
+    function buildLayout(height) {
+        return {
+            paper_bgcolor: "rgba(0,0,0,0)",
+            plot_bgcolor: "rgba(0,0,0,0)",
+            height,
+            margin: { l: 4, r: 4, t: 52, b: 8 },
+            showlegend: false,
+            xaxis: {
+                range: [0, 100],
+                visible: false,
+                fixedrange: true
+            },
+            yaxis: {
+                range: [0, 72],
+                visible: false,
+                fixedrange: true
+            },
+            shapes: [
+                {
+                    type: "rect",
+                    xref: "paper",
+                    yref: "paper",
+                    x0: 0,
+                    x1: 1,
+                    y0: 0.55,
+                    y1: 1,
+                    fillcolor: "rgba(209,231,221,0.14)",
+                    line: { width: 0 },
+                    layer: "below"
+                },
+                {
+                    type: "rect",
+                    xref: "paper",
+                    yref: "paper",
+                    x0: 0,
+                    x1: 1,
+                    y0: 0,
+                    y1: 0.22,
+                    fillcolor: "rgba(245,242,232,0.35)",
+                    line: { width: 0 },
+                    layer: "below"
+                },
+                {
+                    type: "line",
+                    xref: "paper",
+                    yref: "y",
+                    x0: 0,
+                    x1: 1,
+                    y0: 0,
+                    y1: 0,
+                    line: { color: hexToRgba(C.ink, 0.12), width: 1.2 },
+                    layer: "below"
+                }
+            ],
+            annotations: [
+                {
+                    x: 0.03,
+                    y: 1.02,
+                    xref: "paper",
+                    yref: "paper",
+                    text: "山的宿命 · 桥的答卷",
+                    showarrow: false,
+                    xanchor: "left",
+                    yanchor: "bottom",
+                    font: {
+                        size: T.subtitle || 16,
+                        color: C.ink,
+                        family: FONT
+                    },
+                    bgcolor: hexToRgba(C.paper, 0.82),
+                    bordercolor: hexToRgba(C.ink, 0.14),
+                    borderwidth: 1,
+                    borderpad: 8
+                },
+                {
+                    x: 0.03,
+                    y: 0.965,
+                    xref: "paper",
+                    yref: "paper",
+                    text: "92.5% 山地丘陵 · 3.2 万座桥 · 2800 座隧道",
+                    showarrow: false,
+                    xanchor: "left",
+                    yanchor: "bottom",
+                    font: {
+                        size: T.axisSm || 11,
+                        color: C.gray,
+                        family: FONT
+                    }
+                },
+                {
+                    x: 0.97,
+                    y: 0.97,
+                    xref: "paper",
+                    yref: "paper",
+                    text: "▬ 桥梁密度带",
+                    showarrow: false,
+                    xanchor: "right",
+                    yanchor: "bottom",
+                    font: {
+                        size: T.axisSm || 11,
+                        color: C.ink,
+                        family: FONT
+                    },
+                    bgcolor: hexToRgba(C.paper, 0.75),
+                    borderpad: 4
+                },
+                {
+                    x: 0.97,
+                    y: 0.915,
+                    xref: "paper",
+                    yref: "paper",
+                    text: "● 隧道分布",
+                    showarrow: false,
+                    xanchor: "right",
+                    yanchor: "bottom",
+                    font: {
+                        size: T.axisSm || 11,
+                        color: C.buyi,
+                        family: FONT
+                    },
+                    bgcolor: hexToRgba(C.paper, 0.75),
+                    borderpad: 4
+                }
+            ]
+        };
+    }
 
-    const layout = {
-        paper_bgcolor: "rgba(0,0,0,0)",
-        plot_bgcolor: "rgba(0,0,0,0)",
-        height: chartHeight,
-        margin: { l: 8, r: 8, t: 40, b: 12 },
-        showlegend: false,
-        xaxis: {
-            range: [0, 100],
-            visible: false,
-            fixedrange: true
-        },
-        yaxis: {
-            range: [0, 62],
-            visible: false,
-            fixedrange: true
-        },
-        annotations: [
+    function buildTraces() {
+        return [
+            mountainFill(mountainSky, hexToRgba(C.mist, 0.42)),
+            mountainFill(mountainFar, hexToRgba(C.mist, 0.62)),
+            mountainFill(mountainMid, hexToRgba(C.pine, 0.78)),
+            mountainFill(mountainFront, hexToRgba(C.ink, 0.88)),
+            mountainRidge(mountainFront, hexToRgba(C.paper, 0.42), 1.4),
+            mountainRidge(mountainMid, hexToRgba(C.paper, 0.18), 0.8),
             {
-                x: 2,
-                y: 56,
-                xref: "x",
-                yref: "y",
-                text: "山的宿命 · 桥的答卷",
-                showarrow: false,
-                xanchor: "left",
-                font: { size: 17, color: GREEN_DARK, family: FONT }
+                x: densityFillX,
+                y: densityFillY,
+                type: "scatter",
+                mode: "lines",
+                fill: "toself",
+                line: { width: 0, color: "rgba(0,0,0,0)" },
+                fillcolor: hexToRgba(C.ink, 0.22),
+                hoverinfo: "skip"
             },
             {
-                x: 2,
-                y: 51,
-                xref: "x",
-                yref: "y",
-                text: "92.5% 山地丘陵 · 3.2 万座桥 · 2800 座隧道",
-                showarrow: false,
-                xanchor: "left",
-                font: { size: 12, color: GRAY, family: FONT }
+                x: binXs,
+                y: densityTop,
+                type: "scatter",
+                mode: "lines",
+                line: {
+                    width: 2,
+                    color: hexToRgba(C.ink, 0.72),
+                    shape: "spline",
+                    smoothing: 1.1
+                },
+                hoverinfo: "skip"
             },
             {
-                x: 72,
-                y: 48,
-                xref: "x",
-                yref: "y",
-                text: "▬ 桥梁密度带",
-                showarrow: false,
-                xanchor: "left",
-                font: { size: 11, color: GREEN_DARK, family: FONT }
+                x: binXs,
+                y: densityTop.map((v, i) => v + 0.6),
+                type: "scatter",
+                mode: "lines",
+                line: {
+                    width: 1,
+                    color: hexToRgba(C.gold, 0.35),
+                    shape: "spline",
+                    smoothing: 1.1
+                },
+                hoverinfo: "skip"
             },
             {
-                x: 72,
-                y: 43,
-                xref: "x",
-                yref: "y",
-                text: "● 隧道分布",
-                showarrow: false,
-                xanchor: "left",
-                font: { size: 11, color: GRAY, family: FONT }
+                x: tunnelStemsX,
+                y: tunnelStemsY,
+                type: "scatter",
+                mode: "lines",
+                line: { width: 0.8, color: hexToRgba(C.buyi, 0.22), dash: "dot" },
+                hoverinfo: "skip"
+            },
+            {
+                x: tunnelXs,
+                y: tunnelYs,
+                mode: "markers",
+                type: "scatter",
+                marker: {
+                    size: tunnelSizes,
+                    color: hexToRgba(C.paper, 0.95),
+                    opacity: 0.92,
+                    line: { width: 1.4, color: C.buyi },
+                    symbol: "circle"
+                },
+                hoverinfo: "skip"
             }
-        ]
-    };
+        ];
+    }
 
-    const traces = [
-        mountainTrace(mountainFar, hexToRgba(GREEN_LIGHT, 0.7)),
-        mountainTrace(mountainMid, hexToRgba(GREEN_MAIN, 0.76)),
-        mountainTrace(mountainFront, hexToRgba(GREEN_DARK, 0.85)),
-        {
-            x: densityFillX,
-            y: densityFillY,
-            type: "scatter",
-            mode: "lines",
-            fill: "toself",
-            line: { width: 0, color: "rgba(0,0,0,0)" },
-            fillcolor: hexToRgba(GREEN_DARK, 0.28),
-            hoverinfo: "skip"
-        },
-        {
-            x: binXs,
-            y: densityTop,
-            type: "scatter",
-            mode: "lines",
-            line: { width: 1.5, color: hexToRgba(GREEN_DARK, 0.55) },
-            hoverinfo: "skip"
-        },
-        {
-            x: tunnelXs,
-            y: tunnelYs,
-            mode: "markers",
-            type: "scatter",
-            marker: {
-                size: tunnelSizes,
-                color: GRAY_LIGHT,
-                opacity: 0.72,
-                line: { width: 0.5, color: GRAY }
-            },
-            hoverinfo: "skip"
-        }
-    ];
+    function render() {
+        const height = Math.max(terrainDiv.clientHeight || 0, 400);
+        Plotly.newPlot(terrainDiv, buildTraces(), buildLayout(height), {
+            responsive: true,
+            displayModeBar: false,
+            staticPlot: true
+        }).then(() => Plotly.Plots.resize(terrainDiv));
+    }
 
-    Plotly.newPlot(terrainDiv, traces, layout, {
-        responsive: true,
-        displayModeBar: false
-    }).then(() => {
-        Plotly.Plots.resize(terrainDiv);
-    });
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", render);
+    } else {
+        render();
+    }
 
-    window.addEventListener("resize", () => {
-        Plotly.Plots.resize(terrainDiv);
-    });
+    window.addEventListener("resize", () => Plotly.Plots.resize(terrainDiv));
+
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) Plotly.Plots.resize(terrainDiv);
+            });
+        }, { threshold: 0.1 });
+        observer.observe(terrainDiv);
+    }
 
 })();
