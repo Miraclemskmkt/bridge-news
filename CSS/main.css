@@ -1136,9 +1136,69 @@ body {
     min-height: 240px;
 }
 
-.chart-container--maintenance-tree {
-    height: clamp(230px, 66vw, 300px);
-    min-height: 220px;
+.chart-container--huayudong-mountains {
+    height: clamp(280px, 78vw, 380px);
+    min-height: 260px;
+}
+
+.huayudong-block {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px dashed rgba(74, 124, 101, 0.15);
+}
+
+.huayudong-figure {
+    margin: 0 4px 10px;
+}
+
+.huayudong-figure__img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    border: 1px solid rgba(74, 124, 101, 0.12);
+    box-shadow: 0 6px 20px rgba(45, 90, 74, 0.08);
+}
+
+.huayudong-figure__cap {
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    color: var(--gray);
+    text-align: center;
+    margin-top: 6px;
+    line-height: 1.45;
+}
+
+.huayudong-lead {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--text-primary);
+    line-height: 1.65;
+    margin: 0 6px 12px;
+}
+
+.huayudong-data-spec {
+    list-style: none;
+    margin: 10px 6px 0;
+    padding: 10px 0 0;
+    border-top: 1px solid rgba(74, 124, 101, 0.1);
+}
+
+.huayudong-data-spec li {
+    font-family: var(--font-caption);
+    font-size: 0.5625rem;
+    color: var(--gray);
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+
+.huayudong-data-spec li:last-child {
+    margin-bottom: 0;
+}
+
+.huayudong-data-spec li strong {
+    color: var(--ink);
+    font-weight: 700;
 }
 
 .chart-card--timeline .chart-card-caption {
@@ -2286,6 +2346,85 @@ footer {
     margin-bottom: 0;
 }
 
+/* 雷达图 · 五维评分细则 */
+.radar-score-spec {
+    margin: 4px 8px 14px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    background: rgba(232, 244, 239, 0.22);
+    border: 1px solid rgba(74, 124, 101, 0.1);
+    text-align: left;
+}
+
+.radar-score-spec__lead {
+    font-family: var(--font-caption);
+    font-size: 0.6875rem;
+    color: var(--gray);
+    line-height: var(--lh-body);
+    margin: 0 0 10px;
+}
+
+.radar-score-spec__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.radar-score-spec__list li {
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    color: var(--lightgray);
+    line-height: 1.65;
+    margin-bottom: 10px;
+    padding-left: 0.55em;
+    border-left: 2px solid rgba(140, 191, 170, 0.45);
+}
+
+.radar-score-spec__list li:last-child {
+    margin-bottom: 0;
+}
+
+.radar-score-spec__list strong {
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 0.6875rem;
+}
+
+.radar-score-spec__score {
+    display: inline-block;
+    margin-left: 0.35em;
+    color: var(--bamboo);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.radar-score-spec__list p {
+    margin: 3px 0 0;
+}
+
+.radar-score-spec__formula {
+    color: var(--gray);
+    font-style: italic;
+}
+
+.radar-score-spec__source {
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    color: var(--lightgray);
+    line-height: 1.6;
+    margin: 10px 0 0;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(74, 124, 101, 0.15);
+}
+
+@media (max-width: 520px) {
+    .radar-score-spec__score {
+        display: block;
+        margin: 2px 0 0;
+        white-space: normal;
+    }
+}
+
 /* ===== 数字孪生桥梁蓝图 ===== */
 .twin-blueprint {
     width: calc(100% + 6px);
@@ -2626,9 +2765,43 @@ footer {
         display: block;
     }
 
-    .twin-bg-img {
+    .twin-blueprint {
         width: 100%;
-        margin-bottom: 6px;
+        margin: 0 0 12px;
+    }
+
+    .twin-frame {
+        padding: 8px 6px 6px;
+    }
+
+    .twin-head {
+        padding: 4px 6px 8px;
+        margin-bottom: 8px;
+    }
+
+    .twin-title {
+        font-size: clamp(0.85rem, 4.2vw, 0.92rem);
+        line-height: 1.35;
+    }
+
+    .twin-subtitle {
+        font-size: clamp(0.68rem, 3.2vw, 0.72rem);
+        line-height: 1.45;
+    }
+
+    .twin-meta {
+        font-size: clamp(0.64rem, 3vw, 0.68rem);
+        line-height: 1.5;
+    }
+
+    .twin-source {
+        font-size: 0.58rem;
+        line-height: 1.5;
+        padding: 0 6px;
+    }
+
+    .twin-bg-img {
+        display: none;
     }
 
     .twin-grid {
@@ -2637,12 +2810,21 @@ footer {
         width: 100%;
         height: auto;
         grid-template-columns: 1fr;
-        gap: 6px;
+        gap: 8px;
     }
 
     .twin-col--left {
-        height: clamp(140px, 38vw, 160px);
+        height: clamp(200px, 52vw, 240px);
+        min-height: 200px;
         align-self: auto;
+        border-radius: 8px;
+        background:
+            linear-gradient(180deg, rgba(209, 231, 221, 0.35) 0%, rgba(245, 242, 232, 0.55) 100%);
+        border: 1px solid rgba(74, 124, 101, 0.15);
+    }
+
+    .twin-bridge-map {
+        min-height: 200px;
     }
 
     .twin-col--panels {
@@ -2654,27 +2836,62 @@ footer {
         height: auto;
         max-height: none;
         grid-template-columns: 1fr;
-        gap: 6px;
+        gap: 8px;
     }
 
     .twin-panel-box {
         height: auto;
+        padding: 6px 5px;
     }
 
     .twin-platform {
         height: auto;
+        gap: 3px;
+    }
+
+    .twin-platform-title {
+        font-size: clamp(0.68rem, 3.2vw, 0.74rem);
+        margin-bottom: 4px;
+    }
+
+    .twin-layer {
+        font-size: clamp(0.6rem, 2.8vw, 0.66rem);
+        padding: 6px 7px;
+    }
+
+    .twin-layer strong {
+        font-size: clamp(0.64rem, 3vw, 0.7rem);
+    }
+
+    .twin-layer-sub {
+        font-size: clamp(0.56rem, 2.6vw, 0.6rem);
+    }
+
+    .twin-flow-arrow {
+        font-size: 0.5rem;
+        padding: 1px 0;
     }
 
     .twin-values {
         height: auto;
         justify-content: flex-start;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+    }
+
+    .twin-value-card {
+        flex: none;
+        font-size: clamp(0.58rem, 2.7vw, 0.64rem);
+        padding: 6px 7px;
+    }
+
+    .twin-value-card strong {
+        font-size: clamp(0.62rem, 2.9vw, 0.68rem);
     }
 
     .twin-seal {
-        position: absolute;
-        bottom: 6px;
-        left: 6px;
-        margin: 0;
+        display: none;
     }
 
     .cunchao-timeline__chart-row {
@@ -2764,10 +2981,624 @@ footer {
     margin: 0 !important;
 }
 
-#tourismCompare.chart-large {
-    height: clamp(380px, 108vw, 520px);
-    min-height: 360px;
-    max-height: none;
+/* ===== 第三幕 · 桥旅业态展示长卷 ===== */
+
+.bridge-tourism-wall {
+    position: relative;
+    margin: 10px 0 20px;
+    padding: 18px 10px 16px;
+    border-radius: 12px;
+    background:
+        linear-gradient(165deg, rgba(232, 244, 239, 0.45) 0%, rgba(245, 242, 232, 0.15) 38%, rgba(209, 231, 221, 0.22) 100%);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 252, 244, 0.85),
+        inset 0 0 0 1px rgba(74, 124, 101, 0.08),
+        0 12px 40px rgba(45, 90, 74, 0.06);
+    overflow: hidden;
+}
+
+.bridge-tourism-wall::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 70% 40% at 100% 0%, rgba(191, 140, 96, 0.08), transparent 55%),
+        radial-gradient(ellipse 50% 35% at 0% 100%, rgba(74, 124, 101, 0.06), transparent 50%);
+}
+
+.bridge-tourism-wall > * {
+    position: relative;
+    z-index: 1;
+}
+
+.bridge-tourism-wall__header {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.bridge-tourism-wall__scroll-cap {
+    width: 48px;
+    height: 3px;
+    margin: 0 auto 10px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, transparent, var(--pine), transparent);
+    opacity: 0.7;
+}
+
+.bridge-tourism-wall__header .chart-caption {
+    margin-bottom: 6px;
+    letter-spacing: 0.08em;
+}
+
+.bridge-tourism-wall__subtitle {
+    font-family: var(--font-l4);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--gray);
+    letter-spacing: 0.14em;
+    margin: 0 4px 12px;
+}
+
+.bridge-tourism-wall__legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+}
+
+.bridge-tourism-wall__legend-pill {
+    font-family: var(--font-caption);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(74, 124, 101, 0.2);
+    background: rgba(252, 248, 240, 0.55);
+    color: var(--gray);
+}
+
+.bridge-tourism-wall__legend-pill--cum {
+    border-color: rgba(74, 124, 101, 0.35);
+    color: var(--ink);
+}
+
+.bridge-tourism-wall__legend-pill--spec {
+    border-style: dashed;
+}
+
+.bridge-tourism-wall__legend-pill--year {
+    opacity: 0.75;
+}
+
+.bridge-tourism-wall__stage {
+    margin-bottom: 22px;
+}
+
+.bridge-tourism-wall__stage-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 4px 12px;
+}
+
+.bridge-tourism-wall__stage-head--muted {
+    margin-top: 4px;
+}
+
+.bridge-tourism-wall__seal {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-l1);
+    font-size: 0.85rem;
+    color: rgba(143, 63, 63, 0.88);
+    border: 1.5px solid rgba(143, 63, 63, 0.45);
+    border-radius: 3px;
+    transform: rotate(-3deg);
+    background: rgba(252, 248, 240, 0.6);
+}
+
+.bridge-tourism-wall__seal--muted {
+    font-family: var(--font-l4);
+    font-size: 0.55rem;
+    font-weight: 700;
+    color: var(--gray);
+    border-color: rgba(122, 139, 154, 0.35);
+    transform: none;
+    letter-spacing: 0.08em;
+}
+
+.bridge-tourism-wall__seal--feature {
+    width: auto;
+    min-width: 32px;
+    padding: 0 6px;
+    font-size: 0.72rem;
+}
+
+.bridge-tourism-wall__stage-title {
+    font-family: var(--font-l3);
+    font-size: 0.95rem;
+    color: var(--ink);
+    letter-spacing: 0.12em;
+    white-space: nowrap;
+}
+
+.bridge-tourism-wall__stage-head--muted .bridge-tourism-wall__stage-title {
+    font-family: var(--font-l4);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+}
+
+.bridge-tourism-wall__stage-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(74, 124, 101, 0.35), rgba(74, 124, 101, 0.06));
+}
+
+.bridge-tourism-wall__main {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bridge-tour-card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(252, 248, 240, 0.72);
+    box-shadow:
+        0 4px 20px rgba(45, 90, 74, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+}
+
+.bridge-tour-card--primary {
+    border: 1px solid rgba(74, 124, 101, 0.18);
+}
+
+.bridge-tour-card--primary::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(191, 140, 96, 0.55), transparent);
+    pointer-events: none;
+}
+
+.bridge-tour-card--lift {
+    z-index: 2;
+}
+
+.bridge-tour-card__mast {
+    position: relative;
+    height: 52px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 6px;
+    background: linear-gradient(180deg, rgba(209, 231, 221, 0.55) 0%, rgba(245, 242, 232, 0.2) 100%);
+    color: rgba(74, 124, 101, 0.35);
+}
+
+.bridge-tour-card__arch {
+    width: 72%;
+    max-width: 140px;
+    height: auto;
+}
+
+.bridge-tour-card__index {
+    position: absolute;
+    left: 12px;
+    top: 8px;
+    font-family: var(--font-l1);
+    font-size: 1.35rem;
+    line-height: 1;
+    color: rgba(74, 124, 101, 0.14);
+    pointer-events: none;
+}
+
+.bridge-tour-card__body {
+    padding: 12px 14px 14px;
+}
+
+.bridge-tour-card__head {
+    margin-bottom: 8px;
+}
+
+.bridge-tour-card__title {
+    font-family: var(--font-l3);
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--text-primary);
+    line-height: var(--lh-title);
+    margin: 0 0 8px;
+    letter-spacing: 0.06em;
+}
+
+.bridge-tour-card__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.bridge-tour-card__chips span {
+    font-family: var(--font-caption);
+    font-size: 0.5625rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: var(--eco-green-deep);
+    background: rgba(209, 231, 221, 0.45);
+    border: 1px solid rgba(74, 124, 101, 0.12);
+}
+
+.bridge-tour-card__biz {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    color: var(--gray);
+    line-height: 1.55;
+    margin: 0 0 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed rgba(74, 124, 101, 0.12);
+}
+
+.bridge-tour-card__metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.bridge-tour-card__metric {
+    padding: 7px 8px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(74, 124, 101, 0.08);
+}
+
+.bridge-tour-card__metric strong {
+    display: block;
+    font-family: var(--font-l4);
+    font-size: 0.875rem;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+}
+
+.bridge-tour-card__metric em {
+    display: block;
+    font-style: normal;
+    font-family: var(--font-caption);
+    font-size: 0.5rem;
+    color: var(--lightgray);
+    line-height: 1.4;
+    margin-top: 3px;
+}
+
+.bridge-tour-card__metric--cum {
+    border-left: 2px solid rgba(74, 124, 101, 0.45);
+}
+
+.bridge-tour-card__metric--spec {
+    border-left: 2px dashed rgba(109, 155, 139, 0.5);
+}
+
+.bridge-tour-card__value {
+    font-family: var(--font-l4);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--eco-green-deep);
+    line-height: 1.55;
+    margin: 0 0 8px;
+    padding-left: 0.55em;
+    border-left: 2px solid rgba(191, 140, 96, 0.45);
+}
+
+.bridge-tour-card__source {
+    font-family: var(--font-caption);
+    font-size: 0.5rem;
+    color: var(--lightgray);
+    line-height: 1.45;
+    margin: 0;
+}
+
+/* 省外参照 · 横向滑廊 */
+.bridge-tourism-wall__ref-zone {
+    margin-bottom: 16px;
+}
+
+.bridge-tourism-wall__aux-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px 4px 12px;
+    margin: 0 -4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.bridge-tourism-wall__aux-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.bridge-tour-card--ref {
+    flex: 0 0 min(72%, 220px);
+    scroll-snap-align: start;
+    padding: 12px 12px 10px;
+    border: 1px solid rgba(122, 139, 154, 0.18);
+    background: rgba(245, 242, 232, 0.5);
+    box-shadow: none;
+    opacity: 0.88;
+}
+
+.bridge-tour-card--ref .bridge-tour-card__title {
+    font-family: var(--font-l4);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.bridge-tour-card__ref-stat {
+    margin: 0 0 6px;
+}
+
+.bridge-tour-card__ref-stat strong {
+    display: block;
+    font-family: var(--font-l4);
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: var(--miao-silver-dark);
+    line-height: 1.1;
+}
+
+.bridge-tour-card__ref-stat span {
+    display: block;
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--gray);
+    line-height: 1.4;
+    margin-top: 3px;
+}
+
+.bridge-tour-card__ref-note {
+    font-family: var(--font-caption);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--gray);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* 村超专题通栏 */
+.bridge-tour-card--feature {
+    margin: 0 2px 18px;
+    border: 1px solid rgba(74, 124, 101, 0.22);
+    background: transparent;
+    box-shadow: 0 8px 28px rgba(45, 90, 74, 0.1);
+}
+
+.bridge-tour-card__feature-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(118deg, rgba(45, 90, 74, 0.92) 0%, rgba(74, 124, 101, 0.78) 42%, rgba(109, 155, 139, 0.65) 100%);
+    opacity: 0.96;
+}
+
+.bridge-tour-card__feature-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(
+            -24deg,
+            transparent,
+            transparent 18px,
+            rgba(255, 255, 255, 0.03) 18px,
+            rgba(255, 255, 255, 0.03) 19px
+        );
+}
+
+.bridge-tour-card__feature-inner {
+    position: relative;
+    z-index: 1;
+    padding: 16px 14px 14px;
+    color: rgba(252, 248, 240, 0.95);
+}
+
+.bridge-tour-card__feature-head {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.bridge-tour-card__feature-head .bridge-tour-card__title {
+    font-size: 0.95rem;
+    color: #fff;
+    margin: 0;
+    flex: 1;
+}
+
+.bridge-tour-card--feature .bridge-tour-card__biz {
+    color: rgba(232, 244, 239, 0.82);
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+.bridge-tour-card__feature-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.bridge-tour-card__feature-stat {
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.bridge-tour-card__feature-stat strong {
+    display: block;
+    font-family: var(--font-l4);
+    font-size: 1.15rem;
+    font-weight: 900;
+    line-height: 1.1;
+    color: #fff;
+}
+
+.bridge-tour-card__feature-stat strong small {
+    font-size: 0.55em;
+    font-weight: 600;
+    margin-left: 2px;
+    opacity: 0.85;
+}
+
+.bridge-tour-card__feature-stat em {
+    display: block;
+    font-style: normal;
+    font-size: 0.5rem;
+    opacity: 0.72;
+    margin-top: 4px;
+    line-height: 1.35;
+}
+
+.bridge-tour-card--feature .bridge-tour-card__value {
+    color: rgba(232, 244, 239, 0.95);
+    border-left-color: rgba(191, 140, 96, 0.65);
+}
+
+.bridge-tour-card--feature .bridge-tour-card__source {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* 引言 · 卷尾题跋 */
+.bridge-tourism-wall__quote {
+    position: relative;
+    font-family: var(--font-l2);
+    font-size: 0.95rem;
+    color: var(--ink);
+    text-align: center;
+    margin: 0 6px 16px;
+    padding: 16px 12px 14px;
+    background: rgba(252, 248, 240, 0.55);
+    border: none;
+    border-radius: 8px;
+    line-height: 1.65;
+    letter-spacing: 0.08em;
+    box-shadow: inset 0 0 0 1px rgba(74, 124, 101, 0.1);
+}
+
+.bridge-tourism-wall__quote-mark {
+    position: absolute;
+    top: 2px;
+    left: 10px;
+    font-family: var(--font-l1);
+    font-size: 2rem;
+    line-height: 1;
+    color: rgba(74, 124, 101, 0.15);
+}
+
+.bridge-tourism-wall__quote cite {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-caption);
+    font-size: 0.625rem;
+    font-style: normal;
+    color: var(--gray);
+    letter-spacing: 0.04em;
+}
+
+.bridge-tourism-wall__footer {
+    margin: 0 4px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(74, 124, 101, 0.12);
+}
+
+.bridge-tourism-wall__sources,
+.bridge-tourism-wall__disclaimer {
+    font-family: var(--font-caption);
+    font-size: 0.5rem;
+    color: var(--lightgray);
+    line-height: 1.65;
+    margin: 0 0 6px;
+    text-align: left;
+}
+
+.bridge-tourism-wall__disclaimer {
+    margin-bottom: 0;
+    color: var(--gray);
+}
+
+@media (min-width: 521px) {
+    .bridge-tourism-wall__main {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        align-items: start;
+    }
+
+    .bridge-tour-card--lift {
+        transform: translateY(-6px);
+    }
+
+    .bridge-tour-card--primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 28px rgba(45, 90, 74, 0.12);
+    }
+
+    .bridge-tour-card--lift:hover {
+        transform: translateY(-9px);
+    }
+
+    .bridge-tour-card__title {
+        font-size: 0.9rem;
+    }
+
+    .bridge-tour-card__metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .bridge-tourism-wall__aux-scroll {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        overflow: visible;
+        padding: 0;
+    }
+
+    .bridge-tour-card--ref {
+        flex: none;
+    }
+
+    .bridge-tour-card__feature-stats {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bridge-tour-card {
+        transition: none;
+    }
+
+    .bridge-tour-card--lift {
+        transform: none;
+    }
 }
 
 #ethnicChord.chart-large {
@@ -2785,7 +3616,6 @@ footer {
 #sankeyBridge,
 #bridgeVillage,
 #villageSuper,
-#tourismCompare,
 #digitalTwin,
 #carbonLife {
     position: relative;
@@ -2797,7 +3627,6 @@ footer {
 #incomeDumbbell::before,
 #bridgeVillage::before,
 #villageSuper::before,
-#tourismCompare::before,
 #digitalTwin::before,
 #carbonLife::before {
     display: none;
@@ -2809,6 +3638,19 @@ footer {
     .handdrawn-bridge { width: 26px; height: 40px; }
     .main-wrapper { padding-left: 4px; padding-right: 4px; }
     .hero-number-wall { gap: clamp(24px, 8vh, 40px); }
+
+    .twin-col--left {
+        height: clamp(220px, 58vw, 260px);
+        min-height: 220px;
+    }
+
+    .twin-bridge-map {
+        min-height: 220px;
+    }
+
+    .twin-values {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (min-width: 521px) {

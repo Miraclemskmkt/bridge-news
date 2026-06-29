@@ -14,52 +14,92 @@
     };
 
     const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
-    const T = window.BRIDGE_CHART || {};
+    const MOBILE_BP = 520;
 
-    function initBridgeMap() {
-        const dom = document.getElementById("twinBridgeMap");
-        if (!dom) return;
+    const DESKTOP_SENSORS = [
+        {
+            x: 52, y: 24,
+            color: C.bamboo,
+            label: "主缆 217 根\n智慧光纤光栅索",
+            lx: 20, ly: 10
+        },
+        {
+            x: 62, y: 38,
+            color: C.pine,
+            label: "钢箱梁 800+\n分布式传感点位",
+            lx: 18, ly: 34
+        },
+        {
+            x: 38, y: 48,
+            color: C.ink,
+            label: "索塔旁 14 级\n强风气象监测站",
+            lx: 16, ly: 58
+        },
+        {
+            x: 72, y: 54,
+            color: C.mist,
+            label: "桥面车载\n监测点",
+            lx: 22, ly: 82
+        }
+    ];
 
-        const sensors = [
-            {
-                x: 52, y: 24,
-                color: C.bamboo,
-                label: "主缆 217 根\n智慧光纤光栅索",
-                lx: 20, ly: 10
-            },
-            {
-                x: 62, y: 38,
-                color: C.pine,
-                label: "钢箱梁 800+\n分布式传感点位",
-                lx: 18, ly: 34
-            },
-            {
-                x: 38, y: 48,
-                color: C.ink,
-                label: "索塔旁 14 级\n强风气象监测站",
-                lx: 16, ly: 58
-            },
-            {
-                x: 72, y: 54,
-                color: C.mist,
-                label: "桥面车载\n监测点",
-                lx: 22, ly: 82
-            }
-        ];
+    const MOBILE_SENSORS = [
+        {
+            x: 46, y: 20,
+            color: C.bamboo,
+            label: "主缆 217 根\n智慧光纤光栅索",
+            lx: 3, ly: 4
+        },
+        {
+            x: 78, y: 28,
+            color: C.pine,
+            label: "钢箱梁 800+\n分布式传感点位",
+            lx: 54, ly: 4
+        },
+        {
+            x: 30, y: 54,
+            color: C.ink,
+            label: "索塔旁 14 级\n强风气象监测站",
+            lx: 3, ly: 72
+        },
+        {
+            x: 80, y: 58,
+            color: C.mist,
+            label: "桥面车载\n监测点",
+            lx: 54, ly: 72
+        }
+    ];
+
+    function isMobileTwin() {
+        return window.innerWidth <= MOBILE_BP;
+    }
+
+    function getSensors() {
+        return isMobileTwin() ? MOBILE_SENSORS : DESKTOP_SENSORS;
+    }
+
+    function buildOption() {
+        const T = window.BRIDGE_CHART || {};
+        const mobile = isMobileTwin();
+        const sensors = getSensors();
+        const fontSize = mobile ? Math.max(T.axisSm || 10, 10) : (T.axisSm || 11);
+        const lineHeight = mobile ? 16 : 14;
+        const symbolSize = mobile ? 8 : 7;
+        const grid = mobile
+            ? { left: 2, right: 2, top: 4, bottom: 4 }
+            : { left: 6, right: 4, top: 4, bottom: 4 };
 
         const flowLines = sensors.map((s) => ({
-            coords: [[s.x, s.y], [92, s.y - 4]]
+            coords: [[s.x, s.y], [mobile ? 90 : 92, s.y - 4]]
         }));
 
         const labelLines = sensors.map((s) => ({
-            coords: [[s.x, s.y], [s.lx + 6, s.ly + 5]]
+            coords: [[s.x, s.y], [s.lx + (mobile ? 8 : 6), s.ly + 5]]
         }));
 
-        const chart = echarts.init(dom);
-
-        chart.setOption({
+        return {
             backgroundColor: "transparent",
-            grid: { left: 6, right: 4, top: 4, bottom: 4 },
+            grid: grid,
             xAxis: { min: 0, max: 100, show: false },
             yAxis: { min: 0, max: 100, show: false, inverse: true },
             series: [
@@ -77,7 +117,7 @@
                     effect: {
                         show: true,
                         symbol: "arrow",
-                        symbolSize: 5,
+                        symbolSize: mobile ? 4 : 5,
                         color: C.bamboo,
                         trailLength: 0
                     },
@@ -86,7 +126,7 @@
                 },
                 {
                     type: "scatter",
-                    symbolSize: 7,
+                    symbolSize: symbolSize,
                     data: sensors.map((s) => ({
                         value: [s.x, s.y],
                         itemStyle: { color: s.color, borderColor: "#fff", borderWidth: 1.5 }
@@ -103,12 +143,12 @@
                         distance: 2,
                         formatter: (p) => sensors[p.dataIndex].label,
                         color: "#345a4a",
-                        fontSize: T.axisSm || 11,
-                        lineHeight: 14,
+                        fontSize: fontSize,
+                        lineHeight: lineHeight,
                         fontFamily: FONT,
                         fontWeight: 500,
                         backgroundColor: "rgba(245,242,232,0.94)",
-                        padding: [4, 7],
+                        padding: mobile ? [5, 8] : [4, 7],
                         borderRadius: 6,
                         borderColor: "rgba(74,124,101,0.42)",
                         borderWidth: 1
@@ -116,14 +156,34 @@
                     silent: true
                 }
             ]
-        });
+        };
+    }
+
+    function initBridgeMap() {
+        const dom = document.getElementById("twinBridgeMap");
+        if (!dom) return;
+
+        const chart = echarts.init(dom);
+        chart.setOption(buildOption());
 
         dom._chart = chart;
+        dom._twinMode = isMobileTwin() ? "mobile" : "desktop";
+    }
+
+    function refreshBridgeMap() {
+        const dom = document.getElementById("twinBridgeMap");
+        if (!dom || !dom._chart) return;
+
+        const mode = isMobileTwin() ? "mobile" : "desktop";
+        if (dom._twinMode !== mode) {
+            dom._twinMode = mode;
+        }
+        dom._chart.setOption(buildOption(), true);
+        dom._chart.resize();
     }
 
     function resizeAll() {
-        const dom = document.getElementById("twinBridgeMap");
-        if (dom && dom._chart) dom._chart.resize();
+        refreshBridgeMap();
     }
 
     function init() {

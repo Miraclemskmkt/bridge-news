@@ -9,7 +9,6 @@
 
     const chart = echarts.init(dom);
     const T = window.BRIDGE_CHART || {};
-    const labelLayout = window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" };
 
     const bridges = [
         { key: "普通混凝土高桥", short: "普通混凝土\n高桥", total: 3200, tag: "传统方案" },
@@ -44,9 +43,7 @@
                 const idx = items[0].dataIndex;
                 const bridge = bridges[idx];
                 let html = `${bridge.key}<br/><span style="color:#7A7A7A;font-size:11px">${bridge.tag}</span><br/>`;
-                let sum = 0;
                 items.forEach((p) => {
-                    sum += p.value;
                     html += `${p.marker}${p.seriesName}：${p.value} 千吨 CO₂e<br/>`;
                 });
                 html += `<strong>全周期合计：${bridge.total} 千吨 CO₂e</strong>`;
@@ -68,7 +65,7 @@
         grid: {
             left: 8,
             right: 8,
-            top: 28,
+            top: 16,
             bottom: 52,
             containLabel: true
         },
@@ -115,26 +112,8 @@
                     borderRadius: [4, 4, 0, 0]
                 }
             })),
-            labelLayout,
-            label: {
-                show: true,
-                position: "top",
-                fontSize: T.dataSm || 11,
-                color: "#4A7C65",
-                formatter: (p) => (p.value >= 200 ? `${p.value} 千吨` : ""),
-            },
+            label: { show: false },
             emphasis: { focus: "series" }
-        })),
-        graphic: bridges.map((b, i) => ({
-            type: "text",
-            left: `${20 + i * 30}%`,
-            top: 10,
-            style: {
-                text: `合计 ${b.total} 千吨`,
-                fill: "#4A7C65",
-                font: `bold ${T.dataSm || 11}px Noto Serif SC, SimSun, serif`,
-                textAlign: "center"
-            }
         }))
     });
 
