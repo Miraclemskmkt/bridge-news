@@ -61,7 +61,7 @@
     let activeEthnic = null;
 
     function nodeSize(pop, emphasized) {
-        const base = 22 + ((pop - minPop) / (maxPop - minPop)) * 26;
+        const base = 18 + ((pop - minPop) / (maxPop - minPop)) * 20;
         return emphasized ? base * 1.1 : base;
     }
 
@@ -182,8 +182,10 @@
                 type: "graph",
                 layout: "circular",
                 circular: { rotateLabel: true },
-                center: ["50%", "42%"],
-                radius: "40%",
+                left: "center",
+                top: "13%",
+                width: "90%",
+                height: "68%",
                 roam: false,
                 label: {
                     show: true,
