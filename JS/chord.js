@@ -143,6 +143,79 @@
         });
     }
 
+    function renderDataSpec() {
+        const specDom = document.getElementById("ethnicChordData");
+        if (!specDom) return;
+
+        const totalPop = cities.reduce((s, c) => s + c.pop, 0);
+        const topFlow = flows.reduce((best, f) => f[2] > best[2] ? f : best, flows[0]);
+        const guiYangOut = flows
+            .filter(([a]) => a === "贵阳")
+            .reduce((s, [, , v]) => s + v, 0);
+        const crossCount = flows.filter(([a, b]) => isCrossEthnic(a, b)).length;
+        const autonomous = cities.filter((c) => c.autonomous);
+        const qdn = popMap["黔东南"];
+
+        const channelStories = [
+            {
+                title: "黔东侗乡轴",
+                pair: `${topFlow[0]} ↔ ${topFlow[1]}`,
+                value: topFlow[2],
+                text: `全网最强族际通道，铜仁与黔东南之间的 <strong>${topFlow[2]} 万人</strong> 流动，把土家族·苗族·侗族聚居的黔东门户与苗侗自治州紧紧织入同一张网。`
+            },
+            {
+                title: "省会南向磁极",
+                pair: "贵阳 → 黔东南",
+                value: flows.find((f) => f[0] === "贵阳" && f[1] === "黔东南")[2],
+                text: `省会贵阳（<strong>598.70 万</strong>常住人口）向黔东南形成约 <strong>120 万人</strong> 常态化通道，连同黔南、黔西南方向连线，吸纳全省约 <strong>28.44%</strong> 跨区域流动。`
+            },
+            {
+                title: "贵广文旅走廊",
+                pair: "黔东南 ↔ 黔南",
+                value: flows.find((f) => f[0] === "黔东南" && f[1] === "黔南")[2],
+                text: `黔东南与黔南之间 <strong>92 万人</strong> 流动，与贵广、贵南高铁走廊同向——侗乡苗寨的节庆、研学与通婚往来，在桥上完成「交往交流交融」。`
+            }
+        ];
+
+        const maxFlowVal = topFlow[2];
+        const channelsHtml = channelStories.map((ch) => `
+            <article class="ethnic-chord-spec__channel">
+                <header class="ethnic-chord-spec__channel-head">
+                    <span class="ethnic-chord-spec__channel-tag">${ch.title}</span>
+                    <span class="ethnic-chord-spec__channel-pair">${ch.pair}</span>
+                </header>
+                <div class="ethnic-chord-spec__channel-bar" aria-hidden="true">
+                    <span style="width:${Math.round(ch.value / maxFlowVal * 100)}%"></span>
+                </div>
+                <p class="ethnic-chord-spec__channel-text">${ch.text}</p>
+            </article>
+        `).join("");
+
+        const autonomousHtml = autonomous.map((c) =>
+            `<span class="ethnic-chord-spec__pill ethnic-chord-spec__pill--${c.ethnic}" title="${c.peoples} · 少数民族占比 ${c.minorityPct}%">${c.name}<em>${c.minorityPct}%</em></span>`
+        ).join("");
+
+        specDom.innerHTML = `
+            <div class="ethnic-chord-spec">
+                <p class="ethnic-chord-spec__lead">
+                    九市州七普常住人口合计约 <strong>${totalPop.toFixed(2)} 万人</strong>。环形网络中，<strong>深色连线</strong>标示族际交融通道（共 ${crossCount} 条），浅色为同类型区域流动——当北盘江、花江峡谷等桥梁连通布依与苗族山寨，人口不再困于峡谷，而是在桥上完成通婚、赶集与文旅往来。
+                </p>
+                <div class="ethnic-chord-spec__insight">
+                    <p class="ethnic-chord-spec__insight-label">民族聚居版图</p>
+                    <p class="ethnic-chord-spec__insight-text">
+                        <strong>${qdn.name}</strong>少数民族占比达 <strong>${qdn.minorityPct}%</strong>（${qdn.peoples}），族际通婚抽样 <strong>18.66%</strong>；三个自治州与盘兴、贵南高铁节点，构成当代「桥上成婚」的地理底图。
+                    </p>
+                    <div class="ethnic-chord-spec__pills">${autonomousHtml}</div>
+                </div>
+                <div class="ethnic-chord-spec__channels">${channelsHtml}</div>
+                <p class="ethnic-chord-spec__story">
+                    同第五幕所述：桥通之前「送亲翻山一早上」，桥通之后「两分钟跨过峡谷」。数据上，贵阳向外辐射通道合计约 <strong>${guiYangOut} 万人</strong>；遵义—贵阳 <strong>82 万人</strong> 同域联结撑起黔北枢纽，毕节—六盘水 <strong>48 万人</strong> 流动则锚定乌蒙山多民族混居带的内部循环。深色连线综合七普常住人口、族际通婚与高铁文旅客流测算，勾勒贵州「三交」的流动轮廓。
+                </p>
+                <p class="ethnic-chord-spec__source">流动强度单位：万人 · 综合第七次全国人口普查、族际通婚抽样与高铁文旅客流测算</p>
+            </div>
+        `;
+    }
+
     function buildOption(highlightEthnic) {
         return {
             backgroundColor: "transparent",
@@ -239,6 +312,7 @@
     }
 
     chart.setOption(buildOption(null));
+    renderDataSpec();
 
     chart.on("click", (params) => {
         if (params.componentType === "graphic" && params.info && params.info.legend) {

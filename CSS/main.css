@@ -48,6 +48,18 @@
     --lh-body: 1.75;
     --lh-data: 1.5;
 
+    /* 全页图表辅文 · 四级统一字号与颜色 */
+    --note-font: var(--font-caption);
+    --note-body-size: 0.75rem;
+    --note-body-color: var(--gray);
+    --note-label-size: 0.78rem;
+    --note-label-color: var(--ink);
+    --note-narrative-size: 0.73rem;
+    --note-narrative-color: var(--lightgray);
+    --note-source-size: 0.72rem;
+    --note-source-color: var(--gray);
+    --note-lh: 1.58;
+
 }
 
 * {
@@ -1091,7 +1103,7 @@ body {
 }
 
 .chart-card--timeline {
-    padding: 14px 12px;
+    padding: 10px 8px 12px;
 }
 
 .chart-card-caption {
@@ -1106,22 +1118,22 @@ body {
 }
 
 .chart-sub-caption {
-    font-family: var(--font-l4);
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-family: var(--note-font);
+    font-size: var(--note-label-size);
+    font-weight: 700;
     color: var(--bamboo);
     text-align: center;
     margin: 4px 0 2px;
     letter-spacing: 0.04em;
-    line-height: var(--lh-data);
+    line-height: var(--note-lh);
 }
 
 .chart-note {
-    font-family: var(--font-caption);
-    font-size: 0.6875rem;
-    color: var(--lightgray);
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    color: var(--note-body-color);
     text-align: center;
-    line-height: var(--lh-data);
+    line-height: var(--note-lh);
     margin: 0 8px 8px;
 }
 
@@ -1271,14 +1283,14 @@ body {
 }
 
 .huayudong-figure__cap {
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
     font-weight: 600;
-    color: var(--gray);
+    color: var(--note-source-color);
     text-align: center;
     margin-top: 7px;
     letter-spacing: 0.08em;
-    line-height: 1.45;
+    line-height: var(--note-lh);
 }
 
 .huayudong-metrics {
@@ -1413,11 +1425,11 @@ body {
 }
 
 .huayudong-chart-note {
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
-    color: var(--gray);
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-narrative-color);
     text-align: center;
-    line-height: 1.55;
+    line-height: var(--note-lh);
     margin: 0 4px 12px;
     letter-spacing: 0.04em;
 }
@@ -1446,9 +1458,9 @@ body {
     grid-column: 1;
     grid-row: 1;
     font-family: var(--font-l4);
-    font-size: 0.6875rem;
+    font-size: var(--note-label-size);
     font-weight: 700;
-    color: var(--text-primary);
+    color: var(--note-label-color);
 }
 
 .huayudong-data-spec li span {
@@ -1465,10 +1477,10 @@ body {
     grid-column: 1 / -1;
     grid-row: 2;
     font-style: normal;
-    font-family: var(--font-caption);
-    font-size: 0.5rem;
-    color: var(--gray);
-    line-height: 1.45;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    color: var(--note-source-color);
+    line-height: var(--note-lh);
 }
 
 @media (min-width: 521px) {
@@ -1486,7 +1498,99 @@ body {
 }
 
 .chart-card--timeline .chart-card-caption {
-    margin-bottom: 6px;
+    margin-bottom: 2px;
+}
+
+.chart-card--timeline .chart-sub-caption {
+    margin-bottom: 10px;
+}
+
+/* ===== 第一幕 · 交通发展里程碑（水墨通路轴） ===== */
+
+.traffic-milestone-scroll {
+    margin: 0 6px;
+    padding: 10px 8px 6px 4px;
+    border-top: 1px solid rgba(74, 124, 101, 0.1);
+}
+
+.traffic-milestone {
+    list-style: none;
+    margin: 0;
+    padding: 2px 0 0 16px;
+    border-left: 1px solid rgba(74, 124, 101, 0.24);
+}
+
+.traffic-milestone__item {
+    position: relative;
+    padding: 0 0 13px 12px;
+}
+
+.traffic-milestone__item:last-child {
+    padding-bottom: 0;
+}
+
+.traffic-milestone__item::before {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    margin-left: -2.5px;
+    border-radius: 50%;
+    background: var(--pine);
+    box-shadow: 0 0 0 2px rgba(245, 242, 232, 0.95);
+}
+
+.traffic-milestone__item:first-child::before,
+.traffic-milestone__item:last-child::before {
+    background: var(--buyi-blue);
+    width: 7px;
+    height: 7px;
+    margin-left: -3px;
+}
+
+.traffic-milestone__year {
+    display: block;
+    font-family: var(--font-l4);
+    font-size: var(--note-label-size);
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    line-height: 1.3;
+    margin-bottom: 3px;
+}
+
+.traffic-milestone__desc {
+    margin: 0;
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
+}
+
+.traffic-milestone__desc strong {
+    font-weight: 700;
+    color: var(--bamboo);
+}
+
+.traffic-milestone__item--bridge .traffic-milestone__desc strong {
+    color: var(--warm-gold);
+}
+
+@media (min-width: 521px) {
+    .traffic-milestone-scroll {
+        padding: 12px 12px 8px 8px;
+    }
+
+    .traffic-milestone {
+        padding-left: 18px;
+    }
+
+    .traffic-milestone__item {
+        padding-left: 14px;
+        padding-bottom: 14px;
+    }
 }
 
 .chart-container {
@@ -1529,8 +1633,8 @@ body {
 }
 
 .chart-container--sankey {
-    height: clamp(300px, 82vw, 380px);
-    min-height: 280px;
+    height: clamp(320px, 88vw, 400px);
+    min-height: 300px;
 }
 
 .chart-container--income {
@@ -1801,9 +1905,9 @@ body {
 
 .micro-panel-title {
     font-family: var(--font-l4);
-    font-size: 0.8125rem;
+    font-size: var(--note-label-size);
     font-weight: 700;
-    color: var(--ink);
+    color: var(--note-label-color);
     margin: 0 0 8px;
     line-height: var(--lh-title);
     letter-spacing: 0.03em;
@@ -1886,11 +1990,11 @@ body {
 
 .micro-kpi-label {
     display: block;
-    font-family: var(--font-caption);
-    font-size: 0.6875rem;
-    color: var(--gray);
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    color: var(--note-body-color);
     margin-top: 6px;
-    line-height: var(--lh-data);
+    line-height: var(--note-lh);
 }
 
 .map-svg-container {
@@ -2067,17 +2171,19 @@ body {
 }
 
 .flow-map__data-card {
-    font-size: 0.62rem;
-    line-height: 1.45;
-    color: var(--gray);
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    line-height: var(--note-lh);
+    color: var(--note-body-color);
     padding-left: 8px;
     border-left: 2px solid var(--pine);
 }
 
 .flow-map__data-card strong {
     display: block;
-    font-size: 0.65rem;
-    color: var(--ink);
+    font-size: var(--note-label-size);
+    font-weight: 700;
+    color: var(--note-label-color);
     margin-bottom: 2px;
 }
 
@@ -2087,36 +2193,39 @@ body {
 }
 
 .flow-map__footnotes {
-    margin: 4px 2px 0;
-    padding: 6px 4px 0;
+    margin: 6px 2px 0;
+    padding: 8px 4px 0;
 }
 
 .flow-map__note {
-    font-size: 0.68rem;
-    line-height: 1.5;
-    color: var(--gray);
-    margin: 0 0 4px;
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    line-height: var(--note-lh);
+    color: var(--note-body-color);
+    margin: 0 0 6px;
 }
 
 .flow-map__note-label {
-    color: var(--ink);
-    font-weight: 600;
+    color: var(--note-label-color);
+    font-weight: 700;
+    font-size: var(--note-label-size);
 }
 
 .flow-map__note--narrative {
-    font-size: 0.64rem;
-    color: var(--lightgray);
-    margin: 6px 0 0;
-    padding-top: 6px;
+    font-size: var(--note-narrative-size);
+    color: var(--note-narrative-color);
+    margin: 8px 0 0;
+    padding-top: 8px;
     border-top: 1px dashed rgba(140, 191, 170, 0.32);
-    line-height: 1.55;
+    line-height: var(--note-lh);
 }
 
 .flow-map__source {
-    font-size: 0.65rem;
-    line-height: 1.5;
-    color: var(--lightgray);
-    padding: 8px 6px 2px;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    line-height: var(--note-lh);
+    color: var(--note-source-color);
+    padding: 10px 6px 2px;
     border-top: 1px solid rgba(140, 191, 170, 0.3);
     text-align: left;
 }
@@ -2181,56 +2290,6 @@ body {
     margin-top: 10px;
     letter-spacing: 0.08em;
 }
-
-.timeline-card {
-    padding: 14px 12px;
-    margin-top: 12px;
-}
-
-.timeline-heading {
-    font-family: var(--font-l4);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--ink);
-    text-align: center;
-    margin-bottom: 8px;
-    line-height: var(--lh-title);
-}
-
-.timeline-node {
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 8px;
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    color: var(--gray);
-    line-height: var(--lh-data);
-}
-
-.timeline-node::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 4px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--eco-green);
-    box-shadow: 0 0 6px rgba(74, 140, 120, 0.3);
-}
-
-.timeline-node::after {
-    content: "";
-    position: absolute;
-    left: 2.5px;
-    top: 14px;
-    width: 2px;
-    height: calc(100% + 4px);
-    background: rgba(74, 140, 120, 0.18);
-    border-radius: 1px;
-}
-
-.timeline-node:last-child::after { display: none; }
 
 .compare-cards {
     padding: 12px 10px;
@@ -2357,11 +2416,11 @@ footer {
 }
 
 .data-sources-lead {
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
-    color: var(--lightgray);
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-narrative-color);
     text-align: center;
-    line-height: var(--lh-data);
+    line-height: var(--note-lh);
     margin-bottom: 14px;
 }
 
@@ -2379,28 +2438,28 @@ footer {
 
 .data-sources-heading {
     font-family: var(--font-l4);
-    font-size: 0.75rem;
+    font-size: var(--note-label-size);
     font-weight: 700;
-    color: var(--ink);
+    color: var(--note-label-color);
     line-height: var(--lh-title);
     margin-bottom: 4px;
 }
 
 .data-sources-sub {
-    font-family: var(--font-caption);
-    font-size: 0.6rem;
-    color: var(--gray);
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-narrative-color);
     margin-bottom: 6px;
-    line-height: var(--lh-data);
+    line-height: var(--note-lh);
 }
 
 .data-sources-list {
     margin: 0;
     padding-left: 1.1em;
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
-    color: var(--gray);
-    line-height: 1.65;
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
 }
 
 .data-sources-list--flat {
@@ -2424,16 +2483,16 @@ footer {
 
 .data-sources-list strong {
     display: block;
-    color: var(--ink);
-    font-weight: 600;
-    font-size: 0.65rem;
+    color: var(--note-label-color);
+    font-weight: 700;
+    font-size: var(--note-label-size);
     margin-bottom: 2px;
 }
 
 .data-sources-meta {
     display: block;
-    color: var(--lightgray);
-    font-size: 0.58rem;
+    color: var(--note-narrative-color);
+    font-size: var(--note-source-size);
     margin-bottom: 3px;
 }
 
@@ -2445,10 +2504,10 @@ footer {
 }
 
 .data-sources-quote {
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
-    color: var(--gray);
-    line-height: 1.65;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    color: var(--note-source-color);
+    line-height: var(--note-lh);
     margin-bottom: 8px;
 }
 
@@ -2459,16 +2518,17 @@ footer {
 .data-sources-label {
     display: inline-block;
     min-width: 3.2em;
-    color: var(--ink);
-    font-weight: 600;
+    color: var(--note-label-color);
+    font-weight: 700;
+    font-size: var(--note-label-size);
     margin-right: 4px;
 }
 
 .data-sources-block--note p {
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
-    color: var(--gray);
-    line-height: 1.65;
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
     margin-bottom: 8px;
 }
 
@@ -2477,16 +2537,18 @@ footer {
 }
 
 .data-sources-block--note strong {
-    color: var(--ink);
-    font-weight: 600;
+    color: var(--note-label-color);
+    font-weight: 700;
+    font-size: var(--note-label-size);
 }
 
 .data-sources-remark {
     margin-top: 8px;
     padding-top: 8px;
     border-top: 1px dashed rgba(74, 124, 101, 0.18);
-    color: var(--lightgray) !important;
-    font-size: 0.58rem !important;
+    color: var(--note-narrative-color) !important;
+    font-size: var(--note-narrative-size) !important;
+    line-height: var(--note-lh) !important;
 }
 
 .footer-title {
@@ -2500,10 +2562,10 @@ footer {
 }
 
 .footer-note {
-    font-family: var(--font-caption);
-    font-size: 0.6875rem;
-    color: var(--lightgray);
-    line-height: var(--lh-data);
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-narrative-color);
+    line-height: var(--note-lh);
 }
 
 .js-plotly-plot,
@@ -2605,19 +2667,20 @@ footer {
     margin-bottom: 8px;
     text-align: left;
     padding: 0 10px;
-    color: var(--gray);
-    font-size: 0.75rem;
-    line-height: var(--lh-body);
+    font-family: var(--note-font);
+    color: var(--note-body-color);
+    font-size: var(--note-body-size);
+    line-height: var(--note-lh);
 }
 
 .carbon-side-notes {
     list-style: none;
     margin: 0 8px 14px;
     padding: 0;
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
-    color: var(--lightgray);
-    line-height: 1.65;
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
 }
 
 .carbon-side-notes li {
@@ -2632,8 +2695,8 @@ footer {
 
 /* 雷达图 · 五维评分细则 */
 .radar-score-spec {
-    margin: 6px 6px 16px;
-    padding: 14px 14px 12px;
+    margin: 6px 6px 12px;
+    padding: 8px 10px 8px;
     border-radius: 8px;
     background: rgba(232, 244, 239, 0.55);
     border: 1px solid rgba(74, 124, 101, 0.22);
@@ -2643,11 +2706,11 @@ footer {
 
 .radar-score-spec__lead {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 0.625rem;
     font-weight: 600;
     color: var(--text-secondary);
-    line-height: 1.65;
-    margin: 0 0 12px;
+    line-height: 1.5;
+    margin: 0 0 6px;
 }
 
 .radar-score-spec__list {
@@ -2658,12 +2721,12 @@ footer {
 
 .radar-score-spec__list li {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.5625rem;
     color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 12px;
-    padding-left: 0.65em;
-    border-left: 3px solid rgba(74, 124, 101, 0.45);
+    line-height: 1.5;
+    margin-bottom: 7px;
+    padding-left: 0.5em;
+    border-left: 2px solid rgba(74, 124, 101, 0.45);
 }
 
 .radar-score-spec__list li:last-child {
@@ -2673,7 +2736,7 @@ footer {
 .radar-score-spec__list strong {
     color: var(--text-primary);
     font-weight: 700;
-    font-size: 0.8125rem;
+    font-size: 0.625rem;
 }
 
 .radar-score-spec__score {
@@ -2681,57 +2744,65 @@ footer {
     margin-left: 0.35em;
     color: var(--eco-green-deep);
     font-family: var(--font-l4);
-    font-size: 0.8125rem;
+    font-size: 0.625rem;
     font-weight: 800;
     white-space: nowrap;
 }
 
 .radar-score-spec__list p {
-    margin: 4px 0 0;
+    margin: 2px 0 0;
     color: var(--text-muted);
-    font-size: 0.75rem;
+    font-size: 0.5625rem;
 }
 
 .radar-score-spec__formula {
     color: var(--gray);
-    font-size: 0.6875rem;
+    font-size: 0.5rem;
     font-style: normal;
     font-weight: 600;
 }
 
 .radar-score-spec__source {
     font-family: var(--font-caption);
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
     color: var(--gray);
-    line-height: 1.65;
-    margin: 12px 0 0;
-    padding-top: 10px;
+    line-height: 1.5;
+    margin: 8px 0 0;
+    padding-top: 6px;
     border-top: 1px dashed rgba(74, 124, 101, 0.22);
 }
 
 @media (max-width: 520px) {
     .radar-score-spec {
-        margin: 6px 4px 14px;
-        padding: 12px 10px;
+        margin: 6px 4px 10px;
+        padding: 7px 8px 7px;
     }
 
     .radar-score-spec__lead {
-        font-size: 0.78125rem;
+        font-size: 0.59375rem;
     }
 
     .radar-score-spec__list li,
     .radar-score-spec__list p {
-        font-size: 0.71875rem;
+        font-size: 0.53125rem;
     }
 
     .radar-score-spec__list strong,
     .radar-score-spec__score {
-        font-size: 0.78125rem;
+        font-size: 0.59375rem;
+    }
+
+    .radar-score-spec__formula {
+        font-size: 0.46875rem;
+    }
+
+    .radar-score-spec__source {
+        font-size: 0.59375rem;
     }
 
     .radar-score-spec__score {
         display: block;
-        margin: 3px 0 0;
+        margin: 2px 0 0;
         white-space: normal;
     }
 }
@@ -3106,12 +3177,12 @@ footer {
 }
 
 .builder-wordcloud__note {
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
     font-weight: 600;
-    color: var(--gray);
+    color: var(--note-source-color);
     text-align: center;
-    line-height: 1.55;
+    line-height: var(--note-lh);
     margin: 0 4px;
     letter-spacing: 0.04em;
 }
@@ -3198,8 +3269,10 @@ footer {
 
 .twin-source {
     text-align: center;
-    font-size: 0.58rem;
-    color: var(--lightgray);
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    color: var(--note-source-color);
+    line-height: var(--note-lh);
     margin-top: 4px;
     padding: 0 4px;
 }
@@ -3495,8 +3568,7 @@ footer {
     }
 
     .twin-source {
-        font-size: 0.58rem;
-        line-height: 1.5;
+        line-height: var(--note-lh);
         padding: 0 6px;
     }
 
@@ -3681,6 +3753,375 @@ footer {
     margin: 0 !important;
 }
 
+.bridge-village-data {
+    margin: 0 6px 14px;
+    padding: 0 2px;
+}
+
+.bridge-village-data__panel {
+    padding: 8px 10px;
+    border-radius: 10px;
+    background:
+        linear-gradient(165deg, rgba(232, 244, 239, 0.38) 0%, rgba(255, 252, 244, 0.55) 48%, rgba(245, 242, 232, 0.42) 100%);
+    border: 1px solid rgba(74, 124, 101, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 252, 244, 0.75);
+}
+
+.bridge-village-data__section + .bridge-village-data__section {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(74, 124, 101, 0.14);
+}
+
+.bridge-village-data__section-label {
+    font-family: var(--note-font);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    color: var(--note-narrative-color);
+    margin: 0 0 6px 2px;
+}
+
+.bridge-village-data__section {
+    display: grid;
+    gap: 5px;
+}
+
+.bridge-village-data__row {
+    display: grid;
+    grid-template-columns: 4.6rem 1fr;
+    gap: 6px 8px;
+    align-items: start;
+}
+
+.bridge-village-data__badge {
+    font-family: var(--font-l4);
+    font-size: 0.66rem;
+    font-weight: 800;
+    line-height: 1.35;
+    padding: 4px 5px;
+    border-radius: 5px;
+    text-align: center;
+    color: var(--eco-green-deep);
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(74, 124, 101, 0.12);
+    box-shadow: inset 2px 0 0 transparent;
+}
+
+.bridge-village-data__row--tier-1 .bridge-village-data__badge {
+    box-shadow: inset 3px 0 0 #4A7C65;
+}
+
+.bridge-village-data__row--tier-2 .bridge-village-data__badge {
+    box-shadow: inset 3px 0 0 #6D9B8B;
+}
+
+.bridge-village-data__row--tier-3 .bridge-village-data__badge {
+    box-shadow: inset 3px 0 0 #8CBFAA;
+}
+
+.bridge-village-data__badge--cat-0 {
+    box-shadow: inset 3px 0 0 #4A7C65;
+}
+
+.bridge-village-data__badge--cat-1 {
+    box-shadow: inset 3px 0 0 #3a5f7a;
+}
+
+.bridge-village-data__badge--cat-2 {
+    box-shadow: inset 3px 0 0 #6D9B8B;
+}
+
+.bridge-village-data__badge--eth-han {
+    box-shadow: inset 3px 0 0 #9BB5A5;
+}
+
+.bridge-village-data__badge--eth-miao {
+    box-shadow: inset 3px 0 0 #4A7C65;
+}
+
+.bridge-village-data__badge--eth-buyi {
+    box-shadow: inset 3px 0 0 #6D9B8B;
+}
+
+.bridge-village-data__badge--eth-dong {
+    box-shadow: inset 3px 0 0 #5E8A78;
+}
+
+.bridge-village-data__badge--eth-multi {
+    box-shadow: inset 3px 0 0 #8CBFAA;
+}
+
+.bridge-village-data__chip--eth-han {
+    background: rgba(232, 244, 239, 0.35);
+    border-color: rgba(155, 181, 165, 0.28);
+}
+
+.bridge-village-data__chip--eth-miao {
+    background: rgba(232, 244, 239, 0.5);
+    border-color: rgba(74, 124, 101, 0.22);
+}
+
+.bridge-village-data__chip--eth-buyi {
+    background: rgba(237, 246, 242, 0.55);
+    border-color: rgba(109, 155, 139, 0.24);
+}
+
+.bridge-village-data__chip--eth-dong {
+    background: rgba(235, 244, 240, 0.5);
+    border-color: rgba(94, 138, 120, 0.22);
+}
+
+.bridge-village-data__chip--eth-multi {
+    background: rgba(240, 248, 244, 0.55);
+    border-color: rgba(140, 191, 170, 0.28);
+}
+
+.bridge-village-data__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+}
+
+.bridge-village-data__chip {
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    line-height: 1.35;
+    padding: 3px 7px;
+    border-radius: 999px;
+    color: var(--note-label-color);
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(74, 124, 101, 0.11);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    cursor: default;
+}
+
+.bridge-village-data__chip em {
+    font-style: normal;
+    font-size: 0.92em;
+    color: var(--note-narrative-color);
+    margin-left: 2px;
+}
+
+.bridge-village-data__chip--link.bridge-village-data__chip--tier-1 {
+    border-color: rgba(74, 124, 101, 0.22);
+}
+
+.bridge-village-data__chip--link.bridge-village-data__chip--tier-2 {
+    border-color: rgba(109, 155, 139, 0.24);
+}
+
+.bridge-village-data__chip--link.bridge-village-data__chip--tier-3 {
+    border-color: rgba(140, 191, 170, 0.28);
+}
+
+.bridge-village-data__chip--cat-0 {
+    background: rgba(232, 244, 239, 0.45);
+}
+
+.bridge-village-data__chip--cat-1 {
+    background: rgba(232, 238, 244, 0.5);
+    border-color: rgba(58, 95, 122, 0.16);
+}
+
+.bridge-village-data__chip--cat-2 {
+    background: rgba(237, 246, 242, 0.55);
+}
+
+.bridge-village-data__chip:hover,
+.bridge-village-data__chip:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(45, 90, 74, 0.08);
+    outline: none;
+}
+
+@media (max-width: 380px) {
+    .bridge-village-data__row {
+        grid-template-columns: 1fr;
+    }
+
+    .bridge-village-data__badge {
+        justify-self: start;
+        min-width: 4.6rem;
+    }
+}
+
+/* ===== 第五幕 · 民族交融关系网络读图导读 ===== */
+
+.ethnic-chord-spec-wrap {
+    margin: 0 6px 14px;
+    padding: 0 2px;
+}
+
+.ethnic-chord-spec {
+    padding: 12px 12px 10px;
+    border-radius: 10px;
+    background:
+        linear-gradient(168deg, rgba(245, 242, 232, 0.55) 0%, rgba(255, 252, 244, 0.72) 42%, rgba(232, 244, 239, 0.38) 100%);
+    border: 1px solid rgba(122, 139, 154, 0.16);
+    box-shadow: inset 0 1px 0 rgba(255, 252, 244, 0.8);
+}
+
+.ethnic-chord-spec__lead {
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
+    margin: 0 0 10px;
+    text-align: left;
+}
+
+.ethnic-chord-spec__lead strong {
+    color: var(--note-label-color);
+    font-weight: 700;
+}
+
+.ethnic-chord-spec__insight {
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(74, 124, 101, 0.1);
+}
+
+.ethnic-chord-spec__insight-label {
+    font-family: var(--font-l4);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: var(--note-narrative-color);
+    margin: 0 0 4px;
+}
+
+.ethnic-chord-spec__insight-text {
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
+    margin: 0 0 8px;
+}
+
+.ethnic-chord-spec__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.ethnic-chord-spec__pill {
+    font-family: var(--font-l4);
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba(232, 244, 239, 0.55);
+    border: 1px solid rgba(74, 124, 101, 0.14);
+    color: var(--eco-green-deep);
+}
+
+.ethnic-chord-spec__pill em {
+    font-style: normal;
+    font-weight: 800;
+    margin-left: 4px;
+    opacity: 0.85;
+}
+
+.ethnic-chord-spec__pill--buyi {
+    background: rgba(237, 246, 242, 0.65);
+}
+
+.ethnic-chord-spec__pill--miao {
+    background: rgba(232, 244, 239, 0.65);
+}
+
+.ethnic-chord-spec__channels {
+    display: grid;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.ethnic-chord-spec__channel {
+    padding: 8px 10px 7px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.58);
+    border-left: 3px solid #4A7C65;
+}
+
+.ethnic-chord-spec__channel-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 10px;
+    margin-bottom: 5px;
+}
+
+.ethnic-chord-spec__channel-tag {
+    font-family: var(--font-l4);
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: var(--eco-green-deep);
+}
+
+.ethnic-chord-spec__channel-pair {
+    font-family: var(--font-l4);
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--note-label-color);
+}
+
+.ethnic-chord-spec__channel-bar {
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(74, 124, 101, 0.1);
+    margin-bottom: 6px;
+}
+
+.ethnic-chord-spec__channel-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #4A7C65, #8CBFAA);
+}
+
+.ethnic-chord-spec__channel-text {
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-narrative-color);
+    line-height: var(--note-lh);
+    margin: 0;
+}
+
+.ethnic-chord-spec__channel-text strong {
+    color: var(--note-label-color);
+    font-weight: 700;
+}
+
+.ethnic-chord-spec__story {
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
+    margin: 0 0 6px;
+    padding-top: 8px;
+    border-top: 1px dashed rgba(122, 139, 154, 0.18);
+}
+
+.ethnic-chord-spec__story strong {
+    color: var(--note-label-color);
+    font-weight: 700;
+}
+
+.ethnic-chord-spec__source {
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    color: var(--note-source-color);
+    text-align: center;
+    line-height: var(--note-lh);
+    margin: 0;
+}
+
 /* ===== 第三幕 · 桥旅业态展示长卷 ===== */
 
 .bridge-tourism-wall {
@@ -3732,12 +4173,13 @@ footer {
 }
 
 .bridge-tourism-wall__subtitle {
-    font-family: var(--font-l4);
-    font-size: 0.72rem;
+    font-family: var(--note-font);
+    font-size: var(--note-narrative-size);
     font-weight: 600;
-    color: var(--gray);
+    color: var(--note-narrative-color);
     letter-spacing: 0.14em;
     margin: 0 4px 12px;
+    line-height: var(--note-lh);
 }
 
 .bridge-tourism-wall__legend {
@@ -4006,10 +4448,10 @@ footer {
 }
 
 .bridge-tour-card__source {
-    font-family: var(--font-caption);
-    font-size: 0.5rem;
-    color: var(--lightgray);
-    line-height: 1.45;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    color: var(--note-source-color);
+    line-height: var(--note-lh);
     margin: 0;
 }
 
@@ -4074,11 +4516,11 @@ footer {
 }
 
 .bridge-tour-card__ref-note {
-    font-family: var(--font-caption);
-    font-size: 0.6875rem;
+    font-family: var(--note-font);
+    font-size: var(--note-body-size);
     font-weight: 600;
-    color: var(--gray);
-    line-height: 1.5;
+    color: var(--note-body-color);
+    line-height: var(--note-lh);
     margin: 0;
 }
 
@@ -4218,11 +4660,12 @@ footer {
 .bridge-tourism-wall__quote cite {
     display: block;
     margin-top: 6px;
-    font-family: var(--font-caption);
-    font-size: 0.625rem;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
     font-style: normal;
-    color: var(--gray);
+    color: var(--note-source-color);
     letter-spacing: 0.04em;
+    line-height: var(--note-lh);
 }
 
 .bridge-tourism-wall__footer {
@@ -4233,17 +4676,18 @@ footer {
 
 .bridge-tourism-wall__sources,
 .bridge-tourism-wall__disclaimer {
-    font-family: var(--font-caption);
-    font-size: 0.5rem;
-    color: var(--lightgray);
-    line-height: 1.65;
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    color: var(--note-source-color);
+    line-height: var(--note-lh);
     margin: 0 0 6px;
     text-align: left;
 }
 
 .bridge-tourism-wall__disclaimer {
     margin-bottom: 0;
-    color: var(--gray);
+    font-size: var(--note-narrative-size);
+    color: var(--note-narrative-color);
 }
 
 @media (min-width: 521px) {

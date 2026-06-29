@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
@@ -129,11 +129,31 @@
 
     <div class="glass-card chart-card chart-card--timeline">
         <p class="chart-card-caption">▲ 交通发展里程碑</p>
-        <div class="timeline-node"><strong>2015</strong> · 县县通高速，西部首个实现此目标的省份</div>
-        <div class="timeline-node"><strong>2018</strong> · 黔东南州通高铁（凯里南站接入沪昆高铁）</div>
-        <div class="timeline-node"><strong>2020</strong> · 北盘江大桥带动周边2万群众脱贫</div>
-        <div class="timeline-node"><strong>2023</strong> · 黔南州桥隧比超80%，高速公路密度居全国前列</div>
-        <div class="timeline-node"><strong>2025</strong> · 市市通高铁，三大民族自治州全部接入高铁网</div>
+        <p class="chart-sub-caption">2015—2025 · 从县县通高速到市市通高铁</p>
+        <div class="traffic-milestone-scroll">
+            <ol class="traffic-milestone" aria-label="贵州交通发展里程碑">
+                <li class="traffic-milestone__item">
+                    <time class="traffic-milestone__year" datetime="2015">2015</time>
+                    <p class="traffic-milestone__desc"><strong>县县通高速</strong> · 西部首个实现此目标的省份</p>
+                </li>
+                <li class="traffic-milestone__item">
+                    <time class="traffic-milestone__year" datetime="2018">2018</time>
+                    <p class="traffic-milestone__desc"><strong>高铁开通</strong> · 黔东南州通高铁（凯里南站接入沪昆高铁）</p>
+                </li>
+                <li class="traffic-milestone__item traffic-milestone__item--bridge">
+                    <time class="traffic-milestone__year" datetime="2020">2020</time>
+                    <p class="traffic-milestone__desc"><strong>桥梁民生</strong> · 北盘江大桥带动周边 2 万群众脱贫</p>
+                </li>
+                <li class="traffic-milestone__item">
+                    <time class="traffic-milestone__year" datetime="2023">2023</time>
+                    <p class="traffic-milestone__desc"><strong>桥隧比突破</strong> · 黔南州桥隧比超 80%，高速公路密度居全国前列</p>
+                </li>
+                <li class="traffic-milestone__item">
+                    <time class="traffic-milestone__year" datetime="2025">2025</time>
+                    <p class="traffic-milestone__desc"><strong>市市通高铁</strong> · 三大民族自治州全部接入高铁网</p>
+                </li>
+            </ol>
+        </div>
     </div>
 
 </section>
@@ -238,6 +258,7 @@
     <p class="chart-caption">▲ 桥—民族村寨连线图</p>
     <p class="chart-sub-caption" style="margin:-6px 0 8px;font-size:0.62rem;color:#7A7A7A;line-height:1.5">连线粗细按年客流分级：百万级 / 数十万级 / 十万级（依据省文旅厅景区分级标准）</p>
     <div id="bridgeVillage" class="chart-large"></div>
+    <div id="bridgeVillageData" class="bridge-village-data" aria-label="桥—民族村寨连线图数据"></div>
 
     <div class="glass-card chart-card">
         <p class="chart-card-caption">▲ 村超经济气泡时间轴</p>
@@ -648,7 +669,7 @@
 
     <p class="chart-caption">▲ 民族交融关系网络</p>
     <div id="ethnicChord" class="chart-large"></div>
-    <p class="chart-note">九市州人口流动弦图 · 节点按世居民族着色 · 深色连线为族际交融通道</p>
+    <div id="ethnicChordData" class="ethnic-chord-spec-wrap" aria-label="民族交融关系网络读图导读"></div>
 
     <p class="chart-caption">▲ 民族地区高质量发展雷达图</p>
     <div id="developmentRadar" class="chart-large"></div>
@@ -756,11 +777,27 @@
 
     <aside class="data-sources-panel" id="dataSources" aria-label="数据来源汇总">
         <h3 class="data-sources-title">数据来源</h3>
-        <p class="data-sources-lead">全套权威数据来源汇总（分四大类，可用于图表与报告页脚标注）</p>
+        <p class="data-sources-lead">全套权威数据来源汇总（涵盖序章至第五幕及各独立可视化图表，可用于图表与报告页脚标注）</p>
 
         <section class="data-sources-block">
-            <h4 class="data-sources-heading">一、全省桥隧总量核心数据源</h4>
-            <p class="data-sources-sub">（3.01万座公路桥、3.2万座宣传口径）</p>
+            <h4 class="data-sources-heading">一、基础总文档核心数据源</h4>
+            <p class="data-sources-sub">（整本《桥见黔程万里》全部基础数据母源）</p>
+            <ul class="data-sources-list data-sources-list--flat">
+                <li>《桥见黔程万里》专题调研文稿（内部官方专题汇编）</li>
+                <li>贵州省交通运输厅年度行业发展统计公报、交通建设专项通报</li>
+                <li>贵州省人民政府官网新闻发布会、十四五 / 十五五规划文件</li>
+                <li>贵州省文化和旅游厅年度文旅统计、桥旅融合示范项目验收材料</li>
+                <li>贵州省林业局、生态环境厅石漠化 / 森林资源官方年报</li>
+                <li>贵州省民宗委、第七次全国人口普查贵州分册（少数民族人口数据）</li>
+                <li>贵州交投集团、贵州桥梁集团工程竣工报告、项目专项通报</li>
+                <li>各市州 / 区县政府官网（贞丰、关岭、平塘、榕江、黎平、兴义等）年度统计、文旅公示</li>
+                <li>权威央媒：新华网、人民网、央视新闻、贵州日报、央广网专题报道</li>
+            </ul>
+        </section>
+
+        <section class="data-sources-block">
+            <h4 class="data-sources-heading">二、序章 / 第一幕 · 交通基建</h4>
+            <p class="data-sources-sub">（含全省桥隧总量、各市州桥隧比、桥梁建设者词云）</p>
             <ol class="data-sources-list">
                 <li>
                     <strong>2024年贵州省交通运输行业发展统计公报</strong>
@@ -780,14 +817,17 @@
                     佐证3.2万座桥架起贵州高速平原、全球百强高桥近半数落地贵州。
                 </li>
             </ol>
-        </section>
-
-        <section class="data-sources-block">
-            <h4 class="data-sources-heading">二、各市州骨干线路桥隧比</h4>
-            <p class="data-sources-sub">（条形图专用，逐条对应官方实测占比）</p>
+            <ul class="data-sources-list data-sources-list--flat">
+                <li>贵州省交通运输厅《2025交通发展白皮书》、全省桥隧总量统计</li>
+                <li>贵州铁路集团运营里程、高铁通达县官方统计报表</li>
+                <li>贵阳国际陆港西部陆海新通道班列运营年报</li>
+                <li>贵州年鉴、贵州档案方志信息网年度交通史料</li>
+                <li><strong>桥梁建设者词云图</strong> — 贵州桥梁集团一线施工班组、工程师现场访谈记录</li>
+            </ul>
+            <p class="data-sources-sub" style="margin-top:10px">各市州骨干线路桥隧比（条形图专用，逐条对应官方实测占比）</p>
             <ul class="data-sources-list data-sources-list--flat">
                 <li><strong>黔西南州</strong> 盘兴高铁 桥隧比90.66% — 省交通运输厅盘兴高铁通车专题（2025-12-04）；澎湃新闻政务报道（2025-09-06）；贞丰县人民政府解读（2025-11-27）。<a href="https://jt.guizhou.gov.cn/xwzx1/jtyw1/202512/t20251204_89013666.html" target="_blank" rel="noopener noreferrer">链接</a></li>
-                <li><strong>黔南州</strong> 贵南高铁贵州段 桥隧比91% — 中新社/北青网隧道贯通专题（2022-07-13）；澎湃新闻《7条高铁线，一起瞧一「桥」》（2023-05-05）。</li>
+                <li><strong>黔南州</strong> 贵南高铁贵州段 桥隧比91% — 中新社 / 北青网隧道贯通专题（2022-07-13）；澎湃新闻《7条高铁线，一起瞧一「桥」》（2023-05-05）。</li>
                 <li><strong>黔东南州</strong> 贵广高铁贵州段 桥隧比90%+ — 天眼新闻高铁文旅专题（2026-05-07）；中铁二院贵广高铁环评报告书。</li>
                 <li><strong>安顺市</strong> 沪昆高速镇宁—英武段 桥隧比72% — 贵州省公共资源交易中心G60沪昆高速养护招标公告（2024-07）。</li>
                 <li><strong>贵阳市</strong> 沪昆高铁贵阳段 桥隧比70% — 中铁二院沪昆高铁施工图批复、省交通厅高速扩容公示。</li>
@@ -799,7 +839,63 @@
         </section>
 
         <section class="data-sources-block">
-            <h4 class="data-sources-heading">三、地理与民族基础背景数据</h4>
+            <h4 class="data-sources-heading">三、第二幕 · 桥见经济</h4>
+            <p class="data-sources-sub">（货运流向、农户账本、司机账本、县域GDP、桑基图）</p>
+            <ul class="data-sources-list data-sources-list--flat">
+                <li>关岭县统计局2024 / 2025年度GDP、肉牛产业专项公示</li>
+                <li>六盘水市人民政府外贸出口官方公告（大豆油出口缅甸等数据）</li>
+                <li>贵州日报北盘江大桥沿线产业实地调研官方文稿</li>
+                <li>黔西南州人民政府年度国民经济与收入公报（城乡居民收入）</li>
+                <li>贵州省交通运输厅公路桥梁养护资金专项预算公示（21.24亿元养护资金）</li>
+                <li>西部陆海新通道省发改委物流提质降本专项报告</li>
+                <li><strong>段大荣司机桥前桥账本</strong> — 贵州日报北盘江大桥沿线货运司机实地调研官方文稿</li>
+                <li><strong>出山入海货物流向图</strong> — 贵阳国际陆港2024-2025集装箱发运年报；六盘水市政府外贸出口清单；贵州省交通运输厅跨区域货运量统计</li>
+                <li><strong>三大桥梁经济流量桑基图</strong> — 关岭县统计局、黔西南州公报、省交通运输厅货运统计及《桥见黔程万里》专题调研资料</li>
+            </ul>
+        </section>
+
+        <section class="data-sources-block">
+            <h4 class="data-sources-heading">四、第三幕 · 桥见旅游</h4>
+            <p class="data-sources-sub">（桥旅卡片、村超、民族村寨连线图、景观桥对比）</p>
+            <ul class="data-sources-list data-sources-list--flat">
+                <li><strong>花江峡谷大桥</strong> — 贞丰县人民政府2026文旅通报、贵州省交通运输厅通车专题、人民日报海外版桥旅报道</li>
+                <li><strong>平塘特大桥</strong> — 平塘县政府2026年1月游客统计、交通运输部交通强国桥旅示范验收文件、光明日报专题</li>
+                <li><strong>坝陵河大桥</strong> — 贵州省桥梁科普馆官方研学统计、央视新闻极限运动赛事报道</li>
+                <li><strong>榕江村超</strong> — 榕江县人民政府2023.5-2025.11文旅专项统计、十五五规划纲要；贵州省人大代表专题调研公开材料</li>
+                <li><strong>肇兴侗寨 / 西江千户苗寨 / 瑶山古寨</strong> — 黎平县文旅局年度游客统计、黔东南州文旅局高铁客流年度报表、澎湃新闻官方文旅数据稿</li>
+                <li><strong>桥—民族村寨连线图</strong> — 贵州省文化和旅游厅景区分级标准、贞丰 / 关岭 / 平塘 / 黎平 / 榕江等市县政府文旅公示、贵广 / 沪昆高铁客流官方报表</li>
+                <li><strong>省外景观桥参照</strong> — 张家界大峡谷玻璃桥（慈利县政府官网文旅年报）；武汉 / 南京 / 兰州地标桥（各地文旅局年度观光客流调研公开素材）</li>
+            </ul>
+        </section>
+
+        <section class="data-sources-block">
+            <h4 class="data-sources-heading">五、第四幕 · 桥见生态</h4>
+            <p class="data-sources-sub">（含花渔洞大桥碳山水图表）</p>
+            <ul class="data-sources-list data-sources-list--flat">
+                <li>贵州省林业局2025森林覆盖率、林业产值官方年报</li>
+                <li>贵州省生态环境厅长江珠江上游生态屏障统计公报</li>
+                <li>贵州省交通运输厅长大桥梁智能监测系统专项报告</li>
+                <li><strong>花渔洞大桥</strong> — 贵州省公路局、贵阳公路管理局竣工总结；中国公路学会国际桥梁大会（IBC）古斯塔夫·林德撒尔奖官方公示；贵州桥梁集团低碳施工专项工程通报；红枫湖饮用水源保护区生态施工专项验收材料</li>
+                <li><strong>花渔洞碳足迹数据山水图</strong> — 贵州桥梁集团花渔洞大桥竣工工程报告（减钢、减碳、节约费用）；贵州省公路局低碳施工专项数据公示；国际桥梁大会IBC官方获奖项目技术总结</li>
+            </ul>
+        </section>
+
+        <section class="data-sources-block">
+            <h4 class="data-sources-heading">六、第五幕 · 桥见民族交融</h4>
+            <p class="data-sources-sub">（人口流动弦图、县域雷达图）</p>
+            <ul class="data-sources-list data-sources-list--flat">
+                <li>第七次全国人口普查贵州分册（少数民族人口、世居民族数量）</li>
+                <li>贵州省民宗委民族自治地方面积、族际抽样调查数据</li>
+                <li>榕江县、黎平县返乡创业官方统计报表</li>
+                <li>贵州省教育厅十年教育普及官方对比数据（2015-2025）</li>
+                <li>盘兴高铁黔西南客流官方月度通报（多彩贵州网政务稿）</li>
+                <li><strong>九市州人口流动弦图</strong> — 第七次人口普查贵州分册、省民宗委世居民族分布资料</li>
+                <li><strong>县域公共服务雷达图</strong> — 贵州省统计局《贵州统计年鉴》、省卫健委县域医疗服务覆盖率公报、省通信管理局互联网普及率统计、省文化和旅游厅及省民宗委民族文化保护与传承监测资料</li>
+            </ul>
+        </section>
+
+        <section class="data-sources-block">
+            <h4 class="data-sources-heading">七、地理与民族基础背景数据</h4>
             <ul class="data-sources-list data-sources-list--flat">
                 <li>贵州山地占比92.5%、世居少数民族17个、民族自治地方面积55.5% — 贵州省第七次全国人口普查公报、省民宗委公开资料。</li>
                 <li>森林覆盖率63.3%、喀斯特占全省73% — 省林业局2025年度林业公报、省自然资源厅喀斯特地貌普查报告。</li>
@@ -807,16 +903,17 @@
         </section>
 
         <section class="data-sources-block">
-            <h4 class="data-sources-heading">四、统一图表页脚标准标注</h4>
+            <h4 class="data-sources-heading">八、统一图表页脚标准标注</h4>
+            <p class="data-sources-quote"><span class="data-sources-label">完整版</span>数据来源：贵州省交通运输厅、贵州省人民政府、贵州省文旅厅、贵州省林业局、贵州省民宗委、中国公路学会；贞丰县、关岭县、平塘县、榕江县、黎平县、六盘水市、黔西南州人民政府年度统计公报；贵州交通投资集团、贵州桥梁集团、贵阳国际陆港运营年报；新华网、人民网、央视新闻、人民日报海外版、贵州日报、央广网；交通强国桥旅融合示范验收材料、十四五交通物流提质报告、第七次人口普查贵州分册、国际桥梁大会官方获奖公示。</p>
             <p class="data-sources-quote"><span class="data-sources-label">标准版</span>数据来源：贵州省交通运输厅2024年度交通运输统计公报、省政府盘兴高铁通车新闻发布会、中铁二院铁路线路设计环评文件、贵州省公共资源交易中心高速项目招标公示、贵州日报、天眼新闻官方报道。</p>
             <p class="data-sources-quote"><span class="data-sources-label">精简版</span>数据来源：贵州省交通运输厅、省政府新闻办、铁路设计院官方公示资料。</p>
         </section>
 
         <section class="data-sources-block data-sources-block--note">
-            <h4 class="data-sources-heading">五、数据源权威分级说明</h4>
-            <p><strong>一级权威</strong>（最高采信）：省交通厅统计公报、省政府官网专题、铁路设计院正式环评/施工图批复、公共资源交易中心官方招标文件。</p>
-            <p><strong>二级权威</strong>（佐证配套）：天眼新闻、澎湃政务、动静新闻、地方政府官网官方发布稿件。</p>
-            <p class="data-sources-remark">备注：本长卷桥隧比图表均采用线路官方实测占比，无民间估算密度值，对外发布合规可审。</p>
+            <h4 class="data-sources-heading">九、数据源权威分级说明</h4>
+            <p><strong>一级权威</strong>（最高采信）：省交通厅统计公报、省政府官网专题、铁路设计院正式环评 / 施工图批复、公共资源交易中心官方招标文件、工程竣工报告、IBC等国际奖项官方公示。</p>
+            <p><strong>二级权威</strong>（佐证配套）：天眼新闻、澎湃政务、动静新闻、地方政府官网官方发布稿件、央媒专题报道。</p>
+            <p class="data-sources-remark">备注：本长卷图表数据均标注可追溯官方来源；桥隧比图表采用线路官方实测占比，桥—民族村寨连线客流分级依据省文旅厅景区分级标准，无民间估算值，对外发布合规可审。</p>
         </section>
     </aside>
 

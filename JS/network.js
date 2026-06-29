@@ -21,6 +21,11 @@
     const TIER_WIDTH = { 1: 4.2, 2: 2.6, 3: 1.3 };
     const TIER_COLOR = { 1: "#4A7C65", 2: "#6D9B8B", 3: "#8CBFAA" };
     const TIER_LABEL = { 1: "一级·百万级", 2: "二级·数十万级", 3: "三级·十万级" };
+    const TIER_BADGE = { 1: "一级·百万", 2: "二级·数十万", 3: "三级·十万" };
+
+    /** 图例距容器底边（px）：数值越小越贴底，越大越靠上 */
+    const legendBottom = 18;
+    const tierLegendBottom = 2;
 
     const categories = [
         { name: "桥梁", itemStyle: { color: PALETTE.bridge.fill, borderColor: PALETTE.bridge.border } },
@@ -42,7 +47,7 @@
         },
         {
             name: "坝陵河大桥",
-            x: 48, y: 88, symbolSize: 36, category: 0,
+            x: 98, y: 88, symbolSize: 36, category: 0,
             label: { position: "left" },
             tip: [
                 "桥旅项目一年半接待游客超 10 万人次",
@@ -53,7 +58,7 @@
         },
         {
             name: "平塘特大桥",
-            x: 268, y: 88, symbolSize: 40, category: 0,
+            x: 228, y: 88, symbolSize: 40, category: 0,
             label: { position: "right" },
             tip: [
                 "截至 2025 年 11 月累计接待游客超 520 万人次",
@@ -64,7 +69,7 @@
         },
         {
             name: "贵广高铁桥梁群",
-            x: 228, y: 138, symbolSize: 34, category: 1,
+            x: 160, y: 140, symbolSize: 34, category: 1,
             label: { position: "right" },
             tip: [
                 "从江站 2025 全年发送旅客 119 万人次",
@@ -74,7 +79,7 @@
         },
         {
             name: "沪昆高铁桥梁群",
-            x: 78, y: 138, symbolSize: 34, category: 1,
+            x: 138, y: 138, symbolSize: 34, category: 1,
             label: { position: "left" },
             tip: [
                 "贵广高铁开通首月西江高铁游客占比 12.8%",
@@ -105,7 +110,7 @@
         },
         {
             name: "坝陵河苗寨群",
-            x: 48, y: 168, symbolSize: 28, category: 2,
+            x: 105, y: 158, symbolSize: 28, category: 2,
             label: { position: "left" },
             ethnic: "苗族·布依族",
             tip: [
@@ -116,7 +121,7 @@
         },
         {
             name: "平里河村",
-            x: 268, y: 168, symbolSize: 32, category: 2,
+            x: 208, y: 168, symbolSize: 32, category: 2,
             label: { position: "right" },
             ethnic: "布依·苗·汉",
             tip: [
@@ -127,7 +132,7 @@
         },
         {
             name: "肇兴侗寨",
-            x: 248, y: 218, symbolSize: 34, category: 2,
+            x: 200, y: 205, symbolSize: 34, category: 2,
             label: { position: "right" },
             ethnic: "侗族",
             tip: [
@@ -138,7 +143,7 @@
         },
         {
             name: "西江千户苗寨",
-            x: 88, y: 218, symbolSize: 34, category: 2,
+            x: 118, y: 188, symbolSize: 34, category: 2,
             label: { position: "left" },
             ethnic: "苗族",
             tip: [
@@ -149,7 +154,7 @@
         },
         {
             name: "台江长滩苗寨",
-            x: 158, y: 268, symbolSize: 24, category: 2,
+            x: 160, y: 190, symbolSize: 24, category: 2,
             label: { position: "bottom" },
             ethnic: "苗族",
             tip: [
@@ -159,7 +164,7 @@
         },
         {
             name: "荔波瑶山古寨",
-            x: 248, y: 268, symbolSize: 24, category: 2,
+            x: 248, y: 208, symbolSize: 24, category: 2,
             label: { position: "bottom" },
             ethnic: "瑶族",
             tip: [
@@ -181,6 +186,7 @@
     ];
 
     const nodeMap = Object.fromEntries(nodes.map((n) => [n.name, n]));
+    const categoryNames = ["桥梁", "高铁桥梁群", "民族村寨"];
 
     function nodeTooltip(name) {
         const n = nodeMap[name];
@@ -194,6 +200,56 @@
         const link = links.find((l) => l.source === source && l.target === target);
         if (!link) return `${source} → ${target}`;
         return `<strong>${source} → ${target}</strong><br/><span style="color:#4A7C65;font-size:12px">${TIER_LABEL[link.tier]}</span><br/><span style="color:#7A7A7A;font-size:11px">${link.note}</span>`;
+    }
+
+    function renderDataSpec() {
+        const specDom = document.getElementById("bridgeVillageData");
+        if (!specDom) return;
+
+        const tierGroups = [1, 2, 3].map((tier) => ({
+            tier,
+            items: links.filter((l) => l.tier === tier)
+        }));
+
+        const tierRows = tierGroups.map(({ tier, items }) => {
+            if (!items.length) return "";
+            const chips = items.map((l) =>
+                `<span class="bridge-village-data__chip bridge-village-data__chip--link bridge-village-data__chip--tier-${l.tier}" title="${l.note}">${l.source} → ${l.target}</span>`
+            ).join("");
+            return `
+                <div class="bridge-village-data__row bridge-village-data__row--tier-${tier}">
+                    <span class="bridge-village-data__badge">${TIER_BADGE[tier]}</span>
+                    <div class="bridge-village-data__chips">${chips}</div>
+                </div>`;
+        }).join("");
+
+        const nodeGroups = categoryNames.map((name, i) => {
+            const group = nodes.filter((n) => n.category === i);
+            if (!group.length) return "";
+            const chips = group.map((n) => {
+                const meta = n.ethnic ? `<em>${n.ethnic}</em>` : "";
+                const tip = (n.tip || []).join(" · ");
+                return `<span class="bridge-village-data__chip bridge-village-data__chip--node bridge-village-data__chip--cat-${i}" title="${tip}">${n.name}${meta}</span>`;
+            }).join("");
+            return `
+                <div class="bridge-village-data__row bridge-village-data__row--cat-${i}">
+                    <span class="bridge-village-data__badge bridge-village-data__badge--cat bridge-village-data__badge--cat-${i}">${name}</span>
+                    <div class="bridge-village-data__chips">${chips}</div>
+                </div>`;
+        }).join("");
+
+        specDom.innerHTML = `
+            <div class="bridge-village-data__panel">
+                <div class="bridge-village-data__section">
+                    <p class="bridge-village-data__section-label">客流连线</p>
+                    ${tierRows}
+                </div>
+                <div class="bridge-village-data__section bridge-village-data__section--nodes">
+                    <p class="bridge-village-data__section-label">节点分布</p>
+                    ${nodeGroups}
+                </div>
+            </div>
+        `;
     }
 
     chart.setOption({
@@ -218,7 +274,7 @@
             }
         },
         legend: {
-            bottom: 28,
+            bottom: legendBottom,
             itemWidth: 12,
             itemHeight: 12,
             itemGap: 14,
@@ -228,7 +284,7 @@
             {
                 type: "group",
                 left: 8,
-                bottom: 6,
+                bottom: tierLegendBottom,
                 children: [
                     { type: "line", shape: { x1: 0, y1: 0, x2: 22, y2: 0 }, style: { stroke: TIER_COLOR[1], lineWidth: 4, lineCap: "round" } },
                     { type: "text", style: { text: "一级·百万级", x: 26, y: 3, fill: "#7A7A7A", font: `${T.dense || 9}px Noto Serif SC, SimSun, serif`, textBaseline: "middle" } },
@@ -297,6 +353,8 @@
             z: 1
         }]
     });
+
+    renderDataSpec();
 
     window.addEventListener("resize", () => chart.resize());
 

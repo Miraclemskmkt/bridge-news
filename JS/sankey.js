@@ -10,19 +10,20 @@
 
     const chart = echarts.init(dom);
     const T = window.BRIDGE_CHART || {};
+    const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
 
     const nodes = [
-        { name: "花江峡谷大桥", itemStyle: { color: "#4a8c78" } },
-        { name: "北盘江大桥", itemStyle: { color: "#3a5f7a" } },
-        { name: "平塘特大桥", itemStyle: { color: "#bf8c60" } },
-        { name: "肉牛养殖", itemStyle: { color: "#c97d55" } },
-        { name: "花椒种植", itemStyle: { color: "#b06868" } },
-        { name: "茶叶加工", itemStyle: { color: "#7c6eaa" } },
-        { name: "物流运输", itemStyle: { color: "#5a8ab5" } },
-        { name: "旅游服务", itemStyle: { color: "#c08060" } },
-        { name: "省内市场", itemStyle: { color: "#7a8b9a" } },
-        { name: "国内市场", itemStyle: { color: "#5c6e65" } },
-        { name: "海外市场", itemStyle: { color: "#1c2a24" } }
+        { name: "花江峡谷大桥", depth: 0, itemStyle: { color: "#4a8c78" } },
+        { name: "北盘江大桥", depth: 0, itemStyle: { color: "#3a5f7a" } },
+        { name: "平塘特大桥", depth: 0, itemStyle: { color: "#bf8c60" } },
+        { name: "肉牛养殖", depth: 1, itemStyle: { color: "#c97d55" } },
+        { name: "花椒种植", depth: 1, itemStyle: { color: "#b06868" } },
+        { name: "茶叶加工", depth: 1, itemStyle: { color: "#7c6eaa" } },
+        { name: "物流运输", depth: 1, itemStyle: { color: "#5a8ab5" } },
+        { name: "旅游服务", depth: 1, itemStyle: { color: "#c08060" } },
+        { name: "省内市场", depth: 2, itemStyle: { color: "#7a8b9a" } },
+        { name: "国内市场", depth: 2, itemStyle: { color: "#5c6e65" } },
+        { name: "海外市场", depth: 2, itemStyle: { color: "#1c2a24" } }
     ];
 
     const links = [
@@ -50,41 +51,82 @@
         { source: "旅游服务", target: "海外市场", value: 14 }
     ];
 
+    function edgeValue(params) {
+        return params.data && params.data.value != null ? params.data.value : params.value;
+    }
+
+    function edgeLabelText(params) {
+        const v = edgeValue(params);
+        return v != null ? `${v}亿` : "";
+    }
+
+    function nodeLabelText(params) {
+        const v = params.value != null ? params.value : "";
+        return v ? `${params.name}\n${v}亿` : params.name;
+    }
+
     chart.setOption({
         backgroundColor: "transparent",
         tooltip: {
             trigger: "item",
             backgroundColor: "rgba(255,255,255,0.92)",
             borderColor: "rgba(0,0,0,0.08)",
-            textStyle: { color: "#1c2a24", fontSize: T.tooltip || 13 },
+            textStyle: { color: "#1c2a24", fontSize: T.tooltip || 13, fontFamily: FONT },
             formatter: (p) => {
                 if (p.dataType === "edge") {
-                    return `${p.data.source} → ${p.data.target}<br/>流量：${p.value} 亿元`;
+                    return `${p.data.source} → ${p.data.target}<br/>流量：${p.data.value} 亿元`;
                 }
-                return p.name;
+                const v = p.value != null ? `<br/>汇总流量：${p.value} 亿元` : "";
+                return `${p.name}${v}`;
             }
         },
+        graphic: [{
+            type: "text",
+            right: 6,
+            bottom: 2,
+            style: {
+                text: "单位：亿元 · 相对流量",
+                fill: "#7a7a7a",
+                font: `600 ${T.dense || 9}px ${FONT}`,
+                textAlign: "right"
+            },
+            silent: true
+        }],
         series: [{
             type: "sankey",
             layout: "none",
-            left: "2%",
-            right: "2%",
-            top: 8,
-            bottom: 8,
-            nodeWidth: 14,
-            nodeGap: 12,
+            nodeAlign: "justify",
+            left: "4%",
+            right: "6%",
+            top: 12,
+            bottom: 18,
+            nodeWidth: 12,
+            nodeGap: 10,
             draggable: false,
             emphasis: { focus: "adjacency" },
             label: {
+                show: true,
                 color: "#1c2a24",
-                fontSize: T.axisSm || 10,
-                fontWeight: 600
+                fontSize: T.dense || 9,
+                fontWeight: 600,
+                fontFamily: FONT,
+                lineHeight: 13,
+                formatter: nodeLabelText
+            },
+            edgeLabel: {
+                show: true,
+                position: "inside",
+                color: "#1c2a24",
+                fontSize: (T.dense || 9) - 1,
+                fontWeight: 700,
+                fontFamily: FONT,
+                formatter: edgeLabelText
             },
             labelLayout: window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" },
             lineStyle: {
                 color: "gradient",
                 curveness: 0.5,
-                opacity: 0.28,
+                opacity: 0.32,
                 borderColor: "rgba(58,95,122,0.06)",
                 borderWidth: 0.4
             },
