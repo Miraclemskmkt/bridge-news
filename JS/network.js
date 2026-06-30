@@ -1,5 +1,5 @@
 // ======================================
-// 桥—民族村寨连线图（官方客流分级 · 固定布局）
+// 桥—民族村寨连线图（官方客流分级 · 响应式固定布局）
 // ======================================
 
 (function () {
@@ -8,7 +8,7 @@
     if (!dom) return;
 
     const chart = echarts.init(dom);
-    const T = window.BRIDGE_CHART || {};
+    const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
     const labelLayout = window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" };
 
     const PALETTE = {
@@ -21,11 +21,8 @@
     const TIER_WIDTH = { 1: 4.2, 2: 2.6, 3: 1.3 };
     const TIER_COLOR = { 1: "#4A7C65", 2: "#6D9B8B", 3: "#8CBFAA" };
     const TIER_LABEL = { 1: "一级·百万级", 2: "二级·数十万级", 3: "三级·十万级" };
-    const TIER_BADGE = { 1: "一级·百万", 2: "二级·数十万", 3: "三级·十万" };
 
-    /** 图例距容器底边（px）：数值越小越贴底，越大越靠上 */
-    const legendBottom = 18;
-    const tierLegendBottom = 2;
+    const LABEL_MARGIN = { left: 54, right: 62, top: 24, bottom: 32 };
 
     const categories = [
         { name: "桥梁", itemStyle: { color: PALETTE.bridge.fill, borderColor: PALETTE.bridge.border } },
@@ -185,8 +182,63 @@
         { source: "平塘特大桥", target: "荔波瑶山古寨", tier: 3, note: "桥旅融合支线 · 年＜30 万人次" }
     ];
 
+    const DESIGN = (function () {
+        const xs = nodes.map((n) => n.x);
+        const ys = nodes.map((n) => n.y);
+        const x0 = Math.min(...xs) - LABEL_MARGIN.left;
+        const y0 = Math.min(...ys) - LABEL_MARGIN.top;
+        const x1 = Math.max(...xs) + LABEL_MARGIN.right;
+        const y1 = Math.max(...ys) + LABEL_MARGIN.bottom;
+        return { x0, y0, w: x1 - x0, h: y1 - y0 };
+    })();
+
     const nodeMap = Object.fromEntries(nodes.map((n) => [n.name, n]));
-    const categoryNames = ["桥梁", "高铁桥梁群", "民族村寨"];
+
+    function getViewport() {
+        const w = dom.clientWidth || 320;
+        const h = dom.clientHeight || 360;
+        return {
+            w,
+            h,
+            narrow: w <= 520,
+            tiny: w <= 380
+        };
+    }
+
+    function computeLayout(vp) {
+        const legendTopH = vp.narrow ? (vp.tiny ? 26 : 28) : 0;
+        const bottomReserve = vp.tiny ? 56 : vp.narrow ? 50 : 44;
+        const sidePad = vp.tiny ? 6 : vp.narrow ? 8 : 12;
+        const topPad = (vp.tiny ? 30 : vp.narrow ? 28 : 24) + legendTopH;
+
+        const plotW = Math.max(120, vp.w - sidePad * 2);
+        const plotH = Math.max(120, vp.h - topPad - bottomReserve);
+        const scale = Math.min(plotW / DESIGN.w, plotH / DESIGN.h);
+
+        const graphW = DESIGN.w * scale;
+        const graphH = DESIGN.h * scale;
+
+        return {
+            scale,
+            offsetX: sidePad + (plotW - graphW) / 2,
+            offsetY: topPad + (plotH - graphH) / 2,
+            bottomReserve,
+            narrow: vp.narrow,
+            tiny: vp.tiny
+        };
+    }
+
+    function mapX(x, layout) {
+        return layout.offsetX + (x - DESIGN.x0) * layout.scale;
+    }
+
+    function mapY(y, layout) {
+        return layout.offsetY + (y - DESIGN.y0) * layout.scale;
+    }
+
+    function mapSize(size, layout, min) {
+        return Math.max(min || 12, Math.round(size * layout.scale));
+    }
 
     function nodeTooltip(name) {
         const n = nodeMap[name];
@@ -202,170 +254,181 @@
         return `<strong>${source} → ${target}</strong><br/><span style="color:#4A7C65;font-size:12px">${TIER_LABEL[link.tier]}</span><br/><span style="color:#7A7A7A;font-size:11px">${link.note}</span>`;
     }
 
-    function renderDataSpec() {
-        const specDom = document.getElementById("bridgeVillageData");
-        if (!specDom) return;
+    function buildTierGraphic(layout, T) {
+        const fs = layout.tiny ? Math.max(T.dense || 8, 8) : (T.dense || 9);
+        const font = `${fs}px ${FONT}`;
+        const rows = [
+            { tier: 1, text: "一级·百万级", lw: 4, lineW: 18 },
+            { tier: 2, text: "二级·数十万", lw: 2.6, lineW: 18 },
+            { tier: 3, text: "三级·十万级", lw: 1.3, lineW: 18 }
+        ];
 
-        const tierGroups = [1, 2, 3].map((tier) => ({
-            tier,
-            items: links.filter((l) => l.tier === tier)
-        }));
+        if (layout.narrow) {
+            return rows.map((row, i) => ({
+                type: "group",
+                left: 6,
+                bottom: 4 + i * (layout.tiny ? 13 : 15),
+                children: [
+                    {
+                        type: "line",
+                        shape: { x1: 0, y1: 0, x2: row.lineW, y2: 0 },
+                        style: { stroke: TIER_COLOR[row.tier], lineWidth: row.lw, lineCap: "round" }
+                    },
+                    {
+                        type: "text",
+                        style: {
+                            text: row.text,
+                            x: row.lineW + 4,
+                            y: 3,
+                            fill: "#7A7A7A",
+                            font,
+                            textBaseline: "middle"
+                        }
+                    }
+                ]
+            }));
+        }
 
-        const tierRows = tierGroups.map(({ tier, items }) => {
-            if (!items.length) return "";
-            const chips = items.map((l) =>
-                `<span class="bridge-village-data__chip bridge-village-data__chip--link bridge-village-data__chip--tier-${l.tier}" title="${l.note}">${l.source} → ${l.target}</span>`
-            ).join("");
-            return `
-                <div class="bridge-village-data__row bridge-village-data__row--tier-${tier}">
-                    <span class="bridge-village-data__badge">${TIER_BADGE[tier]}</span>
-                    <div class="bridge-village-data__chips">${chips}</div>
-                </div>`;
-        }).join("");
-
-        const nodeGroups = categoryNames.map((name, i) => {
-            const group = nodes.filter((n) => n.category === i);
-            if (!group.length) return "";
-            const chips = group.map((n) => {
-                const meta = n.ethnic ? `<em>${n.ethnic}</em>` : "";
-                const tip = (n.tip || []).join(" · ");
-                return `<span class="bridge-village-data__chip bridge-village-data__chip--node bridge-village-data__chip--cat-${i}" title="${tip}">${n.name}${meta}</span>`;
-            }).join("");
-            return `
-                <div class="bridge-village-data__row bridge-village-data__row--cat-${i}">
-                    <span class="bridge-village-data__badge bridge-village-data__badge--cat bridge-village-data__badge--cat-${i}">${name}</span>
-                    <div class="bridge-village-data__chips">${chips}</div>
-                </div>`;
-        }).join("");
-
-        specDom.innerHTML = `
-            <div class="bridge-village-data__panel">
-                <div class="bridge-village-data__section">
-                    <p class="bridge-village-data__section-label">客流连线</p>
-                    ${tierRows}
-                </div>
-                <div class="bridge-village-data__section bridge-village-data__section--nodes">
-                    <p class="bridge-village-data__section-label">节点分布</p>
-                    ${nodeGroups}
-                </div>
-            </div>
-        `;
+        return [{
+            type: "group",
+            left: 8,
+            bottom: 2,
+            children: [
+                { type: "line", shape: { x1: 0, y1: 0, x2: 22, y2: 0 }, style: { stroke: TIER_COLOR[1], lineWidth: 4, lineCap: "round" } },
+                { type: "text", style: { text: "一级·百万级", x: 26, y: 3, fill: "#7A7A7A", font, textBaseline: "middle" } },
+                { type: "line", shape: { x1: 88, y1: 0, x2: 110, y2: 0 }, style: { stroke: TIER_COLOR[2], lineWidth: 2.6, lineCap: "round" } },
+                { type: "text", style: { text: "二级·数十万", x: 114, y: 3, fill: "#7A7A7A", font, textBaseline: "middle" } },
+                { type: "line", shape: { x1: 186, y1: 0, x2: 208, y2: 0 }, style: { stroke: TIER_COLOR[3], lineWidth: 1.3, lineCap: "round" } },
+                { type: "text", style: { text: "三级·十万级", x: 212, y: 3, fill: "#7A7A7A", font, textBaseline: "middle" } }
+            ]
+        }];
     }
 
-    chart.setOption({
-        backgroundColor: "transparent",
-        tooltip: {
-            trigger: "item",
-            confine: true,
-            padding: [6, 8],
-            borderWidth: 0.5,
-            backgroundColor: "rgba(255,255,255,0.97)",
-            borderColor: "rgba(74, 124, 101, 0.28)",
-            textStyle: { color: "#4A7C65", fontSize: T.tooltipSm || 13, lineHeight: 18 },
-            className: "bridge-village-tip",
-            formatter: (p) => {
-                if (p.dataType === "edge") {
-                    return linkTooltip(p.data.source, p.data.target);
-                }
-                if (p.dataType === "node") {
-                    return nodeTooltip(p.name);
-                }
-                return p.name || "";
-            }
-        },
-        legend: {
-            bottom: legendBottom,
-            itemWidth: 12,
-            itemHeight: 12,
-            itemGap: 14,
-            textStyle: { color: "#7A7A7A", fontSize: T.legend || 11, fontWeight: 600 }
-        },
-        graphic: [
-            {
-                type: "group",
-                left: 8,
-                bottom: tierLegendBottom,
-                children: [
-                    { type: "line", shape: { x1: 0, y1: 0, x2: 22, y2: 0 }, style: { stroke: TIER_COLOR[1], lineWidth: 4, lineCap: "round" } },
-                    { type: "text", style: { text: "一级·百万级", x: 26, y: 3, fill: "#7A7A7A", font: `${T.dense || 9}px Noto Serif SC, SimSun, serif`, textBaseline: "middle" } },
-                    { type: "line", shape: { x1: 88, y1: 0, x2: 110, y2: 0 }, style: { stroke: TIER_COLOR[2], lineWidth: 2.6, lineCap: "round" } },
-                    { type: "text", style: { text: "二级·数十万", x: 114, y: 3, fill: "#7A7A7A", font: `${T.dense || 9}px Noto Serif SC, SimSun, serif`, textBaseline: "middle" } },
-                    { type: "line", shape: { x1: 186, y1: 0, x2: 208, y2: 0 }, style: { stroke: TIER_COLOR[3], lineWidth: 1.3, lineCap: "round" } },
-                    { type: "text", style: { text: "三级·十万级", x: 212, y: 3, fill: "#7A7A7A", font: `${T.dense || 9}px Noto Serif SC, SimSun, serif`, textBaseline: "middle" } }
-                ]
-            }
-        ],
-        series: [{
-            type: "graph",
-            layout: "none",
-            roam: false,
-            draggable: false,
-            categories,
-            data: nodes.map((n) => {
-                const isRail = n.category === 1;
-                const pal = isRail ? PALETTE.rail : n.category === 0 ? PALETTE.bridge : PALETTE.village;
-                const isCore = ["肇兴侗寨", "西江千户苗寨", "花江村", "平里河村"].includes(n.name);
-                return {
-                    name: n.name,
-                    x: n.x,
-                    y: n.y,
-                    symbolSize: n.symbolSize,
-                    category: n.category,
-                    fixed: true,
-                    itemStyle: {
-                        color: isCore && n.category === 2 ? PALETTE.villageCore.fill : pal.fill,
-                        borderColor: pal.border,
-                        borderWidth: n.category === 0 ? 1.6 : 1.2,
-                        shadowBlur: n.category === 0 ? 8 : 5,
-                        shadowColor: "rgba(74, 124, 101, 0.18)"
-                    },
-                    label: {
-                        show: true,
-                        position: n.label.position,
-                        color: "#4A7C65",
-                        fontSize: n.symbolSize >= 32 ? (T.axis || 11) : (T.axisSm || 10),
-                        fontWeight: 700,
-                        distance: 5,
-                        backgroundColor: "rgba(245, 242, 232, 0.88)",
-                        padding: [1, 4],
-                        borderRadius: 2
+    function buildOption() {
+        const T = window.BRIDGE_CHART || {};
+        const layout = computeLayout(getViewport());
+        const labelSizeLg = layout.tiny ? (T.axisSm || 9) : layout.narrow ? (T.axisSm || 10) : (T.axis || 11);
+        const labelSizeSm = layout.tiny ? Math.max(T.dense || 8, 8) : (T.axisSm || 10);
+        const lineScale = Math.max(0.75, layout.scale);
+
+        return {
+            backgroundColor: "transparent",
+            tooltip: {
+                trigger: "item",
+                confine: true,
+                padding: [6, 8],
+                borderWidth: 0.5,
+                backgroundColor: "rgba(255,255,255,0.97)",
+                borderColor: "rgba(74, 124, 101, 0.28)",
+                textStyle: { color: "#4A7C65", fontSize: T.tooltipSm || 13, lineHeight: 18 },
+                className: "bridge-village-tip",
+                formatter: (p) => {
+                    if (p.dataType === "edge") {
+                        return linkTooltip(p.data.source, p.data.target);
                     }
-                };
-            }),
-            links: links.map((l) => ({
-                source: l.source,
-                target: l.target,
-                lineStyle: {
-                    color: TIER_COLOR[l.tier],
-                    width: TIER_WIDTH[l.tier],
-                    curveness: 0.14,
-                    opacity: l.tier === 1 ? 0.88 : l.tier === 2 ? 0.72 : 0.58
+                    if (p.dataType === "node") {
+                        return nodeTooltip(p.name);
+                    }
+                    return p.name || "";
                 }
-            })),
-            edgeSymbol: ["none", "arrow"],
-            edgeSymbolSize: [0, 8],
-            labelLayout,
-            emphasis: {
-                focus: "adjacency",
-                lineStyle: { opacity: 0.95 },
-                itemStyle: { shadowBlur: 12, shadowColor: "rgba(74, 124, 101, 0.28)" }
             },
-            z: 1
-        }]
-    });
+            legend: layout.narrow ? {
+                top: 2,
+                left: "center",
+                itemWidth: layout.tiny ? 8 : 10,
+                itemHeight: layout.tiny ? 8 : 10,
+                itemGap: layout.tiny ? 6 : 10,
+                textStyle: { color: "#7A7A7A", fontSize: T.legend || 10, fontWeight: 600 }
+            } : {
+                bottom: 16,
+                itemWidth: 12,
+                itemHeight: 12,
+                itemGap: 14,
+                textStyle: { color: "#7A7A7A", fontSize: T.legend || 11, fontWeight: 600 }
+            },
+            graphic: buildTierGraphic(layout, T),
+            series: [{
+                type: "graph",
+                layout: "none",
+                roam: false,
+                draggable: false,
+                categories,
+                data: nodes.map((n) => {
+                    const isRail = n.category === 1;
+                    const pal = isRail ? PALETTE.rail : n.category === 0 ? PALETTE.bridge : PALETTE.village;
+                    const isCore = ["肇兴侗寨", "西江千户苗寨", "花江村", "平里河村"].includes(n.name);
+                    const symbolSize = mapSize(n.symbolSize, layout, 12);
+                    return {
+                        name: n.name,
+                        x: mapX(n.x, layout),
+                        y: mapY(n.y, layout),
+                        symbolSize,
+                        category: n.category,
+                        fixed: true,
+                        itemStyle: {
+                            color: isCore && n.category === 2 ? PALETTE.villageCore.fill : pal.fill,
+                            borderColor: pal.border,
+                            borderWidth: n.category === 0 ? 1.6 : 1.2,
+                            shadowBlur: n.category === 0 ? 8 : 5,
+                            shadowColor: "rgba(74, 124, 101, 0.18)"
+                        },
+                        label: {
+                            show: true,
+                            position: n.label.position,
+                            color: "#4A7C65",
+                            fontSize: n.symbolSize >= 32 ? labelSizeLg : labelSizeSm,
+                            fontWeight: 700,
+                            distance: layout.tiny ? 3 : 5,
+                            backgroundColor: "rgba(245, 242, 232, 0.88)",
+                            padding: layout.tiny ? [1, 3] : [1, 4],
+                            borderRadius: 2
+                        }
+                    };
+                }),
+                links: links.map((l) => ({
+                    source: l.source,
+                    target: l.target,
+                    lineStyle: {
+                        color: TIER_COLOR[l.tier],
+                        width: TIER_WIDTH[l.tier] * lineScale,
+                        curveness: 0.14,
+                        opacity: l.tier === 1 ? 0.88 : l.tier === 2 ? 0.72 : 0.58
+                    }
+                })),
+                edgeSymbol: ["none", "arrow"],
+                edgeSymbolSize: [0, Math.max(5, Math.round(8 * lineScale))],
+                labelLayout,
+                emphasis: {
+                    focus: "adjacency",
+                    lineStyle: { opacity: 0.95 },
+                    itemStyle: { shadowBlur: 12, shadowColor: "rgba(74, 124, 101, 0.28)" }
+                },
+                z: 1
+            }]
+        };
+    }
 
-    renderDataSpec();
+    let resizeTimer;
 
-    window.addEventListener("resize", () => chart.resize());
+    function render() {
+        chart.setOption(buildOption(), true);
+        chart.resize();
+    }
 
-    window.addEventListener("load", () => {
-        setTimeout(() => chart.resize(), 100);
-    });
+    function scheduleRender() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(render, 100);
+    }
+
+    render();
+
+    window.addEventListener("resize", scheduleRender);
+    window.addEventListener("load", () => setTimeout(render, 120));
 
     if ("IntersectionObserver" in window) {
         new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) chart.resize();
+                if (entry.isIntersecting) scheduleRender();
             });
         }, { threshold: 0.1 }).observe(dom);
     }
