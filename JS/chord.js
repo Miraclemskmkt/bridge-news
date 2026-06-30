@@ -305,9 +305,9 @@
                 layout: "circular",
                 circular: { rotateLabel: !layout.tiny },
                 left: "center",
-                top: layout.tiny ? "4%" : layout.mobile ? "6%" : "13%",
+                top: layout.tiny ? "14%" : layout.mobile ? "16%" : "24%",
                 width: layout.tiny ? "84%" : layout.mobile ? "86%" : "90%",
-                height: layout.tiny ? "58%" : layout.mobile ? "60%" : "68%",
+                height: layout.tiny ? "50%" : layout.mobile ? "52%" : "59%",
                 roam: false,
                 label: {
                     show: true,
