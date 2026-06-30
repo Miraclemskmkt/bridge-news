@@ -19,6 +19,8 @@
         tooltipSm: 13,
         subtitle: 14,
         dense: 10,
+        sourceNote: 11.5,
+        sourceLine: 18,
         ink: "#4A7C65",
         gray: "#7A7A7A",
         light: "#B8B8B8"

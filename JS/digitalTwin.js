@@ -173,21 +173,51 @@
         return "desktop";
     }
 
-    function buildOption() {
+    function labelMetrics(ctx) {
         const T = window.BRIDGE_CHART || {};
+        const w = ctx.mapW;
+        if (ctx.tiny) {
+            return {
+                fontSize: Math.max(9, Math.min(10, Math.round(w * 0.026))),
+                lineHeight: 13,
+                labelWidth: Math.min(108, Math.round(w * 0.44)),
+                padding: [3, 5]
+            };
+        }
+        if (ctx.mobile) {
+            return {
+                fontSize: Math.max(10, Math.min(11, Math.round(w * 0.025))),
+                lineHeight: 14,
+                labelWidth: Math.min(96, Math.round(w * 0.36)),
+                padding: [4, 6]
+            };
+        }
+        if (ctx.stacked) {
+            return {
+                fontSize: Math.max(10, Math.min(11, Math.round(w * 0.024))),
+                lineHeight: 14,
+                labelWidth: Math.min(88, Math.round(w * 0.24)),
+                padding: [4, 6]
+            };
+        }
+        return {
+            fontSize: T.axisSm || 11,
+            lineHeight: 14,
+            labelWidth: 78,
+            padding: [4, 7]
+        };
+    }
+
+    function buildOption() {
         const ctx = getTwinContext();
         const sensors = getSensors(ctx);
-        const fontSize = ctx.tiny ? Math.max(T.dense || 8, 8) : ctx.mobile ? Math.max(T.axisSm || 10, 10) : (T.axisSm || 11);
-        const lineHeight = ctx.tiny ? 14 : ctx.mobile ? 16 : 14;
-        const symbolSize = ctx.tiny ? 7 : ctx.mobile ? 8 : 7;
-        const labelWidth = ctx.tiny ? Math.min(118, Math.round(ctx.mapW * 0.42)) : ctx.mobile ? Math.min(100, Math.round(ctx.mapW * 0.38)) : ctx.stacked ? Math.min(92, Math.round(ctx.mapW * 0.22)) : 78;
+        const lm = labelMetrics(ctx);
+        const symbolSize = ctx.tiny ? 6 : ctx.mobile || ctx.stacked ? 7 : 7;
         const grid = ctx.tiny
             ? { left: 6, right: 6, top: 4, bottom: 4 }
-            : ctx.mobile
+            : ctx.mobile || ctx.stacked
                 ? { left: 4, right: 4, top: 6, bottom: 6 }
-                : ctx.stacked
-                    ? { left: 4, right: 4, top: 4, bottom: 4 }
-                    : { left: 6, right: 4, top: 4, bottom: 4 };
+                : { left: 6, right: 4, top: 4, bottom: 4 };
 
         const flowTargetX = ctx.tiny ? 88 : ctx.mobile ? 90 : 92;
 
@@ -247,17 +277,17 @@
                             distance: ctx.tiny ? 1 : 2,
                             formatter: s.label,
                             color: "#345a4a",
-                            fontSize: fontSize,
-                            lineHeight: lineHeight,
+                            fontSize: lm.fontSize,
+                            lineHeight: lm.lineHeight,
                             fontFamily: FONT,
                             fontWeight: 500,
                             backgroundColor: "rgba(245,242,232,0.94)",
-                            padding: ctx.tiny ? [4, 6] : ctx.mobile ? [5, 8] : [4, 7],
+                            padding: lm.padding,
                             borderRadius: 6,
                             borderColor: "rgba(74,124,101,0.42)",
                             borderWidth: 1,
                             overflow: "break",
-                            width: labelWidth
+                            width: lm.labelWidth
                         }
                     })),
                     label: { show: false },

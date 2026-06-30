@@ -62,6 +62,22 @@
 
 }
 
+/* 全页图表来源 · 与数字孪生 .twin-source 一致 */
+.chart-source,
+.twin-source,
+.flow-map__source,
+.bridge-tour-card__source,
+.bridge-tourism-wall__sources,
+.ethnic-chord-spec__source,
+.radar-score-spec__source,
+.huayudong-figure__cap,
+.huayudong-data-spec li em {
+    font-family: var(--note-font);
+    font-size: var(--note-source-size);
+    color: var(--note-source-color);
+    line-height: var(--note-lh);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -1221,7 +1237,7 @@ body {
 
 .huayudong-scroll__title {
     font-family: var(--font-l3);
-    font-size: 0.95rem;
+    font-size: 1.08rem;
     font-weight: 400;
     color: var(--text-primary);
     letter-spacing: 0.1em;
@@ -1284,13 +1300,10 @@ body {
 
 .huayudong-figure__cap {
     font-family: var(--note-font);
-    font-size: var(--note-source-size);
     font-weight: 600;
-    color: var(--note-source-color);
     text-align: center;
     margin-top: 7px;
     letter-spacing: 0.08em;
-    line-height: var(--note-lh);
 }
 
 .huayudong-metrics {
@@ -1430,25 +1443,25 @@ body {
     color: var(--note-narrative-color);
     text-align: center;
     line-height: var(--note-lh);
-    margin: 0 4px 12px;
+    margin: 0 4px 8px;
     letter-spacing: 0.04em;
 }
 
 .huayudong-data-spec {
     list-style: none;
     margin: 0;
-    padding: 10px 0 0;
+    padding: 6px 0 0;
     border-top: 1px solid rgba(74, 124, 101, 0.12);
     display: grid;
-    gap: 5px;
+    gap: 4px;
 }
 
 .huayudong-data-spec li {
     display: grid;
     grid-template-columns: 1fr auto;
     grid-template-rows: auto auto;
-    gap: 2px 8px;
-    padding: 7px 8px;
+    gap: 1px 8px;
+    padding: 5px 7px;
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.35);
     border: 1px solid rgba(74, 124, 101, 0.08);
@@ -1477,10 +1490,7 @@ body {
     grid-column: 1 / -1;
     grid-row: 2;
     font-style: normal;
-    font-family: var(--note-font);
-    font-size: var(--note-source-size);
-    color: var(--note-source-color);
-    line-height: var(--note-lh);
+    line-height: 1.42;
 }
 
 @media (max-width: 520px) {
@@ -1499,9 +1509,9 @@ body {
         flex: 1 1 auto;
         min-width: 0;
         white-space: normal;
-        font-size: clamp(0.82rem, 4vw, 0.92rem);
-        letter-spacing: 0.06em;
-        line-height: 1.35;
+        font-size: clamp(0.92rem, 4.2vw, 1.05rem);
+        letter-spacing: 0.08em;
+        line-height: 1.32;
         word-break: break-word;
     }
 
@@ -1555,20 +1565,27 @@ body {
         padding: 0 2px;
     }
 
-    .huayudong-data-spec li {
-        grid-template-columns: 1fr;
+    .huayudong-data-spec {
+        padding-top: 5px;
         gap: 3px;
     }
 
+    .huayudong-data-spec li {
+        grid-template-columns: 1fr auto;
+        gap: 1px 6px;
+        padding: 4px 6px;
+    }
+
     .huayudong-data-spec li span {
-        grid-column: 1;
-        grid-row: 2;
-        white-space: normal;
-        word-break: break-word;
+        grid-column: 2;
+        grid-row: 1;
+        white-space: nowrap;
     }
 
     .huayudong-data-spec li em {
-        grid-row: 3;
+        grid-column: 1 / -1;
+        grid-row: 2;
+        line-height: 1.38;
     }
 }
 
@@ -2401,10 +2418,6 @@ body {
 }
 
 .flow-map__source {
-    font-family: var(--note-font);
-    font-size: var(--note-source-size);
-    line-height: var(--note-lh);
-    color: var(--note-source-color);
     padding: 10px 6px 2px;
     border-top: 1px solid rgba(140, 191, 170, 0.3);
     text-align: left;
@@ -2945,10 +2958,7 @@ footer {
 }
 
 .radar-score-spec__source {
-    font-family: var(--note-font);
-    font-size: 0.53125rem;
-    color: var(--note-narrative-color);
-    line-height: var(--note-lh);
+    text-align: center;
     margin: 6px 0 0;
     padding-top: 5px;
     border-top: 1px solid rgba(74, 124, 101, 0.1);
@@ -2975,10 +2985,6 @@ footer {
 
     .radar-score-spec__formula {
         font-size: 0.46875rem;
-    }
-
-    .radar-score-spec__source {
-        font-size: 0.5rem;
     }
 
     .radar-score-spec__score {
@@ -3481,10 +3487,6 @@ footer {
 
 .twin-source {
     text-align: center;
-    font-family: var(--note-font);
-    font-size: var(--note-source-size);
-    color: var(--note-source-color);
-    line-height: var(--note-lh);
     margin-top: 4px;
     padding: 0 4px;
 }
@@ -3767,24 +3769,25 @@ footer {
     }
 
     .twin-title {
-        font-size: clamp(0.85rem, 4.2vw, 0.92rem);
+        font-size: 0.88rem;
         line-height: 1.35;
         word-break: break-word;
     }
 
     .twin-subtitle {
-        font-size: clamp(0.68rem, 3.2vw, 0.72rem);
-        line-height: 1.45;
+        font-size: 0.62rem;
+        line-height: 1.4;
         word-break: break-word;
     }
 
     .twin-meta {
-        font-size: clamp(0.64rem, 3vw, 0.68rem);
-        line-height: 1.5;
+        font-size: 0.6rem;
+        line-height: 1.45;
         word-break: break-word;
     }
 
     .twin-source {
+        font-size: var(--note-source-size);
         line-height: var(--note-lh);
         padding: 0 6px;
         word-break: break-word;
@@ -3844,18 +3847,18 @@ footer {
     }
 
     .twin-platform-title {
-        font-size: clamp(0.68rem, 3.2vw, 0.74rem);
+        font-size: 0.64rem;
         margin-bottom: 4px;
     }
 
     .twin-layer {
-        font-size: clamp(0.6rem, 2.8vw, 0.66rem);
+        font-size: 0.54rem;
         padding: 6px 7px;
         flex: none;
     }
 
     .twin-layer strong {
-        font-size: clamp(0.64rem, 3vw, 0.7rem);
+        font-size: 0.58rem;
     }
 
     .twin-layer span {
@@ -3863,12 +3866,12 @@ footer {
     }
 
     .twin-layer-sub {
-        font-size: clamp(0.56rem, 2.6vw, 0.6rem);
+        font-size: 0.5rem;
         word-break: break-word;
     }
 
     .twin-flow-arrow {
-        font-size: 0.5rem;
+        font-size: 0.42rem;
         padding: 1px 0;
     }
 
@@ -3882,12 +3885,12 @@ footer {
 
     .twin-value-card {
         flex: none;
-        font-size: clamp(0.58rem, 2.7vw, 0.64rem);
+        font-size: 0.52rem;
         padding: 6px 7px;
     }
 
     .twin-value-card strong {
-        font-size: clamp(0.62rem, 2.9vw, 0.68rem);
+        font-size: 0.56rem;
     }
 
     .twin-value-card span {
@@ -3900,6 +3903,43 @@ footer {
 }
 
 @media (max-width: 520px) {
+    .twin-title {
+        font-size: 0.85rem;
+    }
+
+    .twin-subtitle {
+        font-size: 0.6rem;
+    }
+
+    .twin-meta {
+        font-size: 0.58rem;
+    }
+
+    .twin-platform-title {
+        font-size: 0.62rem;
+    }
+
+    .twin-layer {
+        font-size: 0.52rem;
+        padding: 5px 6px;
+    }
+
+    .twin-layer strong {
+        font-size: 0.56rem;
+    }
+
+    .twin-layer-sub {
+        font-size: 0.48rem;
+    }
+
+    .twin-value-card {
+        font-size: 0.5rem;
+    }
+
+    .twin-value-card strong {
+        font-size: 0.54rem;
+    }
+
     .cunchao-timeline__chart-row {
         grid-template-columns: 1fr;
         gap: 6px;
@@ -4172,11 +4212,7 @@ footer {
 }
 
 .ethnic-chord-spec__source {
-    font-family: var(--note-font);
-    font-size: var(--note-source-size);
-    color: var(--note-source-color);
     text-align: center;
-    line-height: var(--note-lh);
     margin: 0;
 }
 
@@ -4506,9 +4542,9 @@ footer {
 
 .bridge-tour-card__biz {
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: 0.625rem;
     color: var(--gray);
-    line-height: 1.55;
+    line-height: 1.5;
     margin: 0 0 10px;
     padding-bottom: 10px;
     border-bottom: 1px dashed rgba(74, 124, 101, 0.12);
@@ -4568,10 +4604,6 @@ footer {
 }
 
 .bridge-tour-card__source {
-    font-family: var(--note-font);
-    font-size: var(--note-source-size);
-    color: var(--note-source-color);
-    line-height: var(--note-lh);
     margin: 0;
 }
 
@@ -4796,10 +4828,6 @@ footer {
 
 .bridge-tourism-wall__sources,
 .bridge-tourism-wall__disclaimer {
-    font-family: var(--note-font);
-    font-size: var(--note-source-size);
-    color: var(--note-source-color);
-    line-height: var(--note-lh);
     margin: 0 0 6px;
     text-align: left;
 }
@@ -4846,8 +4874,8 @@ footer {
     }
 
     .bridge-tourism-wall__legend-pill {
-        font-size: 0.53125rem;
-        padding: 2px 8px;
+        font-size: 0.5625rem;
+        padding: 3px 10px;
     }
 
     .bridge-tourism-wall__stage {
@@ -4898,10 +4926,18 @@ footer {
     }
 
     .bridge-tour-card__biz {
-        font-size: 0.6875rem;
-        line-height: 1.5;
+        font-size: 0.53125rem;
+        line-height: 1.48;
         margin-bottom: 8px;
         padding-bottom: 8px;
+        word-break: break-word;
+    }
+
+    .bridge-tour-card__chips span {
+        font-size: 0.5625rem;
+    }
+
+    .bridge-tour-card__source {
         word-break: break-word;
     }
 
@@ -4977,8 +5013,8 @@ footer {
     }
 
     .bridge-tour-card--feature .bridge-tour-card__biz {
-        font-size: 0.6875rem;
-        line-height: 1.5;
+        font-size: 0.53125rem;
+        line-height: 1.48;
         padding-bottom: 10px;
         margin-bottom: 10px;
     }
@@ -5035,13 +5071,13 @@ footer {
     }
 
     .bridge-tourism-wall__legend-pill {
-        font-size: 0.5rem;
-        padding: 2px 6px;
+        font-size: 0.5625rem;
+        padding: 3px 10px;
     }
 
     .bridge-tour-card__chips span {
-        font-size: 0.5rem;
-        padding: 2px 6px;
+        font-size: 0.5625rem;
+        padding: 2px 8px;
     }
 
     .bridge-tour-card__feature-stats {

@@ -9,6 +9,7 @@
 
     const chart = echarts.init(dom);
     const T = window.BRIDGE_CHART || {};
+    const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
     const labelLayout = window.BRIDGE_LABEL_LAYOUT || { hideOverlap: true, moveOverlap: "shiftY" };
 
     const SOURCE_NOTE =
@@ -222,10 +223,10 @@
                     bottom: 2,
                     style: {
                         text: SOURCE_NOTE,
-                        fill: "#B8B8B8",
-                        font: "8px Noto Serif SC, SimSun, serif",
+                        fill: T.gray || "#7A7A7A",
+                        font: `${T.sourceNote || 11.5}px ${FONT}`,
                         textAlign: "left",
-                        lineHeight: 11
+                        lineHeight: T.sourceLine || 18
                     }
                 }
             ]
