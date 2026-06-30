@@ -1,5 +1,5 @@
 // =====================================
-// 民族交融环形弦图 · 九市州人口流动（Chord Diagram）
+// 民族交融环形弦图 · 九市州人口流动（Chord Diagram · 响应式）
 // 文档：第五幕「按民族着色，展示交往交流交融」
 // =====================================
 
@@ -11,6 +11,8 @@
     const chart = echarts.init(dom);
     const FONT = window.BRIDGE_FONT || "Noto Serif SC, SimSun, serif";
     const T = window.BRIDGE_CHART || {};
+    const MOBILE_BP = 520;
+    const TINY_BP = 380;
 
     const ethnicPalette = {
         han:   { label: "汉族聚居", color: "#C5DDD2", border: "#9BB5A5" },
@@ -59,18 +61,33 @@
     const minPop = Math.min.apply(null, cities.map((c) => c.pop));
 
     let activeEthnic = null;
+    let lastMode = "";
 
-    function nodeSize(pop, emphasized) {
+    function getLayout() {
+        const w = dom.clientWidth > 0 ? dom.clientWidth : window.innerWidth;
+        const tiny = w <= TINY_BP || window.innerWidth <= TINY_BP;
+        const mobile = w <= MOBILE_BP || window.innerWidth <= MOBILE_BP;
+        return {
+            w,
+            tiny,
+            mobile,
+            mode: tiny ? "tiny" : mobile ? "mobile" : "desktop"
+        };
+    }
+
+    function nodeSize(pop, emphasized, layout) {
+        const scale = layout.tiny ? 0.68 : layout.mobile ? 0.78 : 1;
         const base = 18 + ((pop - minPop) / (maxPop - minPop)) * 20;
-        return emphasized ? base * 1.1 : base;
+        return Math.max(10, (emphasized ? base * 1.1 : base) * scale);
     }
 
     function isCrossEthnic(a, b) {
         return popMap[a].ethnic !== popMap[b].ethnic;
     }
 
-    function linkStyle(source, target, value, highlightEthnic) {
-        const w = Math.max(1.2, Math.sqrt(value) / 2.6);
+    function linkStyle(source, target, value, highlightEthnic, layout) {
+        const lineScale = layout.tiny ? 0.85 : layout.mobile ? 0.92 : 1;
+        const w = Math.max(1, Math.sqrt(value) / 2.6 * lineScale);
         const srcEth = popMap[source].ethnic;
         const tgtEth = popMap[target].ethnic;
         const cross = srcEth !== tgtEth;
@@ -94,52 +111,76 @@
         return { width: w * 0.6, color: "rgba(180,180,180,0.12)", curveness: 0.15, opacity: 0.2 };
     }
 
-    function buildLegendGraphic(highlightEthnic) {
-        return Object.entries(ethnicPalette).map(([key, g], i) => {
-            const active = highlightEthnic === key;
-            const dimLegend = highlightEthnic && !active;
-            const labelW = key === "multi" ? 54 : 38;
+    function legendGroup(key, g, i, highlightEthnic, layout) {
+        const active = highlightEthnic === key;
+        const dimLegend = highlightEthnic && !active;
+        const fs = layout.tiny ? Math.max(T.dense || 8, 8) : layout.mobile ? Math.max(T.axisSm || 9, 9) : (T.axisSm || 10);
+        const labelW = key === "multi" ? (layout.tiny ? 56 : layout.mobile ? 50 : 54) : (layout.tiny ? 42 : 38);
+        const circleR = layout.tiny ? 3.5 : active ? 5 : 4;
 
-            return {
-                type: "group",
-                silent: false,
-                cursor: "pointer",
-                info: { ethnicKey: key, legend: true },
-                left: `${4 + i * 19.5}%`,
-                bottom: 20,
-                children: [
-                    {
-                        type: "rect",
-                        shape: { x: -2, y: -8, width: labelW, height: 16, r: 3 },
-                        style: {
-                            fill: active ? "rgba(74,124,101,0.14)" : "transparent",
-                            stroke: active ? g.border : "transparent",
-                            lineWidth: active ? 1.2 : 0
-                        }
-                    },
-                    {
-                        type: "circle",
-                        shape: { r: active ? 5 : 4 },
-                        style: {
-                            fill: g.color,
-                            stroke: g.border,
-                            lineWidth: active ? 2 : 1,
-                            opacity: dimLegend ? 0.45 : 1
-                        }
-                    },
-                    {
-                        type: "text",
-                        left: 10,
-                        top: -5,
-                        style: {
-                            text: g.label,
-                            fill: active ? g.border : "#4A7C65",
-                            font: `${active ? "bold" : "normal"} ${T.axisSm || 10}px ${FONT}`,
-                            opacity: dimLegend ? 0.5 : 1
-                        }
+        return {
+            type: "group",
+            silent: false,
+            cursor: "pointer",
+            info: { ethnicKey: key, legend: true },
+            children: [
+                {
+                    type: "rect",
+                    shape: { x: -2, y: -8, width: labelW, height: layout.tiny ? 14 : 16, r: 3 },
+                    style: {
+                        fill: active ? "rgba(74,124,101,0.14)" : "transparent",
+                        stroke: active ? g.border : "transparent",
+                        lineWidth: active ? 1.2 : 0
                     }
-                ]
-            };
+                },
+                {
+                    type: "circle",
+                    shape: { r: circleR },
+                    style: {
+                        fill: g.color,
+                        stroke: g.border,
+                        lineWidth: active ? 2 : 1,
+                        opacity: dimLegend ? 0.45 : 1
+                    }
+                },
+                {
+                    type: "text",
+                    left: layout.tiny ? 8 : 10,
+                    top: layout.tiny ? -4 : -5,
+                    style: {
+                        text: g.label,
+                        fill: active ? g.border : "#4A7C65",
+                        font: `${active ? "bold" : "normal"} ${fs}px ${FONT}`,
+                        opacity: dimLegend ? 0.5 : 1
+                    }
+                }
+            ]
+        };
+    }
+
+    function buildLegendGraphic(highlightEthnic, layout) {
+        const entries = Object.entries(ethnicPalette);
+
+        if (layout.mobile) {
+            const cols = layout.tiny ? 2 : 3;
+            const colW = layout.tiny ? 48 : 31;
+            return entries.map(([key, g], i) => {
+                const col = i % cols;
+                const row = Math.floor(i / cols);
+                const group = legendGroup(key, g, i, highlightEthnic, layout);
+                group.left = `${3 + col * colW}%`;
+                group.bottom = layout.tiny
+                    ? (row === 0 ? 36 : row === 1 ? 18 : 2)
+                    : (row === 0 ? 28 : 10);
+                return group;
+            });
+        }
+
+        return entries.map(([key, g], i) => {
+            const group = legendGroup(key, g, i, highlightEthnic, layout);
+            group.left = `${3 + i * 19}%`;
+            group.bottom = 18;
+            return group;
         });
     }
 
@@ -209,20 +250,29 @@
                 </div>
                 <div class="ethnic-chord-spec__channels">${channelsHtml}</div>
                 <p class="ethnic-chord-spec__story">
-                    同第五幕所述：桥通之前「送亲翻山一早上」，桥通之后「两分钟跨过峡谷」。数据上，贵阳向外辐射通道合计约 <strong>${guiYangOut} 万人</strong>；遵义—贵阳 <strong>82 万人</strong> 同域联结撑起黔北枢纽，毕节—六盘水 <strong>48 万人</strong> 流动则锚定乌蒙山多民族混居带的内部循环。深色连线综合七普常住人口、族际通婚与高铁文旅客流测算，勾勒贵州「三交」的流动轮廓。
+                    同第五幕所述：桥通之前「送亲翻山一早上」，桥通之后「两分钟跨过峡谷」。贵阳向外辐射通道合计约 <strong>${guiYangOut} 万人</strong>；遵义—贵阳 <strong>82 万人</strong> 同域联结撑起黔北枢纽，毕节—六盘水 <strong>48 万人</strong> 流动则锚定乌蒙山多民族混居带的内部循环——深色连线勾勒贵州「三交」的流动轮廓。
                 </p>
-                <p class="ethnic-chord-spec__source">流动强度单位：万人 · 综合第七次全国人口普查、族际通婚抽样与高铁文旅客流测算</p>
+                <p class="ethnic-chord-spec__source">数据来源：第七次全国人口普查贵州分册、族际通婚抽样调查、省交通运输厅文旅统计</p>
             </div>
         `;
     }
 
     function buildOption(highlightEthnic) {
+        const layout = getLayout();
+        const labelSize = layout.tiny
+            ? Math.max(T.dense || 8, 8)
+            : layout.mobile
+                ? Math.max(T.axisSm || 9, 9)
+                : (T.axis || 11);
+        const tooltipSize = layout.tiny ? Math.max(T.tooltipSm || 11, 11) : (T.tooltipSm || 12);
+
         return {
             backgroundColor: "transparent",
             tooltip: {
+                confine: true,
                 backgroundColor: "rgba(255,255,255,0.94)",
                 borderColor: "rgba(74, 124, 101, 0.25)",
-                textStyle: { color: "#4A7C65", fontSize: T.tooltipSm || 12, fontFamily: FONT },
+                textStyle: { color: "#4A7C65", fontSize: tooltipSize, fontFamily: FONT },
                 formatter: (p) => {
                     if (p.dataType === "node") {
                         const c = popMap[p.name];
@@ -243,29 +293,33 @@
                             `流动强度：${p.data.value} 万人`,
                             cross
                                 ? "<span style='color:#4A7C65'>族际交融通道</span>"
-                                : "同类型区域流动",
-                            `<span style="color:#7A7A7A;font-size:10px">综合七普流动·通婚·高铁文旅测算</span>`
+                                : "同类型区域流动"
                         ].join("<br/>");
                     }
                     return "";
                 }
             },
-            graphic: buildLegendGraphic(highlightEthnic),
+            graphic: buildLegendGraphic(highlightEthnic, layout),
             series: [{
                 type: "graph",
                 layout: "circular",
-                circular: { rotateLabel: true },
+                circular: { rotateLabel: !layout.tiny },
                 left: "center",
-                top: "13%",
-                width: "90%",
-                height: "68%",
+                top: layout.tiny ? "4%" : layout.mobile ? "6%" : "13%",
+                width: layout.tiny ? "84%" : layout.mobile ? "86%" : "90%",
+                height: layout.tiny ? "58%" : layout.mobile ? "60%" : "68%",
                 roam: false,
                 label: {
                     show: true,
                     color: "#4A7C65",
-                    fontSize: T.axis || 11,
+                    fontSize: labelSize,
                     fontFamily: FONT,
-                    formatter: (p) => p.name
+                    formatter: (p) => p.name,
+                    distance: layout.tiny ? 2 : layout.mobile ? 3 : 4
+                },
+                labelLayout: {
+                    hideOverlap: true,
+                    moveOverlap: "shiftY"
                 },
                 data: cities.map((c) => {
                     const pal = ethnicPalette[c.ethnic];
@@ -273,7 +327,7 @@
 
                     return {
                         name: c.name,
-                        symbolSize: nodeSize(c.pop, match && !!highlightEthnic),
+                        symbolSize: nodeSize(c.pop, match && !!highlightEthnic, layout),
                         itemStyle: {
                             color: match ? pal.color : "#D8D8D8",
                             borderColor: match
@@ -295,23 +349,41 @@
                     source,
                     target,
                     value,
-                    lineStyle: linkStyle(source, target, value, highlightEthnic)
+                    lineStyle: linkStyle(source, target, value, highlightEthnic, layout)
                 })),
                 emphasis: {
                     focus: "adjacency",
-                    lineStyle: { width: 6, color: "#4A7C65", opacity: 0.95 },
+                    lineStyle: { width: layout.tiny ? 4 : 6, color: "#4A7C65", opacity: 0.95 },
                     itemStyle: { shadowBlur: 14, shadowColor: "rgba(74,124,101,0.32)" }
                 }
             }]
         };
     }
 
-    function applyHighlight(ethnicKey) {
-        activeEthnic = activeEthnic === ethnicKey ? null : ethnicKey;
-        chart.setOption(buildOption(activeEthnic), { notMerge: true });
+    function render() {
+        const layout = getLayout();
+        if (layout.mode !== lastMode) {
+            lastMode = layout.mode;
+            chart.setOption(buildOption(activeEthnic), { notMerge: true });
+        } else {
+            chart.setOption(buildOption(activeEthnic), { notMerge: true });
+        }
+        chart.resize();
     }
 
-    chart.setOption(buildOption(null));
+    function applyHighlight(ethnicKey) {
+        activeEthnic = activeEthnic === ethnicKey ? null : ethnicKey;
+        render();
+    }
+
+    let resizeTimer;
+
+    function scheduleRender() {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(render, 100);
+    }
+
+    render();
     renderDataSpec();
 
     chart.on("click", (params) => {
@@ -320,16 +392,18 @@
         }
     });
 
-    window.addEventListener("resize", () => chart.resize());
+    window.addEventListener("resize", scheduleRender);
+    window.addEventListener("load", () => setTimeout(render, 120));
+    window.addEventListener("orientationchange", () => setTimeout(render, 200));
 
-    window.addEventListener("load", () => {
-        setTimeout(() => chart.resize(), 100);
-    });
+    if ("ResizeObserver" in window) {
+        new ResizeObserver(scheduleRender).observe(dom);
+    }
 
     if ("IntersectionObserver" in window) {
         new IntersectionObserver((entries) => {
             entries.forEach((e) => {
-                if (e.isIntersecting) chart.resize();
+                if (e.isIntersecting) scheduleRender();
             });
         }, { threshold: 0.1 }).observe(dom);
     }

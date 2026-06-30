@@ -3003,6 +3003,32 @@ footer {
     opacity: 0.85;
 }
 
+.bridge-epilogue-quote {
+    font-family: var(--font-l2);
+    font-size: clamp(0.9rem, 3.8vw, 1rem);
+    color: var(--text-primary);
+    text-align: center;
+    line-height: 1.75;
+    letter-spacing: 0.06em;
+    margin: 0 8px 18px;
+    padding: 16px 14px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(252, 248, 240, 0.55);
+    box-shadow: inset 0 0 0 1px rgba(191, 140, 96, 0.18);
+}
+
+.bridge-epilogue-quote--mid {
+    font-size: clamp(0.82rem, 3.4vw, 0.92rem);
+    line-height: 1.68;
+    letter-spacing: 0.05em;
+    margin: 14px 10px 6px;
+    padding: 12px 12px;
+    background: rgba(252, 248, 240, 0.38);
+    box-shadow: inset 0 0 0 1px rgba(122, 139, 154, 0.14);
+    color: var(--text-secondary);
+}
+
 .builder-wordcloud__epilogue-quote {
     font-family: var(--font-l2);
     font-size: clamp(0.9rem, 3.8vw, 1rem);
@@ -3980,7 +4006,7 @@ footer {
     margin: 0 !important;
 }
 
-/* ===== 第五幕 · 民族交融关系网络读图导读 ===== */
+/* ===== 第五幕 · 民族交融关系网络说明 ===== */
 
 .ethnic-chord-spec-wrap {
     margin: 0 6px 14px;
@@ -4152,6 +4178,68 @@ footer {
     text-align: center;
     line-height: var(--note-lh);
     margin: 0;
+}
+
+@media (max-width: 520px) {
+    #developmentRadar.chart-large {
+        height: clamp(340px, 96vw, 400px);
+        min-height: 340px;
+        overflow: hidden;
+    }
+
+    #ethnicChord.chart-large {
+        height: clamp(360px, 102vw, 420px);
+        min-height: 360px;
+        overflow: hidden;
+    }
+
+    .ethnic-chord-spec-wrap {
+        margin: 0 4px 12px;
+        padding: 0;
+    }
+
+    .ethnic-chord-spec {
+        padding: 10px 8px 8px;
+    }
+
+    .ethnic-chord-spec__lead,
+    .ethnic-chord-spec__insight-text,
+    .ethnic-chord-spec__channel-text,
+    .ethnic-chord-spec__story {
+        font-size: clamp(0.68rem, 3.1vw, 0.73rem);
+        word-break: break-word;
+    }
+
+    .ethnic-chord-spec__channel-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
+    }
+
+    .ethnic-chord-spec__channel-pair {
+        font-size: clamp(0.66rem, 3vw, 0.72rem);
+        word-break: break-word;
+    }
+
+    .ethnic-chord-spec__pill {
+        font-size: clamp(0.62rem, 2.9vw, 0.68rem);
+    }
+}
+
+@media (max-width: 380px) {
+    #developmentRadar.chart-large {
+        height: clamp(360px, 100vw, 420px);
+        min-height: 360px;
+    }
+
+    #ethnicChord.chart-large {
+        height: clamp(380px, 108vw, 440px);
+        min-height: 380px;
+    }
+
+    .ethnic-chord-spec__channels {
+        gap: 6px;
+    }
 }
 
 /* ===== 第三幕 · 桥旅业态展示长卷 ===== */
@@ -5054,7 +5142,9 @@ footer {
 #bridgeVillage,
 #villageSuper,
 #digitalTwin,
-#carbonLife {
+#carbonLife,
+#ethnicChord,
+#developmentRadar {
     position: relative;
 }
 
