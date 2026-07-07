@@ -158,6 +158,7 @@
 
     function loadWorldMap() {
         const sources = [
+            "data/world.json",
             "https://geo.datav.aliyun.com/areas_v3/bound/world.json",
             "https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/json/world.json"
         ];

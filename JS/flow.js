@@ -126,7 +126,7 @@
     const footnotes = [
         { label: "桥通路费变化佐证", text: "北盘江 8 小时绕行→2 小时直达，物流成本大幅下降；" },
         { label: "产业增收摘要", text: "北盘江带动 2 万人脱贫，村民人均增收 2.1 万元；" },
-        { kind: "narrative", text: "万山阻隔时代货难出山，万桥贯通后黔货奔赴全国、远销海外。" }
+        { kind: "narrative", before: "万山阻隔时代，货难出山", after: "万桥贯通后，黔货奔赴全国、远销海外" }
     ];
 
     const SOURCE = "数据来源：贵州省交通运输厅、贵阳国际陆港运营统计、六盘水市政府、关岭县统计局、《桥见黔程万里》专题调研资料。";
@@ -568,20 +568,35 @@
         `;
     }
 
-    function buildFootnotes() {
-        return footnotes.map((item) => {
-            if (item.kind === "narrative") {
-                return `<p class="flow-map__note flow-map__note--narrative">${esc(item.text)}</p>`;
-            }
-            return `<p class="flow-map__note"><span class="flow-map__note-label">${esc(item.label)}：</span>${esc(item.text)}</p>`;
-        }).join("");
+    function buildDataFootnotes() {
+        return footnotes
+            .filter((item) => item.kind !== "narrative")
+            .map((item) =>
+                `<p class="flow-map__note"><span class="flow-map__note-label">${esc(item.label)}：</span>${esc(item.text)}</p>`
+            )
+            .join("");
+    }
+
+    function buildNarrative() {
+        const item = footnotes.find((f) => f.kind === "narrative");
+        if (!item) return "";
+        return `
+            <blockquote class="flow-map__narrative">
+                <span class="flow-map__narrative-mark" aria-hidden="true">"</span>
+                <p class="flow-map__narrative-text">
+                    <span class="flow-map__narrative-before">${esc(item.before)}</span>
+                    <span class="flow-map__narrative-after">${esc(item.after)}</span>
+                </p>
+            </blockquote>
+        `;
     }
 
     function renderBoard(geoJson) {
         dom.className = "flow-map-board";
         dom.innerHTML = `
             <div class="flow-map__canvas">${buildSvg(geoJson)}</div>
-            <div class="flow-map__footnotes" aria-label="图表解读">${buildFootnotes()}</div>
+            <div class="flow-map__footnotes" aria-label="图表解读">${buildDataFootnotes()}</div>
+            ${buildNarrative()}
             <footer class="flow-map__source">${esc(SOURCE)}</footer>
         `;
         bindNodeTooltips(dom);

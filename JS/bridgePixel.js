@@ -107,6 +107,7 @@
     function buildOption(bridgePixels) {
         return {
             backgroundColor: "transparent",
+            animation: false,
             tooltip: {
                 trigger: "item",
                 textStyle: { color: "#4A7C65", fontSize: T.tooltipSm || 13 },
@@ -159,6 +160,9 @@
                     data: bridgePixels,
                     symbolSize: 1.8,
                     itemStyle: { opacity: 0.78 },
+                    animation: false,
+                    progressive: 0,
+                    progressiveThreshold: 50000,
                     z: 3
                 }
             ]

@@ -5,3 +5,9 @@ test-density.mjs
 *.pyc
 __pycache__/
 ed2f85d384622ac0bb7cca89bd4406ac.png
+node_modules/
+*.pdf
+68.png
+_names.txt
+_wordcloud_doc.txt
+_debug-*

@@ -1,0 +1,14 @@
+{
+  "name": "bridge-news",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "capture": "node scripts/capture-fullpage.mjs",
+    "pdf": "node scripts/capture-pdf.mjs",
+    "serve": "python -m http.server 8080"
+  },
+  "devDependencies": {
+    "pdf-lib": "^1.17.1",
+    "puppeteer": "^24.8.2"
+  }
+}
